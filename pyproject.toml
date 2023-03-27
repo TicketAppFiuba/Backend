@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "backend-ticketapp"
+version = "0.1.0"
+description = "Backend para la app TicketAPP"
+authors = ["Grupo9"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+uvicorn = "^0.21.1"
+fastapi = "^0.95.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
