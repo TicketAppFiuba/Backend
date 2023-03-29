@@ -3,12 +3,11 @@ from fastapi import HTTPException
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 from config.user import get, update
-import uuid
 
 class JWTToken:
     def __init__(self, algorithm, duration):
         self.algorithm = algorithm
-        self.secret = str(uuid.uuid4())
+        self.secret = "f9c27fc8-8e13-4405-9c3e-c46b3d8b356d"
         self.duration = duration
 
     def create(self, sub: str):
@@ -22,7 +21,7 @@ class JWTToken:
         except ExpiredSignatureError:
             self.expired(token, db)
         except JWTError:
-            raise HTTPException(status_code=400, detail="JWT Error")
+            raise HTTPException(status_code=401, detail="JWT Error")
         return sub
     
     def expired(self, token: str, db: Session):
@@ -31,6 +30,6 @@ class JWTToken:
             user_db = get(sub, db)
             if user_db is not None:
                 update(user_db, {"login": False}, db)
-            raise HTTPException(status_code=400, detail="JWT Expired")
+            raise HTTPException(status_code=401, detail="JWT Expired")
         except JWTError:
-            raise HTTPException(status_code=400, detail="JWT Error")
+            raise HTTPException(status_code=401, detail="JWT Error")
