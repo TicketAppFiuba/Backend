@@ -11,12 +11,12 @@ oauth = access.generate_oauth()
 router = APIRouter(tags=["Authentication"])
 user.Base.metadata.create_all(bind=engine)
 
-@router.get("/login", status_code=200)
+@router.get("/user/login", status_code=200)
 async def login(request: Request):
     redirect_uri = request.url_for('auth')
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
-@router.get("/auth", status_code=200)
+@router.get("/user/auth", status_code=200)
 async def auth(request: Request, db: Session = Depends(get_db)):
     try:
         data = await oauth.google.authorize_access_token(request)

@@ -10,7 +10,7 @@ from config.user import get
 from models.user import User
 
 jwt = JWTToken("HS256", 15)
-oauth2 = OAuth2PasswordBearer(tokenUrl="/login")
+oauth2 = OAuth2PasswordBearer(tokenUrl="/user/login")
 
 def login(username: str, db: Session):
     user_db = get(username, db)
