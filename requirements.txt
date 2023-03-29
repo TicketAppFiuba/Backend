@@ -5,3 +5,8 @@ psycopg2
 python-dotenv
 pytest
 httpx
+authlib
+jose
+python-jose
+itsdangerous
+
