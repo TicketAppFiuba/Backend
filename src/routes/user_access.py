@@ -33,7 +33,3 @@ async def logout(request: Request, user_db: User = Depends(user_access.verify), 
         request.session.pop(key)
     return user_access.logout(user_db, db)
 
-@router.get("/user/a", status_code=200)
-async def asd(db: Session = Depends(get_db)):
-    return db.query(User).all()
-

@@ -32,7 +32,3 @@ async def logout(request: Request, user_db: Organizer = Depends(organizer_access
     for key in list(request.session.keys()):
         request.session.pop(key)
     return organizer_access.logout(user_db, db)
-
-@router.get("/organizer/a", status_code=200)
-async def asd(db: Session = Depends(get_db)):
-    return db.query(Organizer).all()

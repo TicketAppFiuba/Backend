@@ -9,13 +9,13 @@ jwt = JWTToken("HS256", 15)
 
 def setUp():
     with engine.connect() as c:
-        c.execute(text("INSERT INTO users (username, login) VALUES ('gmovia@fi.uba.ar', 'True')"))
-        c.execute(text("INSERT INTO organizers (username, login) VALUES ('cbravor@fi.uba.ar', 'True')"))
+        c.execute(text("INSERT INTO users (email, name, login) VALUES ('gmovia@fi.uba.ar', 'gmovia', True')"))
+        c.execute(text("INSERT INTO organizers (email, name, login) VALUES ('cbravor@fi.uba.ar', 'cbravor', 'True')"))
 
 def clear():
     with engine.connect() as c:
-        c.execute(text("DELETE FROM users WHERE username='gmovia@fi.uba.ar'"))
-        c.execute(text("DELETE FROM organizers WHERE username='cbravor@fi.uba.ar'"))
+        c.execute(text("DELETE FROM users WHERE email='gmovia@fi.uba.ar'"))
+        c.execute(text("DELETE FROM organizers WHERE email='cbravor@fi.uba.ar'"))
 
 def test_user_logout_jwt_ok():
     setUp()
