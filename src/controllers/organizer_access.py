@@ -7,26 +7,27 @@ from authlib.integrations.starlette_client import OAuth
 from src.config.db import get_db
 from src.config import organizer
 from src.models.organizer import Organizer
+from src.schemas.user import UserSchema
 
 jwt = JWTToken("HS256", 15)
 oauth2 = OAuth2PasswordBearer(tokenUrl="/organizer/login")
 
-def login(username: str, db: Session):
-    user_db = organizer.get(username, db)
+def login(schema: UserSchema, db: Session):
+    user_db = organizer.get(schema.email, db)
     if user_db is not None and user_db.login == True:
         raise HTTPException(status_code=401, detail="You are already logged in.")
     if user_db is None:
-        user_db = organizer.create(username, db)
+        user_db = organizer.create(schema, db)
     organizer.update(user_db, {"login": True}, db)
-    return jwt.create(username)
+    return jwt.create(schema.email)
 
 def logout(user_db: Organizer, db: Session):
     organizer.update(user_db, {"login": False}, db)
     return {"response": "OK"}
 
 def verify(token: str = Depends(oauth2), db: Session = Depends(get_db)):
-    username = jwt.auth(token, organizer, db)
-    user_db = organizer.get(username, db)
+    email = jwt.auth(token, organizer, db)
+    user_db = organizer.get(email, db)
     if user_db is None or user_db.login == False:
         raise HTTPException(status_code=400, detail="Auth Error.")
     return user_db

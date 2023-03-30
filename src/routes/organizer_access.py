@@ -6,6 +6,7 @@ from src.models.organizer import Organizer
 from starlette.requests import Request
 from authlib.integrations.starlette_client import OAuthError
 from src.controllers import user_access, organizer_access
+from src.schemas.user import UserSchema
 
 oauth = user_access.generate_oauth()
 router = APIRouter(tags=["Organizer Authentication"])
@@ -22,10 +23,16 @@ async def org_auth(request: Request, db: Session = Depends(get_db)):
         data = await oauth.google.authorize_access_token(request)
     except OAuthError:
         raise HTTPException(status_code=401, detail="Auth Error.")
-    return organizer_access.login(data.get('userinfo').email, db)
+    userinfo = data.get('userinfo')
+    user = UserSchema(email=userinfo.email, name=userinfo.name)
+    return organizer_access.login(user, db)
 
 @router.get("/organizer/logout", status_code=200)
 async def logout(request: Request, user_db: Organizer = Depends(organizer_access.verify), db: Session = Depends(get_db)):
     for key in list(request.session.keys()):
         request.session.pop(key)
     return organizer_access.logout(user_db, db)
+
+@router.get("/organizer/a", status_code=200)
+async def asd(db: Session = Depends(get_db)):
+    return db.query(Organizer).all()
