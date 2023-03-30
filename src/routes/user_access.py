@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
-from config.db import get_db, engine
+from src.config.db import get_db, engine
 from sqlalchemy.orm import Session
-from models import user
-from models.user import User
+from src.models import user
+from src.models.user import User
 from starlette.requests import Request
 from authlib.integrations.starlette_client import OAuthError
-from controllers import user_access
+from src.controllers import user_access
 
 oauth = user_access.generate_oauth()
 router = APIRouter(tags=["User Authentication"])

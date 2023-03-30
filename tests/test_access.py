@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from main import app
-from objects.jwt import JWTToken
-from config.db import engine
+from src.objects.jwt import JWTToken
+from src.config.db import engine
 from sqlalchemy import text
 
 client = TestClient(app)

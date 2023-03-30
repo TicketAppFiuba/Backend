@@ -1,32 +1,32 @@
 from fastapi import HTTPException, Depends
-from objects.jwt import JWTToken
+from src.objects.jwt import JWTToken
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from starlette.config import Config
 from authlib.integrations.starlette_client import OAuth
-from config.db import get_db
-from config import organizer
-from models.organizer import Organizer
+from src.config.db import get_db
+from src.config import user
+from src.models.user import User
 
 jwt = JWTToken("HS256", 15)
-oauth2 = OAuth2PasswordBearer(tokenUrl="/organizer/login")
+oauth2 = OAuth2PasswordBearer(tokenUrl="/user/login")
 
 def login(username: str, db: Session):
-    user_db = organizer.get(username, db)
+    user_db = user.get(username, db)
     if user_db is not None and user_db.login == True:
         raise HTTPException(status_code=401, detail="You are already logged in.")
     if user_db is None:
-        user_db = organizer.create(username, db)
-    organizer.update(user_db, {"login": True}, db)
+        user_db = user.create(username, db)
+    user.update(user_db, {"login": True}, db)
     return jwt.create(username)
 
-def logout(user_db: Organizer, db: Session):
-    organizer.update(user_db, {"login": False}, db)
+def logout(user_db: User, db: Session):
+    user.update(user_db, {"login": False}, db)
     return {"response": "OK"}
 
 def verify(token: str = Depends(oauth2), db: Session = Depends(get_db)):
-    username = jwt.auth(token, organizer, db)
-    user_db = organizer.get(username, db)
+    username = jwt.auth(token, user, db)
+    user_db = user.get(username, db)
     if user_db is None or user_db.login == False:
         raise HTTPException(status_code=400, detail="Auth Error.")
     return user_db

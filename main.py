@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes import user_access, organizer_access
+from src.routes import user_access, organizer_access
 from starlette.middleware.sessions import SessionMiddleware
 import uvicorn
 

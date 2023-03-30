@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
-from config.db import get_db, engine
+from src.config.db import get_db, engine
 from sqlalchemy.orm import Session
-from models import organizer
-from models.organizer import Organizer
+from src.models import organizer
+from src.models.organizer import Organizer
 from starlette.requests import Request
 from authlib.integrations.starlette_client import OAuthError
-from controllers import user_access, organizer_access
+from src.controllers import user_access, organizer_access
 
 oauth = user_access.generate_oauth()
 router = APIRouter(tags=["Organizer Authentication"])

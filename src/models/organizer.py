@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Boolean
-from config.db import Base
+from src.config.db import Base
 
 class Organizer(Base):
     __tablename__ = "organizers"
