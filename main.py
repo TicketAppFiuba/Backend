@@ -1,11 +1,12 @@
 from fastapi import FastAPI
-from src.routes import user_access, organizer_access
+from src.routes import user_access, organizer_access, event
 from starlette.middleware.sessions import SessionMiddleware
 import uvicorn
 
 app = FastAPI(title = "TicketAPP")
 app.include_router(user_access.router)
 app.include_router(organizer_access.router)
+app.include_router(event.router)
 app.add_middleware(SessionMiddleware, secret_key="!secret")
 
 if __name__ == '__main__':
