@@ -14,3 +14,13 @@ image.Base.metadata.create_all(bind=engine)
 @router.post("/event/create", status_code=200)
 def create_event(eventSchema: EventSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return create(eventSchema, user_db.email, db)
+
+@router.delete("/event/delete", status_code=200)
+def delete_event(event_id: int, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
+    event_db = get(event_id, db)
+    if event_db is None:
+        raise HTTPException(status_code=404, detail="Event not exist.")
+    if user_db.email != event_db.organizer_email:
+        raise HTTPException(status_code=404, detail="Permission denied.")
+    delete(event_db, db)
+    return {"detail": "OK"}
