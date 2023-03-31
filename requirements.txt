@@ -3,22 +3,22 @@ SQLAlchemy
 uvicorn
 psycopg2
 python-dotenv
-pytest
 httpx
 authlib
 jose
 python-jose
-itsdangerous
-spyder==5.4.2
-prompt_toolkit
 google-auth
-fiona
-google-colab
-conda
-google-api-core
-PyQt5==5.15.2
-pyopenssl --upgrade
-typefit==0.4.2
+pluggy
+pytest
+itsdangerous
+starlette
+
+
+
+
+
+
+
 
 
 
