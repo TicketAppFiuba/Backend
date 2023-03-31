@@ -5,7 +5,7 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-RUN export PYTHONPATH="$PYTHONPATH:$PWD"
+ENV PYTHONPATH="$PYTHONPATH:$PWD"
 
 ENV PORT $PORT
 EXPOSE $PORT
