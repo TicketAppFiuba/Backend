@@ -16,6 +16,20 @@ class EventSchema(BaseModel):
     class Config:
         orm_mode = True
 
+class EventSchemaUpdate(BaseModel):
+    id: int
+    title: Optional[str]
+    category: Optional[str]
+    date: Optional[date]
+    description: Optional[str]
+    tickets: Optional[int]
+    direction: Optional[str]
+    latitude: Optional[str]
+    length: Optional[str]
+    
+    class Config:
+        orm_mode = True
+
 class EventSchemaOut(BaseModel):
     id: int
     date: date

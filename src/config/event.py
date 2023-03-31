@@ -16,6 +16,13 @@ def create(event: EventSchema, email: str, db: Session):
     db.refresh(event_db)
     return event_db
 
+def update(event_db: Event, event: dict(), db: Session):
+    for attr, value in event.items():
+        setattr(event_db, attr, value)
+    db.commit()
+    db.refresh(event_db)
+    return event_db
+
 def delete(event_db: Event, db: Session):
     db.delete(event_db)
     db.commit()
