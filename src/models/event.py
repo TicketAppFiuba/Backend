@@ -9,6 +9,11 @@ class Event(Base):
     description = Column(String)
     tickets = Column(Integer)
     date = Column(Date)
+    title = Column(String)
+    category = Column(String)
+    direction = Column(String)
+    latitude = Column(String)
+    length = Column(String)
     organizer = relationship("Organizer", back_populates="events")
     images = relationship('Image', back_populates="event", cascade="all, delete, delete-orphan")
 
