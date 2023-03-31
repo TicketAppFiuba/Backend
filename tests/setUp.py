@@ -1,5 +1,9 @@
 from src.config.db import engine
 from sqlalchemy import text
+from fastapi.testclient import TestClient
+from main import app
+
+client = TestClient(app)
 
 class TestSetUp:
     def setUp(self):
@@ -13,3 +17,4 @@ class TestSetUp:
             c.execute(text("DELETE FROM organizers WHERE email='rlareu@fi.uba.ar'"))
             c.execute(text("DELETE FROM users WHERE email='ldefeo@fi.uba.ar'"))
             c.execute(text("DELETE FROM organizers WHERE email='cbravor@fi.uba.ar'"))
+            c.execute(text("DELETE FROM events"))
