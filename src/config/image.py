@@ -15,5 +15,9 @@ def update(image_db: Image, imageSchema: ImageUpdateSchema, db: Session):
     db.refresh(image_db)
     return image_db
 
+def delete(image_db: Image, db: Session):
+    db.delete(image_db)
+    db.commit()
+
 def get(image_id: int, db: Session):
     return db.query(Image).filter(Image.id == image_id).first()

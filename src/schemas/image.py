@@ -14,3 +14,7 @@ class ImageUpdateSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
+class ImageDeleteSchema(BaseModel):
+    id: int
+    event_id: int

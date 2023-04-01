@@ -22,4 +22,3 @@ def update(eventSchema: EventSchemaUpdate, user_db: Organizer = Depends(verify),
 @router.delete("/event/delete", status_code=200)
 def delete(event_id: int, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return delete_event(event_id, user_db, db)
-        
