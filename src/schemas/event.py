@@ -7,7 +7,6 @@ from src.schemas.ubication import UbicationSchema
 class EventSchema(BaseModel):
     title: str
     category: str
-    images: List[ImageSchema]
     date: date
     description: str
     tickets: int 

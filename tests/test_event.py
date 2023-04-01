@@ -14,11 +14,6 @@ def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfull
     event = {
                 "title": "string",
                 "category": "string",
-                "images": [
-                    {
-                    "link": "string"
-                    }
-                ],
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
@@ -39,11 +34,6 @@ def test02_ifTheOrganizerCreatesAnEventWithAIncorrectJwtThenTheStatusCodeIs401()
     event = {
                 "title": "string",
                 "category": "string",
-                "images": [
-                    {
-                    "link": "string"
-                    }
-                ],
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
@@ -64,11 +54,6 @@ def test03_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
     event = {
                 "title": "string",
                 "category": "string",
-                "images": [
-                    {
-                    "link": "string"
-                    }
-                ],
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
@@ -90,11 +75,6 @@ def test04_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
     event = {
                 "title": "string",
                 "category": "string",
-                "images": [
-                    {
-                    "link": "string"
-                    }
-                ],
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
@@ -125,11 +105,6 @@ def test06_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
     event = {
                 "title": "string",
                 "category": "string",
-                "images": [
-                    {
-                    "link": "string"
-                    }
-                ],
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
@@ -154,11 +129,6 @@ def test07_ifCbravorCreatedEventThenCbravorCanModifyIt():
     event = {
                 "title": "string",
                 "category": "string",
-                "images": [
-                    {
-                    "link": "string"
-                    }
-                ],
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
@@ -184,11 +154,6 @@ def test08_ifRLareuCreatedEventThenCbravorCantModifyIt():
     event = {
                 "title": "string",
                 "category": "string",
-                "images": [
-                    {
-                    "link": "string"
-                    }
-                ],
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
