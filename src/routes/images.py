@@ -12,13 +12,13 @@ router = APIRouter(tags=["Event Images"])
 image.Base.metadata.create_all(bind=engine)
 
 @router.post("/event/images/add", status_code=200)
-def add_image(image: ImageSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
+def add(image: ImageSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return add_image_to_event(image, user_db, db)
 
 @router.put("/event/images/update", status_code=200)
-def update_image(image: ImageUpdateSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
+def update(image: ImageUpdateSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return update_image_to_event(image, user_db, db)
 
 @router.delete("/event/images/delete", status_code=200)
-def update_image(image: ImageDeleteSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
+def delete(image: ImageDeleteSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return delete_image_to_event(image, user_db, db)
