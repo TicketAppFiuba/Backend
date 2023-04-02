@@ -9,7 +9,7 @@ from src.controllers import user_access, organizer_access
 from src.schemas.user import UserSchema
 
 oauth = user_access.generate_oauth()
-router = APIRouter(tags=["Organizer Authentication"])
+router = APIRouter(tags=["Authentication | Organizer"])
 organizer.Base.metadata.create_all(bind=engine)
 
 @router.get("/organizer/login", status_code=200)

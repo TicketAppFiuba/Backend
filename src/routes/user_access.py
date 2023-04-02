@@ -9,7 +9,7 @@ from src.controllers import user_access
 from src.schemas.user import UserSchema
 
 oauth = user_access.generate_oauth()
-router = APIRouter(tags=["User Authentication"])
+router = APIRouter(tags=["Authentication | User"])
 user.Base.metadata.create_all(bind=engine)
 
 @router.get("/user/login", status_code=200)

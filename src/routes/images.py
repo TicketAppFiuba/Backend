@@ -8,7 +8,7 @@ from src.schemas.image import *
 from src.controllers.organizer_access import verify
 from src.controllers.image import add_image_to_event, update_image_to_event, delete_image_to_event
 
-router = APIRouter(tags=["Event Images"])
+router = APIRouter(tags=["Event Images | Organizer"])
 image.Base.metadata.create_all(bind=engine)
 
 @router.post("/event/images/add", status_code=200)
