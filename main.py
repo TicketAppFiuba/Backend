@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+
 from src.routes import organizer_event, user_access, organizer_access, images, user_event
 from starlette.middleware.sessions import SessionMiddleware
 import uvicorn

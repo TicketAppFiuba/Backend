@@ -1,11 +1,12 @@
 # Backend TicketAPP
 
+
 ### REQUISITOS
 
 #### Se tiene que tener instalado lo siguiente:
 
-Docker
-Docker-Compose
+* Docker 
+* Docker-Compose
 
 
 ### PARA EJECUTAR LOCALMENTE CON DOCKER (PARA COMPARTIR CÓDIGO Y DEPLOYAR)
@@ -27,9 +28,11 @@ pip install -r requirements.txt
 
 export PYTHONPATH="$PYTHONPATH:$PWD"   (La primera vez que se instala en la máquina)
 
+
 #### Para correr la aplicación en local:
 
 uvicorn main:app --host 127.0.0.1 --port 8000
+
 
 #### Para ejecutar los tests
 
