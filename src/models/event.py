@@ -14,6 +14,7 @@ class Event(Base):
     direction = Column(String)
     latitude = Column(String)
     length = Column(String)
+    price = Column(Integer)
     organizer = relationship("Organizer", back_populates="events")
     images = relationship('Image', back_populates="event", cascade="all, delete, delete-orphan")
 

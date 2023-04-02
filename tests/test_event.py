@@ -17,6 +17,7 @@ def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfull
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
+                "price": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -37,6 +38,7 @@ def test02_ifTheOrganizerCreatesAnEventWithAIncorrectJwtThenTheStatusCodeIs401()
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
+                "price": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -57,6 +59,7 @@ def test03_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
+                "price": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -78,6 +81,7 @@ def test04_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
+                "price": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -108,6 +112,7 @@ def test06_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
+                "price": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -132,6 +137,7 @@ def test07_ifCbravorCreatedEventThenCbravorCanModifyIt():
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
+                "price": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -157,6 +163,7 @@ def test08_ifRLareuCreatedEventThenCbravorCantModifyIt():
                 "date": "2023-03-31",
                 "description": "string",
                 "tickets": 0,
+                "price": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
