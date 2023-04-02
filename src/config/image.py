@@ -21,3 +21,6 @@ def delete(image_db: Image, db: Session):
 
 def get(image_id: int, db: Session):
     return db.query(Image).filter(Image.id == image_id).first()
+
+def getAllFromEvent(event_id: int, db: Session):
+    return db.query(Image).filter(Image.event_id == event_id).all()

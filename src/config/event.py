@@ -26,3 +26,6 @@ def delete(event_db: Event, db: Session):
 
 def get(event_id: int, db: Session):
     return db.query(Event).filter(Event.id == event_id).first()
+
+def getAllEventFromOrganizer(email: str, db: Session):
+    return db.query(Event).filter(Event.organizer_email == email).all()

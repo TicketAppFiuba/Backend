@@ -5,6 +5,7 @@ from src.models.event import Event
 from src.schemas.event import EventSchema, EventSchemaUpdate
 from src.config import event
 from src.schemas.image import *
+from src.config import image
 
 def create_event(eventSchema: EventSchema, user_db: Organizer, db: Session):
     return event.create(eventSchema, user_db.email, db)
@@ -20,6 +21,15 @@ def delete_event(event_id: int, user_db: Organizer, db: Session):
     check_permissions(user_db, event_db)
     event.delete(event_db, db)
     return {"detail": "OK"}
+
+def get_event(event_id: int, user_db: Organizer, db: Session):
+    event_db = event.get(event_id, db)
+    check_permissions(user_db, event_db)
+    image_db = image.getAllFromEvent(event_id, db)
+    return event_db, image_db
+
+def get_events_from(user_db: Organizer, db: Session):
+    return event.getAllEventFromOrganizer(user_db.email, db)
 
 def check_permissions(user_db: Organizer, event_db: Event):
     if event_db is None:
