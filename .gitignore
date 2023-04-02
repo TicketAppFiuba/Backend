@@ -1,5 +1,6 @@
-./idea
 .env
 __pycache__/
-
+sql_app.db
+.pytest_cache
+.idea/.
 

@@ -24,18 +24,24 @@ sudo docker-compose up
 
 #### Para instalar las dependencias:
 
-pip install poetry
+pip install -r requirements.txt
 
-poetry install
+export PYTHONPATH="$PYTHONPATH:$PWD"   (La primera vez que se instala en la máquina)
+
 
 #### Para correr la aplicación en local:
 
 uvicorn main:app --host 127.0.0.1 --port 8000
 
 
-### PARA INSTALAR NUEVAS LIBRERÍAS
+#### Para ejecutar los tests
 
-poetry add "nombreDeLaLibrería"
+pytest
+
+
+### PARA INSTALAR NUEVAS LIBRERÍAS EN LOCAL
+
+pip install "nombreDeLaLibrería"
 
 
 ### WEB HOST EN RENDER
