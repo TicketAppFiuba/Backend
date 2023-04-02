@@ -31,6 +31,9 @@ def get_event(event_id: int, user_db: Organizer, db: Session):
 def get_events_from(user_db: Organizer, db: Session):
     return event.getAllEventFromOrganizer(user_db.email, db)
 
+def get_all(offset: int, limit: int, db: Session):
+    return event.getAll(offset, limit, db)
+
 def check_permissions(user_db: Organizer, event_db: Event):
     if event_db is None:
         raise HTTPException(status_code=404, detail="Event not exist.")

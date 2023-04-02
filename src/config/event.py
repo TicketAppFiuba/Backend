@@ -29,3 +29,6 @@ def get(event_id: int, db: Session):
 
 def getAllEventFromOrganizer(email: str, db: Session):
     return db.query(Event).filter(Event.organizer_email == email).all()
+
+def getAll(offset: int, limit: int, db: Session):
+    return db.query(Event).limit(limit).offset(limit*offset).all()
