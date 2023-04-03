@@ -13,11 +13,11 @@
 
 #### Cuando se ejecuta por primera vez o se actualiza:
 
-sudo docker-compose up --build
+sudo docker-compose --env-file ./.env up --build
 
 #### Luego ejecutar:
 
-sudo docker-compose up
+sudo docker-compose --env-file ./.env up
 
 
 ### PARA EJECUTAR LOCALMENTE SIN DOCKER (SI TODAVÍA NO SE A VA COMPARTIR CÓDIGO NI DEPLOYAR)
@@ -36,7 +36,7 @@ uvicorn main:app --host 127.0.0.1 --port 8000
 
 #### Para ejecutar los tests
 
-pytest
+python3 -m pytest
 
 
 ### PARA INSTALAR NUEVAS LIBRERÍAS EN LOCAL
