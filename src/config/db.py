@@ -3,11 +3,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-db_url = os.getenv("DATABASE_URL")
-db_port = os.getenv("DATABASE_PORT")
-database = os.getenv("DATABASE")
-db_username = os.getenv("DATABASE_USERNAME")
-db_password = os.getenv("DATABASE_PASSWORD")
+db_url = os.environ.get('DATABASE_URL')
+db_port = os.environ.get('DATABASE_PORT')
+database = os.environ.get('DATABASE')
+db_username = os.environ.get('DATABASE_USERNAME')
+db_password = os.environ.get('DATABASE_PASSWORD')
 
 engine = create_engine(url="postgresql://{0}:{1}@{2}:{3}/{4}".format(db_username, db_password, db_url, db_port, database))
 
