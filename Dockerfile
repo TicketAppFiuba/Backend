@@ -7,19 +7,11 @@ RUN pip install -r requirements.txt
 
 ENV PYTHONPATH="$PYTHONPATH:$PWD"
 
-COPY .env .env
-
 ENV PORT=${PORT}
-# ENV DATABASE_URL=${DATABASE_URL}
-# ENV DATABASE_PORT=${DATABASE_PORT}
-# ENV DATABASE_PORT=5432
-# ENV DATABASE ${DATABASE}
-# ENV DATABASE_USERNAME=${DATABASE_USERNAME}
-# ENV DATABASE_PASSWORD=${DATABASE_PASSWORD}
 
 EXPOSE 8080
 
 CMD ["uvicorn", "main:app", "--host","0.0.0.0", "--port", "8000"]
 
-# CMD pytest
+# CMD python3 -m pytest
 

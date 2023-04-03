@@ -13,11 +13,11 @@
 
 #### Cuando se ejecuta por primera vez o se actualiza:
 
-sudo docker-compose --env-file ./.env up --build
+sudo docker-compose up --build
 
 #### Luego ejecutar:
 
-sudo docker-compose --env-file ./.env up
+sudo docker-compose up
 
 
 ### PARA EJECUTAR LOCALMENTE SIN DOCKER (SI TODAVÍA NO SE A VA COMPARTIR CÓDIGO NI DEPLOYAR)
@@ -26,13 +26,9 @@ sudo docker-compose --env-file ./.env up
 
 pip install -r requirements.txt
 
-export PYTHONPATH="$PYTHONPATH:$PWD"   (La primera vez que se instala en la máquina)
-
-
 #### Para correr la aplicación en local:
 
 uvicorn main:app --host 127.0.0.1 --port 8000
-
 
 #### Para ejecutar los tests
 
