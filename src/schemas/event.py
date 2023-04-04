@@ -23,8 +23,8 @@ class EventSchemaUpdate(BaseModel):
     date: Optional[date]
     description: Optional[str]
     direction: Optional[str]
-    latitude: Optional[str]
-    length: Optional[str]
+    latitude: Optional[int]
+    length: Optional[int]
     capacity: Optional[int]
     vacancies: Optional[int]
     
@@ -33,11 +33,14 @@ class EventSchemaUpdate(BaseModel):
 
 class EventSchemaOut(BaseModel):
     id: int
-    date: date
+    title: str
     description: str
-    tickets: int
     organizer: str
-    price: int
+    category: str
+    date: date
+    capacity: int
+    vacancies: int
+    ubication: UbicationSchema
     
     class Config:
         orm_mode = True

@@ -2,8 +2,8 @@ from pydantic import BaseModel
 
 class UbicationSchema(BaseModel):
     direction: str
-    latitude: str
-    length: str
+    latitude: int
+    length: int
 
     class Config:
         orm_mode = True

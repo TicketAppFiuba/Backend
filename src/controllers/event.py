@@ -2,7 +2,8 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from src.models.organizer import Organizer
 from src.models.event import Event
-from src.schemas.event import EventSchema, EventSchemaUpdate
+from src.schemas.event import EventSchema, EventSchemaUpdate, EventSchemaOut
+from src.schemas.ubication import UbicationSchema
 from src.config import event
 from src.schemas.image import *
 from src.schemas.query import QuerySchema
@@ -27,7 +28,7 @@ def delete_event(event_id: int, user_db: Organizer, db: Session):
 def get_event(event_id: int, user_db: Organizer, db: Session):
     event_db = event.get(event_id, db)
     check_permissions(user_db, event_db)
-    return event_db
+    return create_message(event_db)
 
 def get_events_from(user_db: Organizer, db: Session):
     return event.getAllEventFromOrganizer(user_db.email, db)
@@ -40,3 +41,18 @@ def check_permissions(user_db: Organizer, event_db: Event):
         raise HTTPException(status_code=404, detail="Event not exist.")
     if user_db.email != event_db.organizer_email:
         raise HTTPException(status_code=404, detail="Permission denied.")
+
+def create_message(event_db: Event): #Como puedo optimizar esto?
+    return EventSchemaOut(
+        id=event_db.id,
+        title=event_db.title,
+        description=event_db.description,
+        organizer=event_db.organizer_email,
+        category=event_db.category,
+        date=event_db.date,
+        capacity=event_db.capacity,
+        vacancies=event_db.vacancies,
+        ubication=UbicationSchema(direction=event_db.direction,
+                                  latitude=event_db.latitude,
+                                  length=event_db.length)
+    )
