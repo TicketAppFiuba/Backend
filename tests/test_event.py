@@ -20,8 +20,8 @@ def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfull
                 "vacancies": 100,
                 "ubication": {
                     "direction": "string",
-                    "latitude": "string",
-                    "length": "string"
+                    "latitude": 100,
+                    "length": 100
                 }
             }
     client.post("/event/create", json=event, headers=headers)
@@ -42,8 +42,8 @@ def test02_ifTheOrganizerCreatesAnEventWithACorrectJwtThenTheStatusCodeIs200():
                 "vacancies": 100,
                 "ubication": {
                     "direction": "string",
-                    "latitude": "string",
-                    "length": "string"
+                    "latitude": 100,
+                    "length": 100
                 }
             }
     response = client.post("/event/create", json=event, headers=headers)
@@ -63,8 +63,8 @@ def test03_ifTheOrganizerCreatesAnEventWithAIncorrectJwtThenTheStatusCodeIs401()
                 "vacancies": 100,
                 "ubication": {
                     "direction": "string",
-                    "latitude": "string",
-                    "length": "string"
+                    "latitude": 100,
+                    "length": 100
                 }
             }
     response = client.post("/event/create", json=event, headers=headers)
@@ -84,13 +84,13 @@ def test04_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
                 "vacancies": 100,
                 "ubication": {
                     "direction": "string",
-                    "latitude": "string",
-                    "length": "string"
+                    "latitude": 100,
+                    "length": 100
                 }
             }
     client.post("/event/create", json=event, headers=headers)
     response = client.get("/event/info", params={"event_id": 1}, headers=headers)
-    assert response.json()["organizer_email"] == "rlareu@fi.uba.ar"
+    assert response.json()["organizer"] == "rlareu@fi.uba.ar"
     config.clear()
 
 def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
@@ -106,8 +106,8 @@ def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
                 "vacancies": 100,
                 "ubication": {
                     "direction": "string",
-                    "latitude": "string",
-                    "length": "string"
+                    "latitude": 100,
+                    "length": 100
                 }
             }
     client.post("/event/create", json=event, headers=headers)
@@ -129,8 +129,8 @@ def test06_ifRLareuCreatedTheEventThenWhenRLareuRemovesTheStatusCodeIs200():
                 "vacancies": 100,
                 "ubication": {
                     "direction": "string",
-                    "latitude": "string",
-                    "length": "string"
+                    "latitude": 100,
+                    "length": 100
                 }
             }
     client.post("/event/create", json=event, headers=headers)
@@ -161,8 +161,8 @@ def test08_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
                 "vacancies": 100,
                 "ubication": {
                     "direction": "string",
-                    "latitude": "string",
-                    "length": "string"
+                    "latitude": 100,
+                    "length": 100
                 }
             }
     client.post("/event/create", json=event, headers=headers)
@@ -186,8 +186,8 @@ def test09_ifRLareuCreatedTheEventThenWhenCBravorRemovesItTheStatusCodeIs404():
                 "vacancies": 100,
                 "ubication": {
                     "direction": "string",
-                    "latitude": "string",
-                    "length": "string"
+                    "latitude": 100,
+                    "length": 100
                 }
             }
     client.post("/event/create", json=event, headers=headers)
@@ -208,8 +208,8 @@ def test10_ifCbravorCreatedEventThenCbravorCanModifyIt():
                 "vacancies": 100,
                 "ubication": {
                     "direction": "string",
-                    "latitude": "string",
-                    "length": "string"
+                    "latitude": 100,
+                    "length": 100
                 }
             }
     client.post("/event/create", json=event, headers=headers)
@@ -232,8 +232,8 @@ def test11_ifCbravorCreatedEventThenCbravorModifiesTheStatusCodeIs200():
                 "vacancies": 100,
                 "ubication": {
                     "direction": "string",
-                    "latitude": "string",
-                    "length": "string"
+                    "latitude": 100,
+                    "length": 100
                 }
             }
     client.post("/event/create", json=event, headers=headers)
@@ -257,8 +257,8 @@ def test12_ifRLareuCreatedEventThenCbravorCantModifyIt():
                 "vacancies": 100,
                 "ubication": {
                     "direction": "string",
-                    "latitude": "string",
-                    "length": "string"
+                    "latitude": 100,
+                    "length": 100
                 }
             }
     client.post("/event/create", json=event, headers=headers)
@@ -283,8 +283,8 @@ def test13_ifRLareuCreatedEventThenWhenCbravorModifiesTheStatusCodeItIs404():
                 "vacancies": 100,
                 "ubication": {
                     "direction": "string",
-                    "latitude": "string",
-                    "length": "string"
+                    "latitude": 100,
+                    "length": 100
                 }
             }
     client.post("/event/create", json=event, headers=headers)
