@@ -24,11 +24,33 @@ def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfull
                     "length": "string"
                 }
             }
-    response = client.post("/event/create", json=event, headers=headers)
+    client.post("/event/create", json=event, headers=headers)
+    get_response = client.get("/event/info", params={"event_id": 1}, headers=headers)
+    assert get_response.json()["id"] == 1
     config.clear()
-    assert response.status_code == 200
 
-def test02_ifTheOrganizerCreatesAnEventWithAIncorrectJwtThenTheStatusCodeIs401():
+def test02_ifTheOrganizerCreatesAnEventWithACorrectJwtThenTheStatusCodeIs200():
+    config.setUp()
+    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+    event = {
+                "title": "string",
+                "category": "string",
+                "date": "2023-03-31",
+                "description": "string",
+                "tickets": 0,
+                "price": 100,
+                "ubication": {
+                    "direction": "string",
+                    "latitude": "string",
+                    "length": "string"
+                }
+            }
+    response = client.post("/event/create", json=event, headers=headers)
+    assert response.status_code == 200
+    config.clear()
+
+def test03_ifTheOrganizerCreatesAnEventWithAIncorrectJwtThenTheStatusCodeIs401():
     config.setUp()
     token = "jwt"
     headers = {"Authorization": f"Bearer {token}"}
@@ -46,10 +68,10 @@ def test02_ifTheOrganizerCreatesAnEventWithAIncorrectJwtThenTheStatusCodeIs401()
                 }
             }
     response = client.post("/event/create", json=event, headers=headers)
-    config.clear()
     assert response.status_code == 401
+    config.clear()
 
-def test03_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
+def test04_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
     config.setUp()
     token = jwt.create("rlareu@fi.uba.ar")["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
@@ -67,11 +89,10 @@ def test03_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
                 }
             }
     response = client.post("/event/create", json=event, headers=headers)
-    config.clear()
     assert response.json()["organizer_email"] == "rlareu@fi.uba.ar"
-    assert response.status_code == 200
+    config.clear()
 
-def test04_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
+def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
     config.setUp()
     token = jwt.create("rlareu@fi.uba.ar")["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
@@ -88,13 +109,35 @@ def test04_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
                     "length": "string"
                 }
             }
-    event_response = client.post("/event/create", json=event, headers=headers)
-    event_id = event_response.json()["id"]
-    response = client.delete("/event/delete", params={"event_id": event_id}, headers=headers)
+    client.post("/event/create", json=event, headers=headers)
+    client.delete("/event/delete", params={"event_id": 1}, headers=headers)
+    get_response = client.get("/event/info", params={"event_id": 1}, headers=headers)
+    assert get_response.status_code == 404
     config.clear()
-    assert response.status_code == 200
 
-def test05_ifTheEventDoesntExistThenICantRemoveIt():
+def test06_ifRLareuCreatedTheEventThenWhenRLareuRemovesTheStatusCodeIs200():
+    config.setUp()
+    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+    event = {
+                "title": "string",
+                "category": "string",
+                "date": "2023-03-31",
+                "description": "string",
+                "tickets": 0,
+                "price": 100,
+                "ubication": {
+                    "direction": "string",
+                    "latitude": "string",
+                    "length": "string"
+                }
+            }
+    client.post("/event/create", json=event, headers=headers)
+    response = client.delete("/event/delete", params={"event_id": 1}, headers=headers)
+    assert response.status_code == 200
+    config.clear()
+
+def test07_ifTheEventDoesntExistThenICantRemoveIt():
     config.setUp()
     token = jwt.create("rlareu@fi.uba.ar")["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
@@ -102,10 +145,12 @@ def test05_ifTheEventDoesntExistThenICantRemoveIt():
     config.clear()
     assert response.status_code == 404
 
-def test06_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
+def test08_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
     config.setUp()
     token = jwt.create("rlareu@fi.uba.ar")["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
+    other_token = jwt.create("cbravor@fi.uba.ar")["access_token"]
+    other_headers = {"Authorization": f"Bearer {other_token}"}
     event = {
                 "title": "string",
                 "category": "string",
@@ -119,15 +164,37 @@ def test06_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
                     "length": "string"
                 }
             }
-    event_response = client.post("/event/create", json=event, headers=headers)
-    event_id = event_response.json()["id"]
+    client.post("/event/create", json=event, headers=headers)
+    client.delete("/event/delete", params={"event_id": 1}, headers=other_headers)
+    get_response = client.get("/event/info", params={"event_id": 1}, headers=headers)
+    assert get_response.json()["id"] == 1
+    config.clear()
+
+def test09_ifRLareuCreatedTheEventThenWhenCBravorRemovesItTheStatusCodeIs404():
+    config.setUp()
+    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
     other_token = jwt.create("cbravor@fi.uba.ar")["access_token"]
     other_headers = {"Authorization": f"Bearer {other_token}"}
-    response = client.delete("/event/delete", params={"event_id": event_id}, headers=other_headers)
-    config.clear()
+    event = {
+                "title": "string",
+                "category": "string",
+                "date": "2023-03-31",
+                "description": "string",
+                "tickets": 0,
+                "price": 100,
+                "ubication": {
+                    "direction": "string",
+                    "latitude": "string",
+                    "length": "string"
+                }
+            }
+    client.post("/event/create", json=event, headers=headers)
+    response = client.delete("/event/delete", params={"event_id": 1}, headers=other_headers)
     assert response.status_code == 404
+    config.clear()
 
-def test07_ifCbravorCreatedEventThenCbravorCanModifyIt():
+def test10_ifCbravorCreatedEventThenCbravorCanModifyIt():
     config.setUp()
     token = jwt.create("cbravor@fi.uba.ar")["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
@@ -144,18 +211,16 @@ def test07_ifCbravorCreatedEventThenCbravorCanModifyIt():
                     "length": "string"
                 }
             }
-    event_response = client.post("/event/create", json=event, headers=headers)
-    event_id = event_response.json()["id"]
-    other_token = jwt.create("cbravor@fi.uba.ar")["access_token"]
-    other_headers = {"Authorization": f"Bearer {other_token}"}
-    new_event = {"id": event_id, "title": "string2"}
-    response = client.put("/event/update", json=new_event, headers=other_headers)
+    client.post("/event/create", json=event, headers=headers)
+    update_event = {"id": 1, "title": "string2"}
+    client.put("/event/update", json=update_event, headers=headers)
+    get_response = client.get("/event/info", params={"event_id": 1}, headers=headers)
+    assert get_response.json()["title"] == "string2"
     config.clear()
-    assert response.status_code == 200
 
-def test08_ifRLareuCreatedEventThenCbravorCantModifyIt():
+def test11_ifCbravorCreatedEventThenCbravorModifiesTheStatusCodeIs200():
     config.setUp()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
+    token = jwt.create("cbravor@fi.uba.ar")["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
     event = {
                 "title": "string",
@@ -170,20 +235,68 @@ def test08_ifRLareuCreatedEventThenCbravorCantModifyIt():
                     "length": "string"
                 }
             }
-    event_response = client.post("/event/create", json=event, headers=headers)
-    event_id = event_response.json()["id"]
+    client.post("/event/create", json=event, headers=headers)
+    new_event = {"id": 1, "title": "string2"}
+    response = client.put("/event/update", json=new_event, headers=headers)
+    assert response.status_code == 200
+    config.clear()
+
+def test12_ifRLareuCreatedEventThenCbravorCantModifyIt():
+    config.setUp()
+    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
     other_token = jwt.create("cbravor@fi.uba.ar")["access_token"]
     other_headers = {"Authorization": f"Bearer {other_token}"}
-    new_event = {"id": event_id, "title": "string2"}
-    response = client.put("/event/update", json=new_event, headers=other_headers)
+    event = {
+                "title": "string",
+                "category": "string",
+                "date": "2023-03-31",
+                "description": "string",
+                "tickets": 0,
+                "price": 100,
+                "ubication": {
+                    "direction": "string",
+                    "latitude": "string",
+                    "length": "string"
+                }
+            }
+    client.post("/event/create", json=event, headers=headers)
+    new_event = {"id": 1, "title": "string2"}
+    client.put("/event/update", json=new_event, headers=other_headers)
+    get_response = client.get("/event/info", params={"event_id": 1}, headers=headers)
+    assert get_response.json()["title"] == "string"
     config.clear()
-    assert response.status_code == 404
 
-def test09_ifEventDoesntExistThenRLareuCantModifyIt():
+def test13_ifRLareuCreatedEventThenWhenCbravorModifiesTheStatusCodeItIs404():
+    config.setUp()
+    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+    other_token = jwt.create("cbravor@fi.uba.ar")["access_token"]
+    other_headers = {"Authorization": f"Bearer {other_token}"}
+    event = {
+                "title": "string",
+                "category": "string",
+                "date": "2023-03-31",
+                "description": "string",
+                "tickets": 0,
+                "price": 100,
+                "ubication": {
+                    "direction": "string",
+                    "latitude": "string",
+                    "length": "string"
+                }
+            }
+    client.post("/event/create", json=event, headers=headers)
+    new_event = {"id": 1, "title": "string2"}
+    response = client.put("/event/update", json=new_event, headers=other_headers)
+    assert response.status_code == 404
+    config.clear()
+
+def test14_ifEventDoesntExistThenRLareuCantModifyIt():
     config.setUp()
     token = jwt.create("rlareu@fi.uba.ar")["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
     new_event = {"id": 100, "title": "string2"}
     response = client.put("/event/update", json=new_event, headers=headers)
-    config.clear()
     assert response.status_code == 404
+    config.clear()
