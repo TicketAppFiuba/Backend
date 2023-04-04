@@ -19,7 +19,6 @@ def update(event_db: Event, event: dict(), db: Session):
         setattr(event_db, attr, value)
     db.commit()
     db.refresh(event_db)
-    return event_db
 
 def delete(event_db: Event, db: Session):
     db.delete(event_db)
@@ -37,8 +36,4 @@ def getAll(querySchema: QuerySchema, offset: int, limit: int, db: Session):
         query = query.filter(Event.title == querySchema.title)
     if querySchema.category is not None:
         query = query.filter(Event.category == querySchema.category)
-    if querySchema.min_price is not None:
-        query = query.filter(Event.price >= querySchema.min_price)
-    if querySchema.max_price is not None:
-        query = query.filter(Event.price <= querySchema.max_price)
     return query.limit(limit).offset(limit*offset).all()

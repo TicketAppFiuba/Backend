@@ -13,7 +13,6 @@ def update(image_db: Image, imageSchema: ImageUpdateSchema, db: Session):
     image_db.link = imageSchema.link
     db.commit()
     db.refresh(image_db)
-    return image_db
 
 def delete(image_db: Image, db: Session):
     db.delete(image_db)

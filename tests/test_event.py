@@ -16,8 +16,8 @@ def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfull
                 "category": "string",
                 "date": "2023-03-31",
                 "description": "string",
-                "tickets": 0,
-                "price": 100,
+                "capacity": 100,
+                "vacancies": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -38,8 +38,8 @@ def test02_ifTheOrganizerCreatesAnEventWithACorrectJwtThenTheStatusCodeIs200():
                 "category": "string",
                 "date": "2023-03-31",
                 "description": "string",
-                "tickets": 0,
-                "price": 100,
+                "capacity": 100,
+                "vacancies": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -59,8 +59,8 @@ def test03_ifTheOrganizerCreatesAnEventWithAIncorrectJwtThenTheStatusCodeIs401()
                 "category": "string",
                 "date": "2023-03-31",
                 "description": "string",
-                "tickets": 0,
-                "price": 100,
+                "capacity": 100,
+                "vacancies": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -80,15 +80,16 @@ def test04_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
                 "category": "string",
                 "date": "2023-03-31",
                 "description": "string",
-                "tickets": 0,
-                "price": 100,
+                "capacity": 100,
+                "vacancies": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
                     "length": "string"
                 }
             }
-    response = client.post("/event/create", json=event, headers=headers)
+    client.post("/event/create", json=event, headers=headers)
+    response = client.get("/event/info", params={"event_id": 1}, headers=headers)
     assert response.json()["organizer_email"] == "rlareu@fi.uba.ar"
     config.clear()
 
@@ -101,8 +102,8 @@ def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
                 "category": "string",
                 "date": "2023-03-31",
                 "description": "string",
-                "tickets": 0,
-                "price": 100,
+                "capacity": 100,
+                "vacancies": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -124,8 +125,8 @@ def test06_ifRLareuCreatedTheEventThenWhenRLareuRemovesTheStatusCodeIs200():
                 "category": "string",
                 "date": "2023-03-31",
                 "description": "string",
-                "tickets": 0,
-                "price": 100,
+                "capacity": 100,
+                "vacancies": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -156,8 +157,8 @@ def test08_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
                 "category": "string",
                 "date": "2023-03-31",
                 "description": "string",
-                "tickets": 0,
-                "price": 100,
+                "capacity": 100,
+                "vacancies": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -181,8 +182,8 @@ def test09_ifRLareuCreatedTheEventThenWhenCBravorRemovesItTheStatusCodeIs404():
                 "category": "string",
                 "date": "2023-03-31",
                 "description": "string",
-                "tickets": 0,
-                "price": 100,
+                "capacity": 100,
+                "vacancies": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -203,8 +204,8 @@ def test10_ifCbravorCreatedEventThenCbravorCanModifyIt():
                 "category": "string",
                 "date": "2023-03-31",
                 "description": "string",
-                "tickets": 0,
-                "price": 100,
+                "capacity": 100,
+                "vacancies": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -227,8 +228,8 @@ def test11_ifCbravorCreatedEventThenCbravorModifiesTheStatusCodeIs200():
                 "category": "string",
                 "date": "2023-03-31",
                 "description": "string",
-                "tickets": 0,
-                "price": 100,
+                "capacity": 100,
+                "vacancies": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -252,8 +253,8 @@ def test12_ifRLareuCreatedEventThenCbravorCantModifyIt():
                 "category": "string",
                 "date": "2023-03-31",
                 "description": "string",
-                "tickets": 0,
-                "price": 100,
+                "capacity": 100,
+                "vacancies": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",
@@ -278,8 +279,8 @@ def test13_ifRLareuCreatedEventThenWhenCbravorModifiesTheStatusCodeItIs404():
                 "category": "string",
                 "date": "2023-03-31",
                 "description": "string",
-                "tickets": 0,
-                "price": 100,
+                "capacity": 100,
+                "vacancies": 100,
                 "ubication": {
                     "direction": "string",
                     "latitude": "string",

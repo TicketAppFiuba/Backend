@@ -30,3 +30,4 @@ def get(event_id: int, user_db: Organizer = Depends(verify), db: Session = Depen
 @router.get("/organizer/events", status_code=200)
 def get_events_from_organizer(user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return get_events_from(user_db, db)
+        
