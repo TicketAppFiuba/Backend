@@ -6,6 +6,7 @@ from src.schemas.event import EventSchema, EventSchemaUpdate
 from src.config import event
 from src.schemas.image import *
 from src.config import image
+from src.schemas.query import QuerySchema
 
 def create_event(eventSchema: EventSchema, user_db: Organizer, db: Session):
     return event.create(eventSchema, user_db.email, db)
@@ -31,8 +32,8 @@ def get_event(event_id: int, user_db: Organizer, db: Session):
 def get_events_from(user_db: Organizer, db: Session):
     return event.getAllEventFromOrganizer(user_db.email, db)
 
-def get_all(offset: int, limit: int, db: Session):
-    return event.getAll(offset, limit, db)
+def get_all(query: QuerySchema, offset: int, limit: int, db: Session):
+    return event.getAll(query, offset, limit, db)
 
 def check_permissions(user_db: Organizer, event_db: Event):
     if event_db is None:

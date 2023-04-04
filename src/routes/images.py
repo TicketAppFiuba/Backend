@@ -22,12 +22,3 @@ def update(image: ImageUpdateSchema, user_db: Organizer = Depends(verify), db: S
 @router.delete("/event/images/delete", status_code=200)
 def delete(image: ImageDeleteSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return delete_image_to_event(image, user_db, db)
-
-from sqlalchemy import text
-@router.delete('/deleteDataBase/')
-def delete():
-    with engine.connect() as c:
-        c.execute(text("DROP TABLE users"))
-        c.execute(text("DROP TABLE organizers"))
-        c.execute(text("DROP TABLE events"))
-        c.execute(text("DROP TABLE images"))
