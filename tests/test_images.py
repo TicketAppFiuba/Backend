@@ -1,125 +1,97 @@
 from fastapi.testclient import TestClient
 from main import app
-from src.objects.jwt import JWTToken
 from tests.setUp import TestSetUp
 
 config = TestSetUp()
 client = TestClient(app)
-jwt = JWTToken("HS256", 15)
 
-def test01_ifAddImageOKThenStatusCodeIs200():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+def test01_ifTheImageIsAddedSuccessfullyThenStatusCodeIs200():
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     response = client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
+    config.clear()
     assert response.status_code == 200
-    config.clear()
 
-def test02_ifAddImageNOKBecauseEventNotExistThenTheStatusCodeIs404():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+def test02_ifTheImageIsNotAddedNSuccessfullyBecauseEventNotExistThenTheStatusCodeIs404():
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     response = client.post("/event/images/add", json={"event_id": 3, "link": "a"}, headers=headers)
-    assert response.status_code == 404
     config.clear()
+    assert response.status_code == 404
 
-def test03_ifUpdateImageOKThenTheStatusCodeIs200():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+def test03_ifTheImageIsUpdateSuccessfullyThenTheStatusCodeIs200():
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.put("/event/images/update", json={"event_id": 1, "id": 1, "link": "b"}, headers=headers)
-    assert response.status_code == 200
     config.clear()
+    assert response.status_code == 200
 
-def test04_ifUpdateImageNOKBecauseImgNotExistThenTheStatusCodeIs404():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+def test04_ifTheImageIsUpdateNotSuccessfullyBecauseImgNotExistThenTheStatusCodeIs404():
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.put("/event/images/update", json={"event_id": 1, "id": 2, "link": "b"}, headers=headers)
-    assert response.status_code == 404
     config.clear()
+    assert response.status_code == 404
 
-def test05_ifUpdateImageNOKBecauseEventNotExistThenTheStatusCodeIs404():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+def test05_ifTheImageIsUpdateImageNotSuccessfullyBecauseEventNotExistThenTheStatusCodeIs404():
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.put("/event/images/update", json={"event_id": 3, "id": 1, "link": "b"}, headers=headers)
-    assert response.status_code == 404
     config.clear()
+    assert response.status_code == 404
 
-def test06_ifDeleteImageOKThenTheStatusCodeIs200():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+def test06_ifTheImageIsDeletedSuccessfullyThenTheStatusCodeIs200():
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.delete("/event/images/delete", json={"id": 1, "event_id": 1}, headers=headers)
-    assert response.status_code == 200
     config.clear()
+    assert response.status_code == 200
 
-def test07_ifDeleteImageNOKBecauseImgNotExistThenTheStatusCodeIs404():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+def test07_ifTheImageIsNotDeletedSuccessfullyBecauseImgNotExistThenTheStatusCodeIs404():
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.delete("/event/images/delete", json={"id": 3, "event_id": 1}, headers=headers)
-    assert response.status_code == 404
     config.clear()
+    assert response.status_code == 404
 
-def test08_ifDeleteImageNOKBecauseEventNotExistThenTheStatusCodeIs404():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+def test08_ifTheImageIsNotDeletedSuccessfullyKBecauseEventNotExistThenTheStatusCodeIs404():
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.delete("/event/images/delete", json={"id": 1, "event_id": 3}, headers=headers)
-    assert response.status_code == 404
     config.clear()
+    assert response.status_code == 404
 
-def test09_ifUpdateImageNOKBecauseImgDoestNotBelongToTheEventThenStatusCodeIs404():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+def test09_ifTheImageIsNotUpdateSuccessfullyBecauseImgDoestNotBelongToTheEventThenStatusCodeIs404():
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.put("/event/images/update", json={"event_id": 2, "id": 1, "link": "b"}, headers=headers)
-    assert response.status_code == 404
     config.clear()
+    assert response.status_code == 404
 
-def test10_ifDeleteImageNOKBecauseImgDoestNotBelongToTheEventThenTheStatusCodeIs404():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+def test10_ifTheImageIsNotDeleteSuccessfullyBecauseImgDoestNotBelongToTheEventThenTheStatusCodeIs404():
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.delete("/event/images/delete", json={"id": 1, "event_id": 2}, headers=headers)
-    assert response.status_code == 404
     config.clear()
+    assert response.status_code == 404
 
 def test11_addImageOK():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.get("/event/images", params={"id": 1, "event_id": 1}, headers=headers)
-    assert response.json()[0]["link"] == "a"
     config.clear()
+    assert response.json()[0]["link"] == "a"
 
 def test12_updateImageOK():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     client.post("/event/images/add", json= {"event_id": 1, "link": "a"}, headers=headers)
     client.put("/event/images/update", json={"event_id": 1, "id": 1, "link": "b"}, headers=headers)
     response = client.get("/event/images", params={"id": 1, "event_id": 1}, headers=headers)
-    assert response.json()[0]["link"] == "b"
     config.clear()
+    assert response.json()[0]["link"] == "b"
 
 def test13_deleteImageOK():
-    config.setUpImages()
-    token = jwt.create("rlareu@fi.uba.ar")["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     client.delete("/event/images/delete", json={"event_id": 1, "id": 1}, headers=headers)
     response = client.get("/event/images", params={"event_id": 1, "id": 1}, headers=headers)
-    assert response.json() == []
     config.clear()
+    assert response.json() == []

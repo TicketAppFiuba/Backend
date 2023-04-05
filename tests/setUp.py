@@ -1,27 +1,33 @@
 from src.config.db import engine
 from sqlalchemy import text
 from fastapi.testclient import TestClient
+from src.objects.jwt import JWTToken
 from main import app
 
 client = TestClient(app)
+jwt = JWTToken("HS256", 15)
 
 class TestSetUp:
-    def setUp(self):
-        with engine.connect() as c:
-            c.execute(text("INSERT INTO users (email, name, login) VALUES ('ldefeo@fi.uba.ar', 'ldefeo', 'True')"))
-            c.execute(text("INSERT INTO organizers (email, name, login) VALUES ('cbravor@fi.uba.ar', 'cbravor', 'True')"))
-            c.execute(text("INSERT INTO organizers (email, name, login) VALUES ('rlareu@fi.uba.ar', 'rlareu', 'True')"))
-
-    def setUpImages(self):
-        with engine.connect() as c:
-            c.execute(text("INSERT INTO organizers (email, name, login) VALUES ('rlareu@fi.uba.ar', 'rlareu', 'True')"))
-            c.execute(text("INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, length, vacancies) VALUES ('rlareu@fi.uba.ar', 'a', 100, '2023-04-01', 'str', 'str', 'str', 100, 100, 100)"))
-            c.execute(text("INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, length, vacancies) VALUES ('rlareu@fi.uba.ar', 'a', 100, '2023-04-01', 'str', 'str', 'str', 100, 100, 100)"))
-
-    def setUpFAQ(self):
+    def setUpAccess(self, email: str, type: str):
          with engine.connect() as c:
-            c.execute(text("INSERT INTO organizers (email, name, login) VALUES ('ldefeo@fi.uba.ar', 'ldefeo', 'True')"))
-            c.execute(text("INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, length, vacancies) VALUES ('ldefeo@fi.uba.ar', 'a', 100, '2023-04-01', 'str', 'str', 'str', 100, 100, 100)"))
+            if type == "user":
+                query = "INSERT INTO users (email, name, login) VALUES (:email, 'ldefeo', 'True')"
+            if type == "organizer":
+                query = "INSERT INTO organizers (email, name, login) VALUES (:email, 'ldefeo', 'True')"
+            c.execute(query, {'email': email})
+            token = jwt.create(email)["access_token"]
+            headers = {"Authorization": f"Bearer {token}"}
+            return headers
+
+    def setUpEvent(self, email: str):
+         with engine.connect() as c:
+            query = "INSERT INTO organizers (email, name, login) VALUES (:email, 'ldefeo', 'True')"
+            c.execute(query, {'email': email})
+            otherQuery = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, length, vacancies) VALUES (:email, 'a', 100, '2023-04-01', 'str', 'str', 'str', 100, 100, 100)"
+            c.execute(otherQuery, {"email": email})
+            token = jwt.create(email)["access_token"]
+            headers = {"Authorization": f"Bearer {token}"}
+            return headers
 
     def clear(self):
         with engine.connect() as c:
