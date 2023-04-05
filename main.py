@@ -8,7 +8,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title = "TicketAPP")
 
-origins = ["http://localhost:8080","https://backend-ticketapp.onrender.com/"]
+origins = ["http://localhost:8080",
+           "https://backend-ticketapp.onrender.com/",]
 
 app.add_middleware(SessionMiddleware, secret_key="!secret")
 
