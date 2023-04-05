@@ -34,7 +34,7 @@ def get_events_from(user_db: Organizer, db: Session):
     return event.getAllEventFromOrganizer(user_db.email, db)
 
 def get_all(query: QuerySchema, offset: int, limit: int, db: Session):
-    return event.getAll(query, offset, limit, db)
+    return event.getAll(query, offset, limit, db) #deberia tambien devolver las imgs
 
 def check_permissions(user_db: Organizer, event_db: Event):
     if event_db is None:

@@ -1,7 +1,6 @@
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional
 from datetime import date
-from src.schemas.image import ImageSchema
 from src.schemas.ubication import UbicationSchema
 
 class EventSchema(BaseModel):

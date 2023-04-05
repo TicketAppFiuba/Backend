@@ -13,7 +13,7 @@ def test01_ifAddImageOKThenStatusCodeIs200():
     headers = {"Authorization": f"Bearer {token}"}
     response = client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     assert response.status_code == 200
-    config.clearImages()
+    config.clear()
 
 def test02_ifAddImageNOKBecauseEventNotExistThenTheStatusCodeIs404():
     config.setUpImages()
@@ -21,7 +21,7 @@ def test02_ifAddImageNOKBecauseEventNotExistThenTheStatusCodeIs404():
     headers = {"Authorization": f"Bearer {token}"}
     response = client.post("/event/images/add", json={"event_id": 3, "link": "a"}, headers=headers)
     assert response.status_code == 404
-    config.clearImages()
+    config.clear()
 
 def test03_ifUpdateImageOKThenTheStatusCodeIs200():
     config.setUpImages()
@@ -30,7 +30,7 @@ def test03_ifUpdateImageOKThenTheStatusCodeIs200():
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.put("/event/images/update", json={"event_id": 1, "id": 1, "link": "b"}, headers=headers)
     assert response.status_code == 200
-    config.clearImages()
+    config.clear()
 
 def test04_ifUpdateImageNOKBecauseImgNotExistThenTheStatusCodeIs404():
     config.setUpImages()
@@ -39,7 +39,7 @@ def test04_ifUpdateImageNOKBecauseImgNotExistThenTheStatusCodeIs404():
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.put("/event/images/update", json={"event_id": 1, "id": 2, "link": "b"}, headers=headers)
     assert response.status_code == 404
-    config.clearImages()
+    config.clear()
 
 def test05_ifUpdateImageNOKBecauseEventNotExistThenTheStatusCodeIs404():
     config.setUpImages()
@@ -48,7 +48,7 @@ def test05_ifUpdateImageNOKBecauseEventNotExistThenTheStatusCodeIs404():
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.put("/event/images/update", json={"event_id": 3, "id": 1, "link": "b"}, headers=headers)
     assert response.status_code == 404
-    config.clearImages()
+    config.clear()
 
 def test06_ifDeleteImageOKThenTheStatusCodeIs200():
     config.setUpImages()
@@ -57,7 +57,7 @@ def test06_ifDeleteImageOKThenTheStatusCodeIs200():
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.delete("/event/images/delete", json={"id": 1, "event_id": 1}, headers=headers)
     assert response.status_code == 200
-    config.clearImages()
+    config.clear()
 
 def test07_ifDeleteImageNOKBecauseImgNotExistThenTheStatusCodeIs404():
     config.setUpImages()
@@ -66,7 +66,7 @@ def test07_ifDeleteImageNOKBecauseImgNotExistThenTheStatusCodeIs404():
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.delete("/event/images/delete", json={"id": 3, "event_id": 1}, headers=headers)
     assert response.status_code == 404
-    config.clearImages()
+    config.clear()
 
 def test08_ifDeleteImageNOKBecauseEventNotExistThenTheStatusCodeIs404():
     config.setUpImages()
@@ -75,7 +75,7 @@ def test08_ifDeleteImageNOKBecauseEventNotExistThenTheStatusCodeIs404():
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.delete("/event/images/delete", json={"id": 1, "event_id": 3}, headers=headers)
     assert response.status_code == 404
-    config.clearImages()
+    config.clear()
 
 def test09_ifUpdateImageNOKBecauseImgDoestNotBelongToTheEventThenStatusCodeIs404():
     config.setUpImages()
@@ -84,7 +84,7 @@ def test09_ifUpdateImageNOKBecauseImgDoestNotBelongToTheEventThenStatusCodeIs404
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.put("/event/images/update", json={"event_id": 2, "id": 1, "link": "b"}, headers=headers)
     assert response.status_code == 404
-    config.clearImages()
+    config.clear()
 
 def test10_ifDeleteImageNOKBecauseImgDoestNotBelongToTheEventThenTheStatusCodeIs404():
     config.setUpImages()
@@ -93,7 +93,7 @@ def test10_ifDeleteImageNOKBecauseImgDoestNotBelongToTheEventThenTheStatusCodeIs
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.delete("/event/images/delete", json={"id": 1, "event_id": 2}, headers=headers)
     assert response.status_code == 404
-    config.clearImages()
+    config.clear()
 
 def test11_addImageOK():
     config.setUpImages()
@@ -102,7 +102,7 @@ def test11_addImageOK():
     client.post("/event/images/add", json={"event_id": 1, "link": "a"}, headers=headers)
     response = client.get("/event/images", params={"id": 1, "event_id": 1}, headers=headers)
     assert response.json()[0]["link"] == "a"
-    config.clearImages()
+    config.clear()
 
 def test12_updateImageOK():
     config.setUpImages()
@@ -112,7 +112,7 @@ def test12_updateImageOK():
     client.put("/event/images/update", json={"event_id": 1, "id": 1, "link": "b"}, headers=headers)
     response = client.get("/event/images", params={"id": 1, "event_id": 1}, headers=headers)
     assert response.json()[0]["link"] == "b"
-    config.clearImages()
+    config.clear()
 
 def test13_deleteImageOK():
     config.setUpImages()
@@ -122,4 +122,4 @@ def test13_deleteImageOK():
     client.delete("/event/images/delete", json={"event_id": 1, "id": 1}, headers=headers)
     response = client.get("/event/images", params={"event_id": 1, "id": 1}, headers=headers)
     assert response.json() == []
-    config.clearImages()
+    config.clear()
