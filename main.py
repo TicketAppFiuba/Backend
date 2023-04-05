@@ -10,10 +10,12 @@ app = FastAPI(title = "TicketAPP")
 
 origins = ["*"]
 
+app.add_middleware(SessionMiddleware, secret_key="!secret")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -24,7 +26,7 @@ app.include_router(organizer_event.router)
 app.include_router(user_event.router)
 app.include_router(images.router)
 app.include_router(faqs.router)
-app.add_middleware(SessionMiddleware, secret_key="!secret")
+
 
 if __name__ == '__main__':
     uvicorn.run('main:app', port=8000, reload=True)
