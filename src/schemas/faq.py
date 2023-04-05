@@ -7,11 +7,11 @@ class FAQSchema(BaseModel):
     response: str
 
 class FAQUpdateSchema(BaseModel):
+    id: int
     event_id: int
-    question_id: int
     question: Optional[str]
     response: Optional[str]
 
 class FAQDeleteSchema(BaseModel):
-    event_id: int
     question_id: int
+    event_id: int
