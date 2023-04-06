@@ -9,7 +9,7 @@ from src.config import organizer
 from src.models.organizer import Organizer
 from src.schemas.user import UserSchema
 
-jwt = JWTToken("HS256", 15)
+jwt = JWTToken("HS256", 200)
 oauth2 = OAuth2PasswordBearer(tokenUrl="/organizer/login")
 
 def login(schema: UserSchema, db: Session):

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from src.schemas.faq import FAQSchema
+from src.schemas.faq import FAQSchema, FAQUpdateSchema
 from src.models.faq import FAQ
 
 
@@ -17,7 +17,7 @@ def delete(faq: FAQ, db: Session):
 def get(question_id: int, db: Session):
     return db.query(FAQ).filter(FAQ.id == question_id).first()
 
-def update(faq_db: FAQ, faqSchema: FaqUpdateSchema, db: Session):
+def update(faq_db: FAQ, faqSchema: FAQUpdateSchema, db: Session):
     faq_db.question = faqSchema.question
     faq_db.answer = faqSchema.answer
     db.commit()
