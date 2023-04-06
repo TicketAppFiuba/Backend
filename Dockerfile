@@ -7,10 +7,11 @@ RUN pip install -r requirements.txt
 
 ENV PYTHONPATH="$PYTHONPATH:$PWD"
 
-ENV PORT $PORT
-EXPOSE $PORT
+ENV PORT=${PORT}
+
+EXPOSE 8080
 
 CMD ["uvicorn", "main:app", "--host","0.0.0.0", "--port", "8000"]
 
-# CMD pytest
+# CMD python3 -m pytest
 

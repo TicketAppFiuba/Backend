@@ -26,17 +26,13 @@ sudo docker-compose up
 
 pip install -r requirements.txt
 
-export PYTHONPATH="$PYTHONPATH:$PWD"   (La primera vez que se instala en la máquina)
-
-
 #### Para correr la aplicación en local:
 
 uvicorn main:app --host 127.0.0.1 --port 8000
 
-
 #### Para ejecutar los tests
 
-pytest
+python3 -m pytest
 
 
 ### PARA INSTALAR NUEVAS LIBRERÍAS EN LOCAL
