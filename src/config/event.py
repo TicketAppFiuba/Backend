@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from src.schemas.event import EventSchema
 from src.models.event import Event
+from src.schemas.query import QuerySchema
 
 def create(event: EventSchema, email: str, db: Session):
     event_db = Event(**event.dict(exclude={'ubication'}),
@@ -18,7 +19,6 @@ def update(event_db: Event, event: dict(), db: Session):
         setattr(event_db, attr, value)
     db.commit()
     db.refresh(event_db)
-    return event_db
 
 def delete(event_db: Event, db: Session):
     db.delete(event_db)
@@ -30,5 +30,10 @@ def get(event_id: int, db: Session):
 def getAllEventFromOrganizer(email: str, db: Session):
     return db.query(Event).filter(Event.organizer_email == email).all()
 
-def getAll(offset: int, limit: int, db: Session):
-    return db.query(Event).limit(limit).offset(limit*offset).all()
+def getAll(querySchema: QuerySchema, offset: int, limit: int, db: Session):
+    query = db.query(Event)
+    if querySchema.title is not None:
+        query = query.filter(Event.title == querySchema.title)
+    if querySchema.category is not None:
+        query = query.filter(Event.category == querySchema.category)
+    return query.limit(limit).offset(limit*offset).all()

@@ -1,7 +1,6 @@
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional
 from datetime import date
-from src.schemas.image import ImageSchema
 from src.schemas.ubication import UbicationSchema
 
 class EventSchema(BaseModel):
@@ -9,8 +8,8 @@ class EventSchema(BaseModel):
     category: str
     date: date
     description: str
-    tickets: int
-    price: int
+    capacity: int
+    vacancies: int
     ubication: UbicationSchema
     
     class Config:
@@ -22,22 +21,25 @@ class EventSchemaUpdate(BaseModel):
     category: Optional[str]
     date: Optional[date]
     description: Optional[str]
-    tickets: Optional[int]
     direction: Optional[str]
-    latitude: Optional[str]
-    length: Optional[str]
-    price: Optional[int]
+    latitude: Optional[int]
+    length: Optional[int]
+    capacity: Optional[int]
+    vacancies: Optional[int]
     
     class Config:
         orm_mode = True
 
 class EventSchemaOut(BaseModel):
     id: int
-    date: date
+    title: str
     description: str
-    tickets: int
     organizer: str
-    price: int
-
+    category: str
+    date: date
+    capacity: int
+    vacancies: int
+    ubication: UbicationSchema
+    
     class Config:
         orm_mode = True

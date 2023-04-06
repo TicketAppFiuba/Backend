@@ -1,29 +1,34 @@
 from pydantic import BaseModel
+from typing import Optional
 
-class FaqSchema(BaseModel):
-    question: str
-    answer: str
-    event_id: int
-    
-    class Config:
-        orm_mode = True
 
-class FaqUpdateSchema(BaseModel):
+class FAQSchema(BaseModel):
     event_id: int
-    id: int
     question: str
-    answer: str
+    response: str
 
     class Config:
         orm_mode = True
 
-class FaqDeleteSchema(BaseModel):
+
+class FAQUpdateSchema(BaseModel):
     id: int
     event_id: int
+    question: Optional[str]
+    response: Optional[str]
+
+    class Config:
+        orm_mode = True
+
+
+class FAQDeleteSchema(BaseModel):
+    question_id: int
+    event_id: int
+
 
 class FaqSchemaOut(BaseModel):
-    question: str
-    answer: str
-    
+    question: Optional[str]
+    response: Optional[str]
+
     class Config:
         orm_mode = True

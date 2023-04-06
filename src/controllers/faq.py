@@ -2,10 +2,33 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from src.models.organizer import Organizer
 from src.models.event import Event
-from src.models.faq import Faq
+from src.models.faq import FAQ
 from src.config import event, faq
 from src.schemas.faq import *
 from src.controllers.event import check_permissions
+
+
+def add_question_to_event(faqSchema: FAQSchema, organizer_db: Organizer, db: Session):
+    event_db = event.get(faqSchema.event_id, db)
+    if event_db is None:
+        raise HTTPException(status_code=404, detail="Event not exist.")
+    if event_db.organizer_email != organizer_db.email:
+        raise HTTPException(status_code=404, detail="Permission denied.")
+    faq_db = faq.create(faqSchema, db)
+    return {"detail": "Question created successfully", "question_id": faq_db.id}
+
+def delete_question_to_event(faqSchema: FAQDeleteSchema, organizer_db: Organizer, db: Session):
+    event_db = event.get(faqSchema.event_id, db)
+    if event_db is None:
+        raise HTTPException(status_code=404, detail="Event not exist.")
+    if event_db.organizer_email != organizer_db.email:
+        raise HTTPException(status_code=404, detail="Permission denied.")
+    faq_db = faq.get(faqSchema.question_id, db)
+    if faq_db is None:
+        raise HTTPException(status_code=404, detail="Question not exist.")
+    if faq_db.event_id != event_db.id:
+        raise HTTPException(status_code=404, detail="Permission denied.")
+    return {"detail": "Question deleted successfully"}
 
 def add_faq_to_event(faqSchema: FaqSchema, user_db: Organizer, db: Session):
     event_db = event.get(faqSchema.event_id, db)
