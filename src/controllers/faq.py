@@ -11,21 +11,23 @@ def add_faq_to_event(faqSchema: FAQSchema, user_db: Organizer, db: Session):
     event_db = event.get(faqSchema.event_id, db)
     check_permissions(user_db, event_db)
     faq_db = faq.create(faqSchema, db)
-    return faq_db
+    return {"detail": "FAQ created successfully", "id": faq_db.id}
 
 def update_faq_to_event(faqSchema: FAQUpdateSchema, user_db: Organizer, db: Session):
     event_db = event.get(faqSchema.event_id, db)
     check_permissions(user_db, event_db)
     faq_db = faq.get(faqSchema.id, db)
     check_permission_faq(faq_db, event_db)
-    return faq.update(faq_db, faqSchema, db)
+    faq.update(faqSchema, db)
+    return {"detail": "FAQ modified successfully."}
 
 def delete_faq_to_event(faqSchema: FAQDeleteSchema, user_db: Organizer, db: Session):
     event_db = event.get(faqSchema.event_id, db)
     check_permissions(user_db, event_db)
-    faq_db = faq.get(faqSchema.faqSchema.id, db)
+    faq_db = faq.get(faqSchema.id, db)
     check_permission_faq(faq_db, event_db)
-    return faq.delete(faq_db, db)
+    faq.delete(faqSchema, db)
+    return {"detail": "FAQ deleted successfully."}
 
 def check_permission_faq(faq_db: FAQ, event_db: Event):
     if faq_db is None:
