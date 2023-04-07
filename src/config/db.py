@@ -5,7 +5,7 @@ import os
 from dotenv import load_dotenv
 
 
-load_dotenv()
+#load_dotenv()
 
 db_hostname = os.environ["DATABASE_HOSTNAME"]
 db_port = os.environ["DATABASE_PORT"]
@@ -15,8 +15,8 @@ db_password = os.environ["DATABASE_PASSWORD"]
 
 url="postgresql://{0}:{1}@{2}:{3}/{4}".format(db_username, db_password, db_hostname, db_port, database)
 
-engine = create_engine(url, pool_pre_ping=True)
-#engine = create_engine("sqlite:///./sql_app.db", connect_args={"check_same_thread": False})
+#engine = create_engine(url, pool_pre_ping=True)
+engine = create_engine("sqlite:///./sql_app.db", connect_args={"check_same_thread": False})
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
