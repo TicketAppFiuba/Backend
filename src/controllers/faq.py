@@ -26,7 +26,7 @@ def delete_faq_to_event(faqSchema: FAQDeleteSchema, user_db: Organizer, db: Sess
     check_permissions(user_db, event_db)
     faq_db = faq.get(faqSchema.id, db)
     check_permission_faq(faq_db, event_db)
-    faq.delete(faqSchema, db)
+    faq.delete(faq_db, db)
     return {"detail": "FAQ deleted successfully."}
 
 def check_permission_faq(faq_db: FAQ, event_db: Event):

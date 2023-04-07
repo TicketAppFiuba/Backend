@@ -15,6 +15,10 @@ faq.Base.metadata.create_all(bind=engine)
 def add(faqSchema: FAQSchema, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return add_faq_to_event(faqSchema, organizer, db)
 
+@router.put("/event/faq/update", status_code=200)
+def update(faqSchema: FAQUpdateSchema, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
+    return update_faq_to_event(faqSchema, organizer, db)
+
 @router.delete("/event/faq/delete", status_code=200)
 def delete(faqSchema: FAQDeleteSchema, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return delete_faq_to_event(faqSchema, organizer, db)
