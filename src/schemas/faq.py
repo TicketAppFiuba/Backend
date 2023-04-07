@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
 
-
 class FAQSchema(BaseModel):
     event_id: int
     question: str
@@ -22,9 +21,8 @@ class FAQUpdateSchema(BaseModel):
 
 
 class FAQDeleteSchema(BaseModel):
-    question_id: int
+    id: int
     event_id: int
-
 
 class FaqSchemaOut(BaseModel):
     question: Optional[str]

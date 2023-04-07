@@ -2,7 +2,6 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Float, Date
 from sqlalchemy.orm import relationship
 from src.config.db import Base
 
-
 class FAQ(Base):
     __tablename__ = "faqs"
     id = Column(Integer, primary_key=True, index=True)
