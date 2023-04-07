@@ -7,12 +7,14 @@ from src.config import event, faq
 from src.schemas.faq import *
 from src.controllers.event import check_permissions
 
+
 def add_faq_to_event(faqSchema: FAQSchema, user_db: Organizer, db: Session):
     event_db = event.get(faqSchema.event_id, db)
     check_permissions(user_db, event_db)
     faq_db = faq.create(faqSchema, db)
     return {"detail": "FAQ created successfully", "id": faq_db.id}
 
+  
 def update_faq_to_event(faqSchema: FAQUpdateSchema, user_db: Organizer, db: Session):
     event_db = event.get(faqSchema.event_id, db)
     check_permissions(user_db, event_db)
@@ -20,6 +22,7 @@ def update_faq_to_event(faqSchema: FAQUpdateSchema, user_db: Organizer, db: Sess
     check_permission_faq(faq_db, event_db)
     faq.update(faqSchema, db)
     return {"detail": "FAQ modified successfully."}
+
 
 def delete_faq_to_event(faqSchema: FAQDeleteSchema, user_db: Organizer, db: Session):
     event_db = event.get(faqSchema.event_id, db)
@@ -29,6 +32,7 @@ def delete_faq_to_event(faqSchema: FAQDeleteSchema, user_db: Organizer, db: Sess
     faq.delete(faq_db, db)
     return {"detail": "FAQ deleted successfully."}
 
+  
 def check_permission_faq(faq_db: FAQ, event_db: Event):
     if faq_db is None:
         raise HTTPException(status_code=404, detail="Faq not exist.")
