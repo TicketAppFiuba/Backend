@@ -9,10 +9,10 @@ from src.schemas.query import QuerySchema
 
 router = APIRouter(tags=["Events | User"])
 
-@router.post("/events", status_code=200)
+@router.post("/user/events", status_code=200)
 def get_events(query: QuerySchema, offset: int = 0, limit: int = 15, user_db: User = Depends(verify), db: Session = Depends(get_db)):
     return event.get_all_event(query, offset, limit, db)
 
-@router.get("/event", status_code=200)
+@router.get("/user/event", status_code=200)
 def get_event(event_id: int, user_db: User = Depends(verify), db: Session = Depends(get_db)):
     return event.get_event(event_id, db)

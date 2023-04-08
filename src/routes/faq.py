@@ -11,14 +11,14 @@ from src.models import faq
 router = APIRouter(tags=["Event FAQ | Organizer"])
 faq.Base.metadata.create_all(bind=engine)
 
-@router.post("/event/faq", status_code=200)
+@router.post("/organizer/event/faq", status_code=200)
 def add(faqSchema: FAQSchema, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return add_faq_to_event(faqSchema, organizer, db)
 
-@router.put("/event/faq", status_code=200)
+@router.put("/organizer/event/faq", status_code=200)
 def update(faqSchema: FAQUpdateSchema, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return update_faq_to_event(faqSchema, organizer, db)
 
-@router.delete("/event/faq", status_code=200)
+@router.delete("/organizer/event/faq", status_code=200)
 def delete(faqSchema: FAQDeleteSchema, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return delete_faq_to_event(faqSchema, organizer, db)
