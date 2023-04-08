@@ -11,19 +11,19 @@ from src.controllers.organizer.event import create_event, update_event, delete_e
 router = APIRouter(tags=["Events | Organizer"])
 event.Base.metadata.create_all(bind=engine)
 
-@router.post("/event/create", status_code=200)
+@router.post("/event", status_code=200)
 def create(eventSchema: EventSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return create_event(eventSchema, user_db, db)
 
-@router.put("/event/update", status_code=200)
+@router.put("/event", status_code=200)
 def update(eventSchema: EventSchemaUpdate, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return update_event(eventSchema, user_db, db)
 
-@router.delete("/event/delete", status_code=200)
+@router.delete("/event", status_code=200)
 def delete(event_id: int, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return delete_event(event_id, user_db, db)
 
-@router.get("/event/info", status_code=200)
+@router.get("/event", status_code=200)
 def get(event_id: int, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return get_event(event_id, user_db, db)
 

@@ -20,8 +20,8 @@ def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfull
                     "length": 100
                 }
             }
-    client.post("/event/create", json=event, headers=headers)
-    get_response = client.get("/event/info", params={"event_id": 1}, headers=headers)
+    client.post("/event", json=event, headers=headers)
+    get_response = client.get("/event", params={"event_id": 1}, headers=headers)
     config.clear()
     assert get_response.json()["id"] == 1
 
@@ -40,7 +40,7 @@ def test02_ifTheOrganizerCreatesAnEventWithACorrectJwtThenTheStatusCodeIs200():
                     "length": 100
                 }
             }
-    response = client.post("/event/create", json=event, headers=headers)
+    response = client.post("/event", json=event, headers=headers)
     config.clear()
     assert response.status_code == 200
 
@@ -60,7 +60,7 @@ def test03_ifTheOrganizerCreatesAnEventWithAIncorrectJwtThenTheStatusCodeIs401()
                     "length": 100
                 }
             }
-    response = client.post("/event/create", json=event, headers=headers)
+    response = client.post("/event", json=event, headers=headers)
     assert response.status_code == 401
 
 def test04_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
@@ -78,8 +78,8 @@ def test04_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
                     "length": 100
                 }
             }
-    client.post("/event/create", json=event, headers=headers)
-    response = client.get("/event/info", params={"event_id": 1}, headers=headers)
+    client.post("/event", json=event, headers=headers)
+    response = client.get("/event", params={"event_id": 1}, headers=headers)
     config.clear()
     assert response.json()["organizer"] == "rlareu@fi.uba.ar"
 
@@ -98,9 +98,9 @@ def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
                     "length": 100
                 }
             }
-    client.post("/event/create", json=event, headers=headers)
-    client.delete("/event/delete", params={"event_id": 1}, headers=headers)
-    get_response = client.get("/event/info", params={"event_id": 1}, headers=headers)
+    client.post("/event", json=event, headers=headers)
+    client.delete("/event", params={"event_id": 1}, headers=headers)
+    get_response = client.get("/event", params={"event_id": 1}, headers=headers)
     config.clear()
     assert get_response.status_code == 404
 
@@ -119,14 +119,14 @@ def test06_ifRLareuCreatedTheEventThenWhenRLareuRemovesTheStatusCodeIs200():
                     "length": 100
                 }
             }
-    client.post("/event/create", json=event, headers=headers)
-    response = client.delete("/event/delete", params={"event_id": 1}, headers=headers)
+    client.post("/event", json=event, headers=headers)
+    response = client.delete("/event", params={"event_id": 1}, headers=headers)
     config.clear()
     assert response.status_code == 200
 
 def test07_ifTheEventDoesntExistThenICantRemoveIt():
     headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
-    response = client.delete("/event/delete", params={"event_id": 2}, headers=headers)
+    response = client.delete("/event", params={"event_id": 2}, headers=headers)
     config.clear()
     assert response.status_code == 404
 
@@ -146,9 +146,9 @@ def test08_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
                     "length": 100
                 }
             }
-    client.post("/event/create", json=event, headers=headers)
-    client.delete("/event/delete", params={"event_id": 1}, headers=other_headers)
-    get_response = client.get("/event/info", params={"event_id": 1}, headers=headers)
+    client.post("/event", json=event, headers=headers)
+    client.delete("/event", params={"event_id": 1}, headers=other_headers)
+    get_response = client.get("/event", params={"event_id": 1}, headers=headers)
     config.clear()
     assert get_response.json()["id"] == 1
 
@@ -168,8 +168,8 @@ def test09_ifRLareuCreatedTheEventThenWhenCBravorRemovesItTheStatusCodeIs404():
                     "length": 100
                 }
             }
-    client.post("/event/create", json=event, headers=headers)
-    response = client.delete("/event/delete", params={"event_id": 1}, headers=other_headers)
+    client.post("/event", json=event, headers=headers)
+    response = client.delete("/event", params={"event_id": 1}, headers=other_headers)
     config.clear()
     assert response.status_code == 404
 
@@ -188,10 +188,10 @@ def test10_ifCbravorCreatedEventThenCbravorCanModifyIt():
                     "length": 100
                 }
             }
-    client.post("/event/create", json=event, headers=headers)
+    client.post("/event", json=event, headers=headers)
     update_event = {"id": 1, "title": "string2"}
-    client.put("/event/update", json=update_event, headers=headers)
-    get_response = client.get("/event/info", params={"event_id": 1}, headers=headers)
+    client.put("/event", json=update_event, headers=headers)
+    get_response = client.get("/event", params={"event_id": 1}, headers=headers)
     config.clear()
     assert get_response.json()["title"] == "string2"
 
@@ -210,9 +210,9 @@ def test11_ifCbravorCreatedEventThenCbravorModifiesTheStatusCodeIs200():
                     "length": 100
                 }
             }
-    client.post("/event/create", json=event, headers=headers)
+    client.post("/event", json=event, headers=headers)
     new_event = {"id": 1, "title": "string2"}
-    response = client.put("/event/update", json=new_event, headers=headers)
+    response = client.put("/event", json=new_event, headers=headers)
     config.clear()
     assert response.status_code == 200
 
@@ -232,10 +232,10 @@ def test12_ifRLareuCreatedEventThenCbravorCantModifyIt():
                     "length": 100
                 }
             }
-    client.post("/event/create", json=event, headers=headers)
+    client.post("/event", json=event, headers=headers)
     new_event = {"id": 1, "title": "string2"}
-    client.put("/event/update", json=new_event, headers=other_headers)
-    get_response = client.get("/event/info", params={"event_id": 1}, headers=headers)
+    client.put("/event", json=new_event, headers=other_headers)
+    get_response = client.get("/event", params={"event_id": 1}, headers=headers)
     config.clear()
     assert get_response.json()["title"] == "string"
 
@@ -255,15 +255,15 @@ def test13_ifRLareuCreatedEventThenWhenCbravorModifiesTheStatusCodeItIs404():
                     "length": 100
                 }
             }
-    client.post("/event/create", json=event, headers=headers)
+    client.post("/event", json=event, headers=headers)
     new_event = {"id": 1, "title": "string2"}
-    response = client.put("/event/update", json=new_event, headers=other_headers)
+    response = client.put("/event", json=new_event, headers=other_headers)
     config.clear()
     assert response.status_code == 404
 
 def test14_ifEventDoesntExistThenRLareuCantModifyIt():
     headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
     new_event = {"id": 100, "title": "string2"}
-    response = client.put("/event/update", json=new_event, headers=headers)
+    response = client.put("/event", json=new_event, headers=headers)
     config.clear()
     assert response.status_code == 404

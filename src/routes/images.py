@@ -11,15 +11,15 @@ from src.controllers.organizer.image import add_image_to_event, update_image_to_
 router = APIRouter(tags=["Event Images | Organizer"])
 image.Base.metadata.create_all(bind=engine)
 
-@router.post("/event/images/add", status_code=200)
+@router.post("/event/images", status_code=200)
 def add(image: ImageSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return add_image_to_event(image, user_db, db)
 
-@router.put("/event/images/update", status_code=200)
+@router.put("/event/images", status_code=200)
 def update(image: ImageUpdateSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return update_image_to_event(image, user_db, db)
 
-@router.delete("/event/images/delete", status_code=200)
+@router.delete("/event/images", status_code=200)
 def delete(image: ImageDeleteSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return delete_image_to_event(image, user_db, db)
 
