@@ -5,7 +5,7 @@ from src.models.event import Event
 from src.models.image import Image
 from src.config import event, image
 from src.schemas.image import *
-from src.controllers.event import check_permissions
+from src.controllers.organizer.event import check_permissions
 
 def add_image_to_event(imageSchema: ImageSchema, user_db: Organizer, db: Session):
     event_db = event.get(imageSchema.event_id, db)

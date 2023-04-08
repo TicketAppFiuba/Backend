@@ -5,10 +5,10 @@ from src.models import user
 from src.models.user import User
 from starlette.requests import Request
 from authlib.integrations.starlette_client import OAuthError
-from src.controllers import user_access
+from src.controllers.user import access
 from src.schemas.user import UserSchema
 
-oauth = user_access.generate_oauth()
+oauth = access.generate_oauth()
 router = APIRouter(tags=["Authentication | User"])
 user.Base.metadata.create_all(bind=engine)
 
@@ -25,11 +25,11 @@ async def auth(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Auth Error.")
     userinfo = data.get('userinfo')
     user = UserSchema(email=userinfo.email, name=userinfo.name)
-    return user_access.login(user, db)
+    return access.login(user, db)
 
 @router.get("/user/logout", status_code=200)
-async def logout(request: Request, user_db: User = Depends(user_access.verify), db: Session = Depends(get_db)):
+async def logout(request: Request, user_db: User = Depends(access.verify), db: Session = Depends(get_db)):
     for key in list(request.session.keys()):
         request.session.pop(key)
-    return user_access.logout(user_db, db)
+    return access.logout(user_db, db)
 

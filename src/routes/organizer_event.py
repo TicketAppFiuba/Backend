@@ -5,8 +5,8 @@ from src.models import event, image
 from src.models.organizer import Organizer
 from src.schemas.event import *
 from src.schemas.image import *
-from src.controllers.organizer_access import verify
-from src.controllers.event import create_event, update_event, delete_event, get_event, get_events_from
+from src.controllers.organizer.access import verify
+from src.controllers.organizer.event import create_event, update_event, delete_event, get_event, get_events_from
 
 router = APIRouter(tags=["Events | Organizer"])
 event.Base.metadata.create_all(bind=engine)

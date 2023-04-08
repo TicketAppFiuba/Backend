@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException
 from src.config.db import get_db, engine
 from sqlalchemy.orm import Session
+from src.controllers.organizer import access
 from src.models import organizer
 from src.models.organizer import Organizer
 from starlette.requests import Request
 from authlib.integrations.starlette_client import OAuthError
-from src.controllers import user_access, organizer_access
 from src.schemas.user import UserSchema
 
-oauth = user_access.generate_oauth()
+oauth = access.generate_oauth()
 router = APIRouter(tags=["Authentication | Organizer"])
 organizer.Base.metadata.create_all(bind=engine)
 
@@ -25,10 +25,10 @@ async def org_auth(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Auth Error.")
     userinfo = data.get('userinfo')
     user = UserSchema(email=userinfo.email, name=userinfo.name)
-    return organizer_access.login(user, db)
+    return access.login(user, db)
 
 @router.get("/organizer/logout", status_code=200)
-async def logout(request: Request, user_db: Organizer = Depends(organizer_access.verify), db: Session = Depends(get_db)):
+async def logout(request: Request, user_db: Organizer = Depends(access.verify), db: Session = Depends(get_db)):
     for key in list(request.session.keys()):
         request.session.pop(key)
-    return organizer_access.logout(user_db, db)
+    return access.logout(user_db, db)

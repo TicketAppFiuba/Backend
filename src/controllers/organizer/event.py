@@ -9,8 +9,6 @@ from src.config import event
 from src.schemas.image import *
 from src.schemas.query import QuerySchema
 
-## Organizer
-
 def create_event(eventSchema: EventSchema, user_db: Organizer, db: Session):
     event_db = event.create(eventSchema, user_db.email, db)
     return {"detail": "Event created successfully", "id": event_db.id}
@@ -56,12 +54,4 @@ def create_message(event_db: Event): #Como puedo optimizar esto?
                                   latitude=event_db.latitude,
                                   length=event_db.length)
     )
-
-## User
-
-def getEvent(event_id: int, db: Session):
-    return event.get(event_id, db)
-
-def getAll(query: QuerySchema, offset: int, limit: int, db: Session):
-    return event.getAll(query, offset, limit, db) #deberia tambien devolver las imgs
 
