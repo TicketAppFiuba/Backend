@@ -9,7 +9,6 @@ class FAQSchema(BaseModel):
     class Config:
         orm_mode = True
 
-
 class FAQUpdateSchema(BaseModel):
     id: int
     event_id: int
@@ -18,7 +17,6 @@ class FAQUpdateSchema(BaseModel):
 
     class Config:
         orm_mode = True
-
 
 class FAQDeleteSchema(BaseModel):
     id: int

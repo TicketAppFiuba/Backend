@@ -1,12 +1,15 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from src.models.organizer import Organizer
+from src.models.user import User
 from src.models.event import Event
 from src.schemas.event import EventSchema, EventSchemaUpdate, EventSchemaOut
 from src.schemas.ubication import UbicationSchema
 from src.config import event
 from src.schemas.image import *
 from src.schemas.query import QuerySchema
+
+## Organizer
 
 def create_event(eventSchema: EventSchema, user_db: Organizer, db: Session):
     event_db = event.create(eventSchema, user_db.email, db)
@@ -33,9 +36,6 @@ def get_event(event_id: int, user_db: Organizer, db: Session):
 def get_events_from(user_db: Organizer, db: Session):
     return event.getAllEventFromOrganizer(user_db.email, db)
 
-def get_all(query: QuerySchema, offset: int, limit: int, db: Session):
-    return event.getAll(query, offset, limit, db) #deberia tambien devolver las imgs
-
 def check_permissions(user_db: Organizer, event_db: Event):
     if event_db is None:
         raise HTTPException(status_code=404, detail="Event not exist.")
@@ -56,3 +56,12 @@ def create_message(event_db: Event): #Como puedo optimizar esto?
                                   latitude=event_db.latitude,
                                   length=event_db.length)
     )
+
+## User
+
+def getEvent(event_id: int, db: Session):
+    return event.get(event_id, db)
+
+def getAll(query: QuerySchema, offset: int, limit: int, db: Session):
+    return event.getAll(query, offset, limit, db) #deberia tambien devolver las imgs
+

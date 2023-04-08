@@ -11,4 +11,8 @@ router = APIRouter(tags=["Events | User"])
 
 @router.post("/events", status_code=200)
 def get_events(query: QuerySchema, offset: int = 0, limit: int = 15, user_db: User = Depends(verify), db: Session = Depends(get_db)):
-    return event.get_all(query, offset, limit, db)
+    return event.getAll(query, offset, limit, db)
+
+@router.get("/event", status_code=200)
+def get_event(event_id: int, user_db: User = Depends(verify), db: Session = Depends(get_db)):
+    return event.getEvent(event_id, db)

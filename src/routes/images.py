@@ -26,13 +26,3 @@ def delete(image: ImageDeleteSchema, user_db: Organizer = Depends(verify), db: S
 @router.get("/event/images", status_code=200)
 def get(event_id: int, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return get_all_images_to_event(event_id, user_db, db)
-
-from sqlalchemy import text
-@router.delete("/delete", status_code=200)
-def clear():
-        with engine.connect() as c:
-            c.execute(text("DELETE FROM organizers"))
-            c.execute(text("DELETE FROM users"))
-            c.execute(text("DELETE FROM events"))
-            c.execute(text("DELETE FROM images"))
-            c.execute(text("DELETE FROM faqs"))
