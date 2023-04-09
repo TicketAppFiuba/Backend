@@ -38,7 +38,7 @@ class EventSchemaOut(BaseModel):
     title: str
     direction: str
     capacity: str
-    latitude: str
+    latitude: int
     organizer_email: str
     description: str
     category: str

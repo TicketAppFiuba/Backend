@@ -37,9 +37,10 @@ def getAll(querySchema: QuerySchema, offset: int, limit: int, db: Session):
         query = query.filter(Event.title.ilike('%{}%'.format(querySchema.title)))
     if querySchema.category is not None:
         query = query.filter(Event.category == querySchema.category)
-    if querySchema.ubication is not None:
-        query = query.order_by(func.power(Event.latitude-querySchema.ubication.latitude, 2.0)
-                               +
-                               func.power(Event.length-querySchema.ubication.length, 2.0))
+    if querySchema.ubication is not None: # revisar
+        query = query.order_by(
+                                func.power(Event.latitude-querySchema.ubication.latitude, 2.0)
+                                +
+                                func.power(Event.length-querySchema.ubication.length, 2.0))
     return query.limit(limit).offset(limit*offset).all()
  
