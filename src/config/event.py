@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from src.schemas.event import EventSchema
 from src.models.event import Event
 from src.schemas.query import QuerySchema
+from sqlalchemy.sql import func
 
 def create(event: EventSchema, email: str, db: Session):
     event_db = Event(**event.dict(exclude={'ubication'}),
@@ -33,7 +34,12 @@ def getAllEventFromOrganizer(email: str, db: Session):
 def getAll(querySchema: QuerySchema, offset: int, limit: int, db: Session):
     query = db.query(Event)
     if querySchema.title is not None:
-        query = query.filter(Event.title == querySchema.title)
+        query = query.filter(Event.title.ilike('%{}%'.format(querySchema.title)))
     if querySchema.category is not None:
         query = query.filter(Event.category == querySchema.category)
+    if querySchema.ubication is not None:
+        query = query.order_by(func.power(Event.latitude-querySchema.ubication.latitude, 2.0)
+                               +
+                               func.power(Event.length-querySchema.ubication.length, 2.0))
     return query.limit(limit).offset(limit*offset).all()
+ 

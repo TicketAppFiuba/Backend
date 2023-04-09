@@ -18,3 +18,9 @@ class ImageUpdateSchema(BaseModel):
 class ImageDeleteSchema(BaseModel):
     id: int
     event_id: int
+
+class ImageSchemaOut(BaseModel):
+    link: str
+
+    class Config:
+        orm_mode = True
