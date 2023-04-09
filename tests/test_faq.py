@@ -51,3 +51,36 @@ def test06_ifTheQuestionIsNotDeletedSuccessfullyBecauseRLareuDoesntHavePermissio
     response = client.delete("/organizer/event/faq", json=question, headers=headers)
     config.clear()
     assert response.status_code == 404
+
+def test07_ifTheQuestionIsUpdatedSuccessfullyThenStatusCodeIs200():
+    headers = config.setUpEvent("ldefeo@fi.uba.ar")
+    question = {"event_id": 1, "question": "a", "response": "b"}
+    client.post("/organizer/event/faq", json=question, headers=headers)
+    question = {"id": 1, "event_id": 1, "question": "c", "response": "d"}
+    response = client.put("/organizer/event/faq", json=question, headers=headers)
+    config.clear()
+    assert response.status_code == 200
+
+def test08_ifTheQuestionIsNotUpdatedSuccessfullyBecauseEventNotExistThenStatusCodeIs404():
+    headers = config.setUpEvent("ldefeo@fi.uba.ar")
+    question = {"id": 1, "event_id": 5, "question": "c", "response": "d"}
+    response = client.put("/organizer/event/faq", json=question, headers=headers)
+    config.clear()
+    assert response.status_code == 404
+
+def test09_ifTheQuestionIsNotUpdatedSuccessfullyBecauseQuestionNotExistThenStatusCodeIs404():
+    headers = config.setUpEvent("ldefeo@fi.uba.ar")
+    question = {"id": 4, "event_id": 1, "question": "c", "response": "d"}
+    response = client.put("/organizer/event/faq", json=question, headers=headers)
+    config.clear()
+    assert response.status_code == 404
+
+def test10_ifTheQuestionIsNotUpdatedSuccessfullyBecauseRLareuDoesntHavePermission():
+    headers = config.setUpEvent("ldefeo@fi.uba.ar")
+    question = {"event_id": 1, "question": "a", "response": "b"}
+    client.post("/organizer/event/faq", json=question, headers=headers)
+    headers = config.setUpEvent("rlareu@fi.uba.ar")
+    question = {"id": 1, "event_id": 1, "question": "c", "response": "d"}
+    response = client.put("/organizer/event/faq", json=question, headers=headers)
+    config.clear()
+    assert response.status_code == 404
