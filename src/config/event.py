@@ -34,7 +34,7 @@ def getAllEventFromOrganizer(email: str, db: Session):
 def getAll(querySchema: QuerySchema, offset: int, limit: int, db: Session):
     query = db.query(Event)
     if querySchema.title is not None:
-        query = query.filter(Event.title == querySchema.title)
+        query = query.filter(Event.title.ilike('%{}%'.format(querySchema.title)))
     if querySchema.category is not None:
         query = query.filter(Event.category == querySchema.category)
     if querySchema.ubication is not None:

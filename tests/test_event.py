@@ -81,7 +81,7 @@ def test04_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
     client.post("/organizer/event", json=event, headers=headers)
     response = client.get("/organizer/event", params={"event_id": 1}, headers=headers)
     config.clear()
-    assert response.json()["organizer"] == "rlareu@fi.uba.ar"
+    assert response.json()["organizer_email"] == "rlareu@fi.uba.ar"
 
 def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
     headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
