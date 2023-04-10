@@ -13,9 +13,9 @@ def delete(faq: FAQ, db: Session):
     db.delete(faq)
     db.commit()
     
-def update(faq_db: FAQ, faqSchema: FAQUpdateSchema, db: Session):
-    faq_db.question = faqSchema.question
-    faq_db.answer = faqSchema.answer
+def update(faq_db: FAQ, faqSchema: dict(), db: Session):
+    for attr, value in faqSchema.items():
+        setattr(faq_db, attr, value)
     db.commit()
     db.refresh(faq_db)
 

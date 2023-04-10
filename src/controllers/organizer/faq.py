@@ -18,7 +18,8 @@ def update_faq_to_event(faqSchema: FAQUpdateSchema, user_db: Organizer, db: Sess
     check_permissions(user_db, event_db)
     faq_db = faq.get(faqSchema.id, db)
     check_permission_faq(faq_db, event_db)
-    faq.update(faqSchema, db)
+    faq_dict = faqSchema.dict(exclude_unset=True, exclude_none=True, exclude={'id'})
+    faq.update(faq_db, faq_dict, db)
     return {"detail": "FAQ modified successfully."}
 
 def delete_faq_to_event(faqSchema: FAQDeleteSchema, user_db: Organizer, db: Session):
