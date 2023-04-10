@@ -26,7 +26,7 @@ class EventSchemaUpdate(BaseModel):
     description: Optional[str]
     direction: Optional[str]
     latitude: Optional[int]
-    length: Optional[int]
+    longitude: Optional[int]
     capacity: Optional[int]
     vacancies: Optional[int]
     
@@ -44,7 +44,7 @@ class EventSchemaOut(BaseModel):
     category: str
     date: date
     vacancies: int
-    length: int
+    longitude: int
     
     class Config:
         orm_mode = True

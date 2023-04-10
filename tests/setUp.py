@@ -23,7 +23,7 @@ class TestSetUp:
          with engine.connect() as c:
             query = "INSERT INTO organizers (email, name, login) VALUES (:email, 'ldefeo', 'True')"
             c.execute(query, {'email': email})
-            otherQuery = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, length, vacancies) VALUES (:email, 'a', 100, '2023-04-01', 'str', 'str', 'str', 100, 100, 100)"
+            otherQuery = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, longitude, vacancies) VALUES (:email, 'a', 100, '2023-04-01', 'str', 'str', 'str', 100, 100, 100)"
             c.execute(otherQuery, {"email": email})
             token = jwt.create(email)["access_token"]
             headers = {"Authorization": f"Bearer {token}"}

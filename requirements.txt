@@ -13,6 +13,8 @@ pluggy
 pytest
 itsdangerous
 starlette
+google-auth
+requests
 
 
 

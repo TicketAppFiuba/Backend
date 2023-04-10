@@ -17,7 +17,7 @@ def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfull
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
-                    "length": 100
+                    "longitude": 100
                 }
             }
     client.post("/organizer/event", json=event, headers=headers)
@@ -37,7 +37,7 @@ def test02_ifTheOrganizerCreatesAnEventWithACorrectJwtThenTheStatusCodeIs200():
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
-                    "length": 100
+                    "longitude": 100
                 }
             }
     response = client.post("/organizer/event", json=event, headers=headers)
@@ -57,7 +57,7 @@ def test03_ifTheOrganizerCreatesAnEventWithAIncorrectJwtThenTheStatusCodeIs401()
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
-                    "length": 100
+                    "longitude": 100
                 }
             }
     response = client.post("/organizer/event", json=event, headers=headers)
@@ -75,7 +75,7 @@ def test04_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
-                    "length": 100
+                    "longitude": 100
                 }
             }
     client.post("/organizer/event", json=event, headers=headers)
@@ -95,7 +95,7 @@ def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
-                    "length": 100
+                    "longitude": 100
                 }
             }
     client.post("/organizer/event", json=event, headers=headers)
@@ -116,7 +116,7 @@ def test06_ifRLareuCreatedTheEventThenWhenRLareuRemovesTheStatusCodeIs200():
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
-                    "length": 100
+                    "longitude": 100
                 }
             }
     client.post("/organizer/event", json=event, headers=headers)
@@ -143,7 +143,7 @@ def test08_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
-                    "length": 100
+                    "longitude": 100
                 }
             }
     client.post("/organizer/event", json=event, headers=headers)
@@ -165,7 +165,7 @@ def test09_ifRLareuCreatedTheEventThenWhenCBravorRemovesItTheStatusCodeIs404():
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
-                    "length": 100
+                    "longitude": 100
                 }
             }
     client.post("/organizer/event", json=event, headers=headers)
@@ -185,7 +185,7 @@ def test10_ifCbravorCreatedEventThenCbravorCanModifyIt():
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
-                    "length": 100
+                    "longitude": 100
                 }
             }
     client.post("/organizer/event", json=event, headers=headers)
@@ -207,7 +207,7 @@ def test11_ifCbravorCreatedEventThenCbravorModifiesTheStatusCodeIs200():
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
-                    "length": 100
+                    "longitude": 100
                 }
             }
     client.post("/organizer/event", json=event, headers=headers)
@@ -229,7 +229,7 @@ def test12_ifRLareuCreatedEventThenCbravorCantModifyIt():
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
-                    "length": 100
+                    "longitude": 100
                 }
             }
     client.post("/organizer/event", json=event, headers=headers)
@@ -252,7 +252,7 @@ def test13_ifRLareuCreatedEventThenWhenCbravorModifiesTheStatusCodeItIs404():
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
-                    "length": 100
+                    "longitude": 100
                 }
             }
     client.post("/organizer/event", json=event, headers=headers)

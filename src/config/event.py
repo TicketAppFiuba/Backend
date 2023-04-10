@@ -8,7 +8,7 @@ def create(event: EventSchema, email: str, db: Session):
     event_db = Event(**event.dict(exclude={'ubication'}),
                      direction=event.ubication.direction,
                      latitude = event.ubication.latitude,
-                     length = event.ubication.length, 
+                     longitude = event.ubication.longitude, 
                      organizer_email=email)
     db.add(event_db)
     db.commit()
@@ -41,6 +41,6 @@ def getAll(querySchema: QuerySchema, offset: int, limit: int, db: Session):
         query = query.order_by(
                                 func.power(Event.latitude-querySchema.ubication.latitude, 2.0)
                                 +
-                                func.power(Event.length-querySchema.ubication.length, 2.0))
+                                func.power(Event.longitude-querySchema.ubication.longitude, 2.0))
     return query.limit(limit).offset(limit*offset).all()
  
