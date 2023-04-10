@@ -25,7 +25,7 @@ def get_events(title: str | None = None,
                         category=category, 
                         ubication=UbicationSchema(direction=direction,
                                                   latitude=latitude,
-                                                  length=longitude))
+                                                  longitude=longitude))
     return event.get_all_event(query, offset, limit, db)
 
 @router.get("/user/event", response_model = EventAllInfoSchemaOut, status_code=200)
