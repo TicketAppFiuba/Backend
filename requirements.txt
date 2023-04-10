@@ -8,6 +8,7 @@ authlib
 jose
 python-jose
 google-auth
+requests
 pluggy
 pytest
 itsdangerous
