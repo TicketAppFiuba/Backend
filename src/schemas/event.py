@@ -14,7 +14,7 @@ class EventSchema(BaseModel):
     capacity: int
     vacancies: int
     ubication: UbicationSchema
-    
+    pic: str
     class Config:
         orm_mode = True
 

@@ -8,9 +8,12 @@ from src.schemas.ubication import UbicationSchema
 from src.config import event
 from src.schemas.image import *
 from src.schemas.query import QuerySchema
+from src.controllers.organizer.image import add_image_to_event
 
 def create_event(eventSchema: EventSchema, user_db: Organizer, db: Session):
     event_db = event.create(eventSchema, user_db.email, db)
+    imageSchema = ImageSchema(event_id=event_db.id, link=eventSchema.pic)
+    add_image_to_event(imageSchema, user_db, db)
     return {"detail": "Event created successfully", "id": event_db.id}
 
 def update_event(eventSchema: EventSchemaUpdate, user_db: Organizer, db: Session):
