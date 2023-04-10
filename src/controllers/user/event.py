@@ -13,4 +13,8 @@ def get_event(event_id: int, db: Session):
     return {"Event": event_db, "Images": images_db, "FAQ": faq_db}
 
 def get_all_event(query: QuerySchema, offset: int, limit: int, db: Session):
-    return event.getAll(query, offset, limit, db) 
+    events_db = event.getAll(query, offset, limit, db) 
+    event_list = []
+    for i in events_db:
+        event_list.append(get_event(i.id, db))
+    return event_list
