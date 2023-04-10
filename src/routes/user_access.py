@@ -16,7 +16,10 @@ user.Base.metadata.create_all(bind=engine)
 
 @router.get("/user/login", status_code=200)
 async def login(token: str, db: Session = Depends(get_db)):
-    id_info = id_token.verify_oauth2_token(token, requests.Request(), "651976534821-njeiiul5h073b0s321lvn9pevadj3aeg.apps.googleusercontent.com")
+    try:
+        id_info = id_token.verify_oauth2_token(token, requests.Request(), "651976534821-njeiiul5h073b0s321lvn9pevadj3aeg.apps.googleusercontent.com")
+    except ValueError:
+        raise HTTPException(status_code=400, detail="JWT Invalid.")
     user = UserSchema(name=id_info["name"], email=id_info["email"])
     return access.login(user, db)
 
