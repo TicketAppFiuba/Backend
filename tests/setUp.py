@@ -28,6 +28,15 @@ class TestSetUp:
             token = jwt.create(email)["access_token"]
             headers = {"Authorization": f"Bearer {token}"}
             return headers
+         
+    def setUpSearch(self):
+        with engine.connect() as c:
+            query = "INSERT INTO organizers (email, name, login) VALUES (:email, 'ldefeo', 'True')"
+            c.execute(query, {'email': "ldefeo@fi.uba.ar"})
+            otherQuery = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, longitude, vacancies) VALUES (:email, 'a', 100, '2023-04-01', 'movies', 'cinema', 'str', 100, 100, 100)"
+            c.execute(otherQuery, {"email": "ldefeo@fi.uba.ar"})
+            otherQuery = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, longitude, vacancies) VALUES (:email, 'a', 100, '2023-04-01', 'soccer', 'sport', 'str', 100, 100, 100)"
+            c.execute(otherQuery, {"email": "ldefeo@fi.uba.ar"})
 
     def clear(self):
         with engine.connect() as c:
