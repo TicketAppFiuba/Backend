@@ -14,8 +14,6 @@ oauth2 = OAuth2PasswordBearer(tokenUrl="/organizer/login")
 
 def login(schema: UserSchema, db: Session):
     user_db = organizer.get(schema.email, db)
-    if user_db is not None and user_db.login == True:
-        raise HTTPException(status_code=401, detail="You are already logged in.")
     if user_db is None:
         user_db = organizer.create(schema, db)
     organizer.update(user_db, {"login": True}, db)
