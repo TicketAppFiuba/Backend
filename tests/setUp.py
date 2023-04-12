@@ -35,7 +35,7 @@ class TestSetUp:
             c.execute(query, {'email': "ldefeo@fi.uba.ar"})
             otherQuery = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, longitude, vacancies) VALUES (:email, 'a', 100, '2023-04-01', 'movies', 'cinema', 'str', 100, 100, 100)"
             c.execute(otherQuery, {"email": "ldefeo@fi.uba.ar"})
-            otherQuery = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, longitude, vacancies) VALUES (:email, 'a', 100, '2023-04-01', 'soccer', 'sport', 'str', 100, 100, 100)"
+            otherQuery = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, longitude, vacancies) VALUES (:email, 'a', 100, '2023-04-01', 'soccer', 'sport', 'str', 150, 125, 100)"
             c.execute(otherQuery, {"email": "ldefeo@fi.uba.ar"})
 
     def clear(self):
