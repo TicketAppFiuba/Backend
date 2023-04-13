@@ -3,14 +3,12 @@ from src.config.db import get_db, engine
 from sqlalchemy.orm import Session
 from src.controllers.organizer import access
 from src.models.organizer import Organizer
-from src.models import organizer
 from starlette.requests import Request
 from src.schemas.user import UserSchema
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
 router = APIRouter(tags=["Authentication | Organizer"])
-organizer.Base.metadata.create_all(bind=engine)
 
 @router.get("/organizer/login", status_code=200)
 async def login(token: str, db: Session = Depends(get_db)):

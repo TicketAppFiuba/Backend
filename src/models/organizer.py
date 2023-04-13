@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.orm import relationship
-from src.config.db import Base
+from . import Base
 
 class Organizer(Base):
     __tablename__ = "organizers"

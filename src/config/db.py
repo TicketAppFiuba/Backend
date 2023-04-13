@@ -1,10 +1,14 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from src.models import Base
+from src.models.event import Event
+from src.models.faq import FAQ
+from src.models.image import Image
+from src.models.organizer import Organizer
+from src.models.user import User
 
 engine = create_engine("sqlite:///./sql_app.db", connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
 
 def get_db():
     db = SessionLocal()
@@ -12,3 +16,6 @@ def get_db():
         yield db
     finally:
         db.close()
+
+Base.metadata.create_all(bind=engine)
+
