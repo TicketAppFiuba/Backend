@@ -5,12 +5,10 @@ from src.controllers.organizer import access
 from src.models import organizer
 from src.models.organizer import Organizer
 from starlette.requests import Request
-from authlib.integrations.starlette_client import OAuthError
 from src.schemas.user import UserSchema
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
-oauth = access.generate_oauth()
 router = APIRouter(tags=["Authentication | Organizer"])
 organizer.Base.metadata.create_all(bind=engine)
 

@@ -4,4 +4,4 @@ sql_app.db
 .pytest_cache
 .idea/.
 .idea/
-
+.coverage

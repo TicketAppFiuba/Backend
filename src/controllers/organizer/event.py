@@ -1,14 +1,10 @@
-from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from src.models.organizer import Organizer
-from src.models.user import User
-from src.models.event import Event
-from src.schemas.event import EventSchema, EventSchemaUpdate, EventSchemaOut
-from src.schemas.ubication import UbicationSchema
+from src.schemas.event import EventSchema, EventSchemaUpdate
 from src.config import event
 from src.schemas.image import *
-from src.schemas.query import QuerySchema
 from src.controllers.organizer.image import add_image_to_event
+from src.controllers.organizer.validations import *
 
 def create_event(eventSchema: EventSchema, user_db: Organizer, db: Session):
     event_db = event.create(eventSchema, user_db.email, db)
@@ -36,9 +32,3 @@ def get_event(event_id: int, user_db: Organizer, db: Session):
 
 def get_events_from(user_db: Organizer, db: Session):
     return event.getAllEventFromOrganizer(user_db.email, db)
-
-def check_permissions(user_db: Organizer, event_db: Event):
-    if event_db is None:
-        raise HTTPException(status_code=404, detail="Event not exist.")
-    if user_db.email != event_db.organizer_email:
-        raise HTTPException(status_code=404, detail="Permission denied.")
