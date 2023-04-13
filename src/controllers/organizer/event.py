@@ -4,7 +4,7 @@ from src.schemas.event import EventSchema, EventSchemaUpdate
 from src.config import event
 from src.schemas.image import *
 from src.controllers.organizer.image import add_image_to_event
-from src.controllers.organizer.validations import *
+from src.controllers.validations import *
 
 def create_event(eventSchema: EventSchema, user_db: Organizer, db: Session):
     event_db = event.create(eventSchema, user_db.email, db)

@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 from src.models import event
 from src.controllers.user.access import verify
 from src.models.user import User
-from src.controllers.user import event
+from src.controllers.user.event import *
+from src.controllers.user.reservation import *
 from src.schemas.query import QuerySchema
 from src.schemas.event import *
 from typing import List
@@ -26,8 +27,12 @@ def get_events(title: str | None = None,
                         ubication=UbicationSchema(direction=direction,
                                                   latitude=latitude,
                                                   longitude=longitude))
-    return event.get_all_event(query, offset, limit, db)
+    return get_all_event(query, offset, limit, db)
 
 @router.get("/user/event", response_model = EventAllInfoSchemaOut, status_code=200)
 def get_event(event_id: int, user_db: User = Depends(verify), db: Session = Depends(get_db)):
-    return event.get_event(event_id, db)
+    return get_event(event_id, db)
+
+@router.post("/user/event/reservation", status_code=200)
+def reservation(event_id: int, user_db: User = Depends(verify), db: Session = Depends(get_db)):
+    return create_reservation(event_id, user_db, db)

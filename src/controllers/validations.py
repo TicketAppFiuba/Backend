@@ -19,6 +19,10 @@ def check_permission_img(image_db: Image, event_db: Event):
         
 def check_permission_faq(faq_db: FAQ, event_db: Event):
     if faq_db is None:
-        raise HTTPException(status_code=404, detail="Faq not exist.")
+        raise HTTPException(status_code=404, detail="FAQ not exist.")
     if faq_db.event_id != event_db.id:
         raise HTTPException(status_code=404, detail="Not permission.")
+    
+def check_event_exist(event_db: Event):
+    if event_db is None:
+        raise HTTPException(status_code=404, detail="Event not exist.")

@@ -6,6 +6,7 @@ from src.models.faq import FAQ
 from src.models.image import Image
 from src.models.organizer import Organizer
 from src.models.user import User
+from src.models.reservation import Reservation
 
 engine = create_engine("sqlite:///./sql_app.db", connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

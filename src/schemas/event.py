@@ -54,5 +54,6 @@ class EventAllInfoSchemaOut(BaseModel):
     Event: EventSchemaOut
     Images: List[ImageSchemaOut]
     FAQ: List[FaqSchemaOut]
+    
     class Config:
         orm_mode = True
