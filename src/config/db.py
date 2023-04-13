@@ -5,7 +5,6 @@ from sqlalchemy.orm import sessionmaker
 engine = create_engine("sqlite:///./sql_app.db", connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-Base.metadata.create_all(bind=engine)
 
 def get_db():
     db = SessionLocal()

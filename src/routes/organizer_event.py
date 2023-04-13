@@ -1,13 +1,15 @@
 from fastapi import APIRouter, Depends
-from src.config.db import get_db
+from src.config.db import get_db, engine
 from sqlalchemy.orm import Session
 from src.models.organizer import Organizer
+from src.models import event
 from src.schemas.event import *
 from src.schemas.image import *
 from src.controllers.organizer.access import verify
 from src.controllers.organizer.event import create_event, update_event, delete_event, get_event, get_events_from
 
 router = APIRouter(tags=["Events | Organizer"])
+event.Base.metadata.create_all(bind=engine)
 
 @router.post("/organizer/event", status_code=200)
 def create(eventSchema: EventSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
@@ -28,4 +30,3 @@ def get(event_id: int, user_db: Organizer = Depends(verify), db: Session = Depen
 @router.get("/organizer/events", status_code=200)
 def get_events_from_organizer(user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return get_events_from(user_db, db)
-     
