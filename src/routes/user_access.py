@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
-from src.config.db import get_db, engine
+from src.config.db import get_db
 from sqlalchemy.orm import Session
-from src.models import user
 from src.models.user import User
 from starlette.requests import Request
 from src.controllers.user import access
@@ -10,7 +9,6 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 
 router = APIRouter(tags=["Authentication | User"])
-user.Base.metadata.create_all(bind=engine)
 
 @router.get("/user/login", status_code=200)
 async def login(token: str, db: Session = Depends(get_db)):
