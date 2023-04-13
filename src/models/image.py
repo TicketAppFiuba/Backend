@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from src.config.db import Base
+from . import Base
 
 class Image(Base): 
     __tablename__ = "images"

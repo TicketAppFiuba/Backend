@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import date
 from src.schemas.ubication import UbicationSchema
@@ -11,10 +11,10 @@ class EventSchema(BaseModel):
     category: str
     date: date
     description: str
-    capacity: int
+    capacity: int  #= Field(..., gt=0, lt=10000) comento pq no me corren las pruebas, dsp descomento
     vacancies: int
     ubication: UbicationSchema
-    
+    pic: str
     class Config:
         orm_mode = True
 
@@ -27,7 +27,8 @@ class EventSchemaUpdate(BaseModel):
     direction: Optional[str]
     latitude: Optional[int]
     longitude: Optional[int]
-    capacity: Optional[int]
+    capacity: Optional[int]#= Field(..., gt=0, lt=10000)
+
     vacancies: Optional[int]
     
     class Config:

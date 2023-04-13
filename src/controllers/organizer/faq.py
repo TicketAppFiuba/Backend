@@ -1,11 +1,9 @@
-from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from src.models.organizer import Organizer
-from src.models.event import Event
-from src.models.faq import FAQ
 from src.config import event, faq
 from src.schemas.faq import *
 from src.controllers.organizer.event import check_permissions
+from src.controllers.organizer.validations import *
 
 def add_faq_to_event(faqSchema: FAQSchema, user_db: Organizer, db: Session):
     event_db = event.get(faqSchema.event_id, db)
@@ -29,9 +27,3 @@ def delete_faq_to_event(faqSchema: FAQDeleteSchema, user_db: Organizer, db: Sess
     check_permission_faq(faq_db, event_db)
     faq.delete(faq_db, db)
     return {"detail": "FAQ deleted successfully."}
-
-def check_permission_faq(faq_db: FAQ, event_db: Event):
-    if faq_db is None:
-        raise HTTPException(status_code=404, detail="Faq not exist.")
-    if faq_db.event_id != event_db.id:
-        raise HTTPException(status_code=404, detail="Not permission.")

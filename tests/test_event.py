@@ -14,16 +14,17 @@ def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfull
                 "description": "string",
                 "capacity": 100,
                 "vacancies": 100,
+                "pic": "str",
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
                     "longitude": 100
                 }
             }
-    client.post("/organizer/event", json=event, headers=headers)
-    get_response = client.get("/organizer/event", params={"event_id": 1}, headers=headers)
+    response = client.post("/organizer/event", json=event, headers=headers)
+    get_response = client.get("/organizer/event", params={"event_id": response.json()["id"]}, headers=headers)
     config.clear()
-    assert get_response.json()["id"] == 1
+    assert get_response.json()["id"] == response.json()["id"]
 
 def test02_ifTheOrganizerCreatesAnEventWithACorrectJwtThenTheStatusCodeIs200():
     headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
@@ -34,6 +35,7 @@ def test02_ifTheOrganizerCreatesAnEventWithACorrectJwtThenTheStatusCodeIs200():
                 "description": "string",
                 "capacity": 100,
                 "vacancies": 100,
+                "pic": "str",
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
@@ -54,6 +56,7 @@ def test03_ifTheOrganizerCreatesAnEventWithAIncorrectJwtThenTheStatusCodeIs401()
                 "description": "string",
                 "capacity": 100,
                 "vacancies": 100,
+                "pic": "str",
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
@@ -72,14 +75,15 @@ def test04_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
                 "description": "string",
                 "capacity": 100,
                 "vacancies": 100,
+                "pic": "str",
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
                     "longitude": 100
                 }
             }
-    client.post("/organizer/event", json=event, headers=headers)
-    response = client.get("/organizer/event", params={"event_id": 1}, headers=headers)
+    resp = client.post("/organizer/event", json=event, headers=headers)
+    response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
     assert response.json()["organizer_email"] == "rlareu@fi.uba.ar"
 
@@ -92,15 +96,16 @@ def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
                 "description": "string",
                 "capacity": 100,
                 "vacancies": 100,
+                "pic": "str",
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
                     "longitude": 100
                 }
             }
-    client.post("/organizer/event", json=event, headers=headers)
-    client.delete("/organizer/event", params={"event_id": 1}, headers=headers)
-    get_response = client.get("/organizer/event", params={"event_id": 1}, headers=headers)
+    resp = client.post("/organizer/event", json=event, headers=headers)
+    client.delete("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
+    get_response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
     assert get_response.status_code == 404
 
@@ -113,20 +118,21 @@ def test06_ifRLareuCreatedTheEventThenWhenRLareuRemovesTheStatusCodeIs200():
                 "description": "string",
                 "capacity": 100,
                 "vacancies": 100,
+                "pic": "str",
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
                     "longitude": 100
                 }
             }
-    client.post("/organizer/event", json=event, headers=headers)
-    response = client.delete("/organizer/event", params={"event_id": 1}, headers=headers)
+    resp = client.post("/organizer/event", json=event, headers=headers)
+    response = client.delete("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
     assert response.status_code == 200
 
 def test07_ifTheEventDoesntExistThenICantRemoveIt():
     headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
-    response = client.delete("/organizer/event", params={"event_id": 2}, headers=headers)
+    response = client.delete("/organizer/event", params={"event_id": 5}, headers=headers)
     config.clear()
     assert response.status_code == 404
 
@@ -140,17 +146,18 @@ def test08_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
                 "description": "string",
                 "capacity": 100,
                 "vacancies": 100,
+                "pic": "str",
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
                     "longitude": 100
                 }
             }
-    client.post("/organizer/event", json=event, headers=headers)
-    client.delete("/organizer/event", params={"event_id": 1}, headers=other_headers)
-    get_response = client.get("/organizer/event", params={"event_id": 1}, headers=headers)
+    resp = client.post("/organizer/event", json=event, headers=headers)
+    client.delete("/organizer/event", params={"event_id": resp.json()["id"]}, headers=other_headers)
+    get_response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
-    assert get_response.json()["id"] == 1
+    assert get_response.json()["id"] == resp.json()["id"]
 
 def test09_ifRLareuCreatedTheEventThenWhenCBravorRemovesItTheStatusCodeIs404():
     headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
@@ -162,14 +169,15 @@ def test09_ifRLareuCreatedTheEventThenWhenCBravorRemovesItTheStatusCodeIs404():
                 "description": "string",
                 "capacity": 100,
                 "vacancies": 100,
+                "pic": "str",
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
                     "longitude": 100
                 }
             }
-    client.post("/organizer/event", json=event, headers=headers)
-    response = client.delete("/organizer/event", params={"event_id": 1}, headers=other_headers)
+    resp = client.post("/organizer/event", json=event, headers=headers)
+    response = client.delete("/organizer/event", params={"event_id": resp.json()["id"]}, headers=other_headers)
     config.clear()
     assert response.status_code == 404
 
@@ -182,16 +190,17 @@ def test10_ifCbravorCreatedEventThenCbravorCanModifyIt():
                 "description": "string",
                 "capacity": 100,
                 "vacancies": 100,
+                "pic": "str",
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
                     "longitude": 100
                 }
             }
-    client.post("/organizer/event", json=event, headers=headers)
-    update_event = {"id": 1, "title": "string2"}
+    resp = client.post("/organizer/event", json=event, headers=headers)
+    update_event = {"id": resp.json()["id"], "title": "string2"}
     client.put("/organizer/event", json=update_event, headers=headers)
-    get_response = client.get("/organizer/event", params={"event_id": 1}, headers=headers)
+    get_response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
     assert get_response.json()["title"] == "string2"
 
@@ -204,14 +213,15 @@ def test11_ifCbravorCreatedEventThenCbravorModifiesTheStatusCodeIs200():
                 "description": "string",
                 "capacity": 100,
                 "vacancies": 100,
+                "pic": "str",
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
                     "longitude": 100
                 }
             }
-    client.post("/organizer/event", json=event, headers=headers)
-    new_event = {"id": 1, "title": "string2"}
+    resp = client.post("/organizer/event", json=event, headers=headers)
+    new_event = {"id": resp.json()["id"], "title": "string2"}
     response = client.put("/organizer/event", json=new_event, headers=headers)
     config.clear()
     assert response.status_code == 200
@@ -226,16 +236,17 @@ def test12_ifRLareuCreatedEventThenCbravorCantModifyIt():
                 "description": "string",
                 "capacity": 100,
                 "vacancies": 100,
+                "pic": "str",
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
                     "longitude": 100
                 }
             }
-    client.post("/organizer/event", json=event, headers=headers)
-    new_event = {"id": 1, "title": "string2"}
+    resp = client.post("/organizer/event", json=event, headers=headers)
+    new_event = {"id": resp.json()["id"], "title": "string2"}
     client.put("/organizer/event", json=new_event, headers=other_headers)
-    get_response = client.get("/organizer/event", params={"event_id": 1}, headers=headers)
+    get_response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
     assert get_response.json()["title"] == "string"
 
@@ -249,14 +260,15 @@ def test13_ifRLareuCreatedEventThenWhenCbravorModifiesTheStatusCodeItIs404():
                 "description": "string",
                 "capacity": 100,
                 "vacancies": 100,
+                "pic": "str",
                 "ubication": {
                     "direction": "string",
                     "latitude": 100,
                     "longitude": 100
                 }
             }
-    client.post("/organizer/event", json=event, headers=headers)
-    new_event = {"id": 1, "title": "string2"}
+    resp = client.post("/organizer/event", json=event, headers=headers)
+    new_event = {"id": resp.json()["id"], "title": "string2"}
     response = client.put("/organizer/event", json=new_event, headers=other_headers)
     config.clear()
     assert response.status_code == 404

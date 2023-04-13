@@ -1,7 +1,7 @@
-fastapi
-SQLAlchemy
+fastapi==0.85
+SQLAlchemy==1.4.41
 uvicorn
-psycopg2
+psycopg2==2.9.4
 python-dotenv
 httpx
 authlib
@@ -10,7 +10,7 @@ python-jose
 google-auth
 requests
 pluggy
-pytest
+pytest==7.2.2
 itsdangerous
 starlette
 google-auth

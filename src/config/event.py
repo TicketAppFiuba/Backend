@@ -3,9 +3,10 @@ from src.schemas.event import EventSchema
 from src.models.event import Event
 from src.schemas.query import QuerySchema
 from sqlalchemy.sql import func
+from sqlalchemy import func
 
 def create(event: EventSchema, email: str, db: Session):
-    event_db = Event(**event.dict(exclude={'ubication'}),
+    event_db = Event(**event.dict(exclude={'pic', 'ubication'}),
                      direction=event.ubication.direction,
                      latitude = event.ubication.latitude,
                      longitude = event.ubication.longitude, 
@@ -37,10 +38,10 @@ def getAll(querySchema: QuerySchema, offset: int, limit: int, db: Session):
         query = query.filter(Event.title.ilike('%{}%'.format(querySchema.title)))
     if querySchema.category is not None:
         query = query.filter(Event.category == querySchema.category)
-    if querySchema.ubication is not None: # revisar
-        query = query.order_by(
+    if querySchema.ubication is not None:
+        query = query.order_by(func.sqrt(
                                 func.power(Event.latitude-querySchema.ubication.latitude, 2.0)
                                 +
-                                func.power(Event.longitude-querySchema.ubication.longitude, 2.0))
+                                func.power(Event.longitude-querySchema.ubication.longitude, 2.0)))
     return query.limit(limit).offset(limit*offset).all()
  

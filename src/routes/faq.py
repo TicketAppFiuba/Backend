@@ -6,10 +6,8 @@ from src.schemas.faq import FAQSchema, FAQDeleteSchema
 from src.controllers.organizer.access import verify
 from src.models.organizer import Organizer
 from src.controllers.organizer.faq import *
-from src.models import faq
 
 router = APIRouter(tags=["Event FAQ | Organizer"])
-faq.Base.metadata.create_all(bind=engine)
 
 @router.post("/organizer/event/faq", status_code=200)
 def add(faqSchema: FAQSchema, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
