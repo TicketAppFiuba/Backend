@@ -176,4 +176,5 @@ def test18_addReservation():
     headers = config.addUser("rlareu@fi.uba.ar")
     query = {"event_id": 1}
     response = client.get("/user/events", json=query, headers=headers)
+    config.clear()
     assert response.status_code == 200
