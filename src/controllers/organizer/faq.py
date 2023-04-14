@@ -3,7 +3,7 @@ from src.models.organizer import Organizer
 from src.config import event, faq
 from src.schemas.faq import *
 from src.controllers.organizer.event import check_permissions
-from src.controllers.organizer.validations import *
+from src.controllers.validations import *
 
 def add_faq_to_event(faqSchema: FAQSchema, user_db: Organizer, db: Session):
     event_db = event.get(faqSchema.event_id, db)

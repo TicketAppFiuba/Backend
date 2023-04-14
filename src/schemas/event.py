@@ -25,8 +25,8 @@ class EventSchemaUpdate(BaseModel):
     date: Optional[date]
     description: Optional[str]
     direction: Optional[str]
-    latitude: Optional[int]
-    longitude: Optional[int]
+    latitude: Optional[float]
+    longitude: Optional[float]
     capacity: Optional[int]#= Field(..., gt=0, lt=10000)
 
     vacancies: Optional[int]
@@ -39,13 +39,13 @@ class EventSchemaOut(BaseModel):
     title: str
     direction: str
     capacity: str
-    latitude: int
+    latitude: float
     organizer_email: str
     description: str
     category: str
     date: date
     vacancies: int
-    longitude: int
+    longitude: float
     
     class Config:
         orm_mode = True
@@ -54,5 +54,6 @@ class EventAllInfoSchemaOut(BaseModel):
     Event: EventSchemaOut
     Images: List[ImageSchemaOut]
     FAQ: List[FaqSchemaOut]
+    
     class Config:
         orm_mode = True

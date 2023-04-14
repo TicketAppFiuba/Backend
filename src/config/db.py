@@ -6,6 +6,7 @@ from src.models.faq import FAQ
 from src.models.image import Image
 from src.models.organizer import Organizer
 from src.models.user import User
+from src.models.reservation import Reservation
 import os
 from dotenv import load_dotenv
 

@@ -6,7 +6,7 @@ config = TestSetUp()
 client = TestClient(app)
 
 def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfully():
-    headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("rlareu@fi.uba.ar")
     event = {
                 "title": "string",
                 "category": "string",
@@ -27,7 +27,7 @@ def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfull
     assert get_response.json()["id"] == response.json()["id"]
 
 def test02_ifTheOrganizerCreatesAnEventWithACorrectJwtThenTheStatusCodeIs200():
-    headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("rlareu@fi.uba.ar")
     event = {
                 "title": "string",
                 "category": "string",
@@ -67,7 +67,7 @@ def test03_ifTheOrganizerCreatesAnEventWithAIncorrectJwtThenTheStatusCodeIs401()
     assert response.status_code == 401
 
 def test04_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
-    headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("rlareu@fi.uba.ar")
     event = {
                 "title": "string",
                 "category": "string",
@@ -88,7 +88,7 @@ def test04_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
     assert response.json()["organizer_email"] == "rlareu@fi.uba.ar"
 
 def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
-    headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("rlareu@fi.uba.ar")
     event = {
                 "title": "string",
                 "category": "string",
@@ -110,7 +110,7 @@ def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
     assert get_response.status_code == 404
 
 def test06_ifRLareuCreatedTheEventThenWhenRLareuRemovesTheStatusCodeIs200():
-    headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("rlareu@fi.uba.ar")
     event = {
                 "title": "string",
                 "category": "string",
@@ -131,14 +131,14 @@ def test06_ifRLareuCreatedTheEventThenWhenRLareuRemovesTheStatusCodeIs200():
     assert response.status_code == 200
 
 def test07_ifTheEventDoesntExistThenICantRemoveIt():
-    headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("rlareu@fi.uba.ar")
     response = client.delete("/organizer/event", params={"event_id": 5}, headers=headers)
     config.clear()
     assert response.status_code == 404
 
 def test08_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
-    headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
-    other_headers = config.setUpAccess("cbravor@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("rlareu@fi.uba.ar")
+    other_headers = config.addOrganizer("cbravor@fi.uba.ar")
     event = {
                 "title": "string",
                 "category": "string",
@@ -160,8 +160,8 @@ def test08_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
     assert get_response.json()["id"] == resp.json()["id"]
 
 def test09_ifRLareuCreatedTheEventThenWhenCBravorRemovesItTheStatusCodeIs404():
-    headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
-    other_headers = config.setUpAccess("cbravor@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("rlareu@fi.uba.ar")
+    other_headers = config.addOrganizer("cbravor@fi.uba.ar")
     event = {
                 "title": "string",
                 "category": "string",
@@ -182,7 +182,7 @@ def test09_ifRLareuCreatedTheEventThenWhenCBravorRemovesItTheStatusCodeIs404():
     assert response.status_code == 404
 
 def test10_ifCbravorCreatedEventThenCbravorCanModifyIt():
-    headers = config.setUpAccess("cbravor@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("cbravor@fi.uba.ar")
     event = {
                 "title": "string",
                 "category": "string",
@@ -205,7 +205,7 @@ def test10_ifCbravorCreatedEventThenCbravorCanModifyIt():
     assert get_response.json()["title"] == "string2"
 
 def test11_ifCbravorCreatedEventThenCbravorModifiesTheStatusCodeIs200():
-    headers = config.setUpAccess("cbravor@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("cbravor@fi.uba.ar")
     event = {
                 "title": "string",
                 "category": "string",
@@ -227,8 +227,8 @@ def test11_ifCbravorCreatedEventThenCbravorModifiesTheStatusCodeIs200():
     assert response.status_code == 200
 
 def test12_ifRLareuCreatedEventThenCbravorCantModifyIt():
-    headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
-    other_headers = config.setUpAccess("cbravor@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("rlareu@fi.uba.ar")
+    other_headers = config.addOrganizer("cbravor@fi.uba.ar")
     event = {
                 "title": "string",
                 "category": "string",
@@ -251,8 +251,8 @@ def test12_ifRLareuCreatedEventThenCbravorCantModifyIt():
     assert get_response.json()["title"] == "string"
 
 def test13_ifRLareuCreatedEventThenWhenCbravorModifiesTheStatusCodeItIs404():
-    headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
-    other_headers = config.setUpAccess("cbravor@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("rlareu@fi.uba.ar")
+    other_headers = config.addOrganizer("cbravor@fi.uba.ar")
     event = {
                 "title": "string",
                 "category": "string",
@@ -274,7 +274,7 @@ def test13_ifRLareuCreatedEventThenWhenCbravorModifiesTheStatusCodeItIs404():
     assert response.status_code == 404
 
 def test14_ifEventDoesntExistThenRLareuCantModifyIt():
-    headers = config.setUpAccess("rlareu@fi.uba.ar", "organizer")
+    headers = config.addOrganizer("rlareu@fi.uba.ar")
     new_event = {"id": 100, "title": "string2"}
     response = client.put("/organizer/event", json=new_event, headers=headers)
     config.clear()

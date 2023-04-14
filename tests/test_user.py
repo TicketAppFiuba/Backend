@@ -6,7 +6,7 @@ config = TestSetUp()
 client = TestClient(app)
 
 def test01_ifTheUserConsultByBasketTitleTheAmountOfResultsIs0():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "soccer", "sport", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "movies", "cinema", 100, 100)
     query = {"title": "basket"}
@@ -15,7 +15,7 @@ def test01_ifTheUserConsultByBasketTitleTheAmountOfResultsIs0():
     assert len(response.json()) == 0
 
 def test02_ifTheUserConsultBySoccerTitleTheAmountOfResultsIs1():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "soccer", "sport", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "movies", "cinema", 100, 100)
     query = {"title": "soccer"}
@@ -24,7 +24,7 @@ def test02_ifTheUserConsultBySoccerTitleTheAmountOfResultsIs1():
     assert len(response.json()) == 1
 
 def test03_ifTheUserConsultBySocTitleTheAmountOfResultsIs1():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "soccer", "sport", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "movies", "cinema", 100, 100)
     query = {"title": "soc"}
@@ -33,7 +33,7 @@ def test03_ifTheUserConsultBySocTitleTheAmountOfResultsIs1():
     assert len(response.json()) == 1
 
 def test04_ifTheUserConsultByMusicCategoryTheAmountOfResultsIs0():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "sport", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "t", "cinema", 100, 100)
     query = {"category": "music"}
@@ -42,7 +42,7 @@ def test04_ifTheUserConsultByMusicCategoryTheAmountOfResultsIs0():
     assert len(response.json()) == 0
 
 def test05_ifTheUserConsultBySportCategoryTheAmountOfResultsIs1():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "sport", 100, 100)
     query = {"category": "sport"}
     response = client.get("/user/events", params=query, headers=headers)
@@ -50,7 +50,7 @@ def test05_ifTheUserConsultBySportCategoryTheAmountOfResultsIs1():
     assert len(response.json()) == 1
 
 def test06_ifTheUserConsultBySporCategoryTheAmountOfResultsIs0():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "sport", 100, 100)
     query = {"category": "spor"}
     response = client.get("/user/events", params=query, headers=headers)
@@ -58,7 +58,7 @@ def test06_ifTheUserConsultBySporCategoryTheAmountOfResultsIs0():
     assert len(response.json()) == 0
 
 def test07_calculateDistance():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125)
     query = {"latitude": 30}
@@ -68,7 +68,7 @@ def test07_calculateDistance():
     assert response.json()[1]["Event"]["latitude"] == 150
 
 def test08_calculateDistance():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125)
     query = {"latitude": 120}
@@ -78,7 +78,7 @@ def test08_calculateDistance():
     assert response.json()[1]["Event"]["latitude"] == 150
 
 def test09_calculateDistance():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125)
     query = {"latitude": 200}
@@ -88,7 +88,7 @@ def test09_calculateDistance():
     assert response.json()[1]["Event"]["latitude"] == 100
 
 def test10_calculateDistance():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125)
     query = {"longitude": 100}
@@ -98,7 +98,7 @@ def test10_calculateDistance():
     assert response.json()[1]["Event"]["longitude"] == 125
 
 def test11_calculateDistance():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125)
     query = {"longitude": 50}
@@ -108,7 +108,7 @@ def test11_calculateDistance():
     assert response.json()[1]["Event"]["longitude"] == 125
 
 def test12_calculateDistance():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125)
     query = {"latitude": 0, "longitude": 300}
@@ -118,7 +118,7 @@ def test12_calculateDistance():
     assert response.json()[1]["Event"]["longitude"] == 125
 
 def test13_calculateDistance():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125)
     query = {"latitude": 50, "longitude": 300}
@@ -128,7 +128,7 @@ def test13_calculateDistance():
     assert response.json()[1]["Event"]["longitude"] == 100
 
 def test14_calculateDistance():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125)
     query = {"latitude": 75, "longitude": 90}
@@ -138,7 +138,7 @@ def test14_calculateDistance():
     assert response.json()[1]["Event"]["longitude"] == 125
 
 def test15_calculateDistance():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125)
     query = {"latitude": 600, "longitude": 380}
@@ -148,7 +148,7 @@ def test15_calculateDistance():
     assert response.json()[1]["Event"]["longitude"] == 100
 
 def test16_calculateDistance():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125)
     config.addEvent("rlareu@fi.uba.ar", "t", "c", 69, 23)
@@ -160,7 +160,7 @@ def test16_calculateDistance():
     assert response.json()[2]["Event"]["longitude"] == 23
 
 def test17_calculateDistance():
-    headers = config.setUpAccess("gmovia@fi.uba.ar", "user")
+    headers = config.addUser("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125)
     config.addEvent("rlareu@fi.uba.ar", "t", "c", 69, 23)
@@ -170,3 +170,28 @@ def test17_calculateDistance():
     assert response.json()[0]["Event"]["longitude"] == 23
     assert response.json()[1]["Event"]["longitude"] == 100
     assert response.json()[2]["Event"]["longitude"] == 125
+
+def test18_ifTheUserDoesntHaveAReservationForTheEventThenWhenHeReservesAnEventThenTheStatusCodeWillBe200():
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
+    headers = config.addUser("rlareu@fi.uba.ar")
+    query = {"event_id": 1}
+    response = client.post("/user/event/reservation", params=query, headers=headers)
+    config.clear()
+    assert response.status_code == 200
+
+def test19_ifTheEventDoesntExistThenWhenHeReservesAnEventThenTheStatusCodeWillBe404():
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
+    headers = config.addUser("rlareu@fi.uba.ar")
+    query = {"event_id": 5}
+    response = client.post("/user/event/reservation", params=query, headers=headers)
+    config.clear()
+    assert response.status_code == 404 
+
+def test20_ifTheUserHaveAReservationForTheEventThenWhenHeReservesAnEventThenTheStatusCodeWillBe404():
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
+    headers = config.addUser("rlareu@fi.uba.ar")
+    query = {"event_id": 1}
+    client.post("/user/event/reservation", params=query, headers=headers)
+    response = client.post("/user/event/reservation", params=query, headers=headers)
+    config.clear()
+    assert response.status_code == 404
