@@ -8,3 +8,6 @@ def create(reservation: ReservationSchema, db: Session):
     db.commit()
     db.refresh(reservation_db)
     return reservation_db
+
+def getByUserAndEvent(user_id: int, event_id: int, db: Session):
+    return db.query(Reservation).filter(Reservation.user_id == user_id).filter(Reservation.event_id == event_id).first()

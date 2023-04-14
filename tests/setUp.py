@@ -36,3 +36,4 @@ class TestSetUp:
             c.execute(text("DELETE FROM events"))
             c.execute(text("DELETE FROM images"))
             c.execute(text("DELETE FROM faqs"))
+            c.execute(text("DELETE FROM reservations"))

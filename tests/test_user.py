@@ -171,10 +171,27 @@ def test17_calculateDistance():
     assert response.json()[1]["Event"]["longitude"] == 100
     assert response.json()[2]["Event"]["longitude"] == 125
 
-def test18_addReservation():
+def test18_ifTheUserDoesntHaveAReservationForTheEventThenWhenHeReservesAnEventThenTheStatusCodeWillBe200():
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
     headers = config.addUser("rlareu@fi.uba.ar")
     query = {"event_id": 1}
-    response = client.get("/user/events", json=query, headers=headers)
+    response = client.post("/user/event/reservation", params=query, headers=headers)
     config.clear()
     assert response.status_code == 200
+
+def test19_ifTheEventDoesntExistThenWhenHeReservesAnEventThenTheStatusCodeWillBe404():
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
+    headers = config.addUser("rlareu@fi.uba.ar")
+    query = {"event_id": 5}
+    response = client.post("/user/event/reservation", params=query, headers=headers)
+    config.clear()
+    assert response.status_code == 404 
+
+def test20_ifTheUserHaveAReservationForTheEventThenWhenHeReservesAnEventThenTheStatusCodeWillBe404():
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100)
+    headers = config.addUser("rlareu@fi.uba.ar")
+    query = {"event_id": 1}
+    client.post("/user/event/reservation", params=query, headers=headers)
+    response = client.post("/user/event/reservation", params=query, headers=headers)
+    config.clear()
+    assert response.status_code == 404
