@@ -1,11 +1,27 @@
 from fastapi import HTTPException
-from src.models.user import User
+from sqlalchemy.orm import Session
+from src.config import image, event, faq
 from src.models.organizer import Organizer
 from src.models.event import Event
 from src.models.image import Image
 from src.models.faq import FAQ
-from src.schemas.image import *
-from src.config.reservation import *
+
+def check_event(event_id: int, user_db: Organizer, db: Session):
+    event_db = event.get(event_id, db)
+    check_permissions(user_db, event_db)
+    return event_db
+
+def check_img(imageSchema, user_db: Organizer, db: Session):
+    image_db = image.get(imageSchema.id, db)
+    event_db = check_event(imageSchema.event_id, user_db, db)
+    check_permission_img(image_db, event_db)
+    return image_db
+
+def check_faq(faqSchema, user_db: Organizer, db: Session):
+    faq_db = faq.get(faqSchema.id, db)
+    event_db = check_event(faqSchema.event_id, user_db, db)
+    check_permission_faq(faq_db, event_db)
+    return faq_db
 
 def check_permissions(user_db: Organizer, event_db: Event):
     if event_db is None:
@@ -23,14 +39,4 @@ def check_permission_faq(faq_db: FAQ, event_db: Event):
     if faq_db is None:
         raise HTTPException(status_code=404, detail="FAQ not exist.")
     if faq_db.event_id != event_db.id:
-        raise HTTPException(status_code=404, detail="Not permission.")
-    
-def check_event_exist(event_db: Event):
-    if event_db is None:
-        raise HTTPException(status_code=404, detail="Event not exist.")
-
-def check_permission_reservation(user_db: User, event_db: Event, db: Session):
-    check_event_exist(event_db)
-    reservation_db = getByUserAndEvent(user_db.id, event_db.id, db)
-    if reservation_db is not None:
         raise HTTPException(status_code=404, detail="Not permission.")
