@@ -12,15 +12,15 @@ GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 
 
-#Dejar una sóla url comentada para la base
+### Dejar una sóla url comentada para la base ###
 
-#Local
-#Para SQLAlchemy: "sqlite:///./sql_app.db"
+## Local ##
+## Para SQLAlchemy: "sqlite:///./sql_app.db" ##
 
 DATABASE_URL=
 
-#Render
-#"postgresql://DATABASE_USERNAME:DATABASE_PASSWORD@DATABASE_HOSTNAME:DATABASE_PORT/DATABASE"
+## Render ##
+## "postgresql://DATABASE_USERNAME:DATABASE_PASSWORD@DATABASE_HOSTNAME:DATABASE_PORT/DATABASE" ##
 
 DATABASE_URL=
 
