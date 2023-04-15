@@ -24,10 +24,10 @@ class TestSetUp:
             headers = {"Authorization": f"Bearer {token}"}
             return headers
 
-    def addEvent(self, email, title, category, latitude, longitude):
+    def addEvent(self, email, title, category, latitude, longitude, capacity, vacancies):
            with engine.connect() as c:
-            query = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, longitude, vacancies) VALUES (:email, 'a', 100, '2023-04-01', :title, :category, 'str', :latitude, :longitude, 100)"
-            c.execute(query, {'email': email, 'title': title, 'category': category, 'latitude':latitude, "longitude": longitude})
+            query = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, longitude, vacancies) VALUES (:email, 'a', :capacity, '2023-04-01', :title, :category, 'str', :latitude, :longitude, :vacancies)"
+            c.execute(query, {'email': email, "capacity": capacity, 'title': title, 'category': category, 'latitude':latitude, "longitude": longitude, "vacancies": vacancies})
 
     def clear(self):
         with engine.connect() as c:

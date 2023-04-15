@@ -9,3 +9,4 @@ class Reservation(Base):
     event = relationship("Event", back_populates="reservations")
     user_id = Column(Integer, ForeignKey('users.id'), index=True)
     user = relationship("User", back_populates="reservations")   
+    tickets = Column(Integer)
