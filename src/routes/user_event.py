@@ -35,3 +35,7 @@ def get_event(event_id: int, user_db: User = Depends(verify), db: Session = Depe
 @router.post("/user/event/reservation", status_code=200)
 def reservation(reservationSchema: ReservationCreateSchema, user_db: User = Depends(verify), db: Session = Depends(get_db)):
     return create_reservation(reservationSchema, user_db, db)
+
+@router.get("/user/reservations", status_code=200)
+def reservations(user_db: User = Depends(verify), db: Session = Depends(get_db)):
+    return get_reservations_from_user(user_db, db)

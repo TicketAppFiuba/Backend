@@ -212,7 +212,7 @@ def test22_ifTheNumberOfVacanciesIs2ForTheEventThenWhenHeReservesThreeEventTicke
     config.clear()
     assert response.status_code == 403
 
-def test23_ifTheUserDoesntHaveAReservationForTheEventThenWhenHeReservesAnEventThenTheVacanciesIs7():
+def test23_ifTheUserDoesntHaveAReservationForTheEventThenWhenHeReservesThreeEventTicketsThenTheVacanciesWillBe7():
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10)
     headers = config.addUser("rlareu@fi.uba.ar")
     query = {"event_id": 1, "tickets": 3}
@@ -221,7 +221,7 @@ def test23_ifTheUserDoesntHaveAReservationForTheEventThenWhenHeReservesAnEventTh
     config.clear()
     assert response.json()["Event"]["vacancies"] == 7
 
-def test24_ifTheNumberOfVacanciesIs2ForTheEventThenWhenHeReservesThreeEventTicketsThenTheNumberOfVacanciesIs2():
+def test24_fTheEventHasOnlyTwoAvailableVacanciesAndTheUserReservesThreeEventTicketTheVacanciesWillBeTwo():
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 2)
     headers = config.addUser("rlareu@fi.uba.ar")
     query = {"event_id": 1, "tickets": 3}
@@ -229,3 +229,11 @@ def test24_ifTheNumberOfVacanciesIs2ForTheEventThenWhenHeReservesThreeEventTicke
     response = client.get("/user/event", params={"event_id": 1}, headers=headers)
     config.clear()
     assert response.json()["Event"]["vacancies"] == 2
+
+def test25_ifTheEventHasOnlyTwoAvailableVacanciesAndTHeUserReservesZeroEventTicketTheStatusCodeWillBe403():
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 2)
+    headers = config.addUser("rlareu@fi.uba.ar")
+    query = {"event_id": 1, "tickets": 0}
+    response = client.post("/user/event/reservation", json=query, headers=headers)
+    config.clear()
+    assert response.status_code == 403

@@ -18,6 +18,8 @@ def check_permission_reservation(reservation: ReservationCreateSchema, user_db: 
         raise HTTPException(status_code=403, detail="Event already booked.")
     if reservation.tickets > 4:
         raise HTTPException(status_code=403, detail="The maximum number of tickets is four.")
+    if reservation.tickets <= 0:
+        raise HTTPException(status_code=403, detail="The number of tickets must be greater than zero.")
     if event_db.vacancies - reservation.tickets < 0:
         raise HTTPException(status_code=403, detail="The number of tickets exceeds the capacity of the event.")
     return ReservationSchema(event_id=reservation.event_id, user_id=user_db.id, tickets=reservation.tickets)
