@@ -18,5 +18,6 @@ class Event(Base):
     organizer = relationship("Organizer", back_populates="events")
     images = relationship('Image', back_populates="event", cascade="all, delete, delete-orphan")
     faq = relationship('FAQ', back_populates="event", cascade="all, delete, delete-orphan")
+    sections = relationship('Section', back_populates="event", cascade="all, delete, delete-orphan")
     reservations = relationship('Reservation', back_populates="event", cascade="all, delete, delete-orphan")
 

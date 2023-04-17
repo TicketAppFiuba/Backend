@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from src.config import image, event, faq
 from src.models.organizer import Organizer
 from src.models.event import Event
@@ -7,7 +7,7 @@ from src.models.image import Image
 from src.models.faq import FAQ
 
 def check_event(event_id: int, user_db: Organizer, db: Session):
-    event_db = event.get(event_id, db)
+    event_db = db.query(Event).options(joinedload(Event.sections)).filter(Event.id == event_id).first()
     check_permissions(user_db, event_db)
     return event_db
 
