@@ -7,7 +7,7 @@ from sqlalchemy.sql import func
 from sqlalchemy import func
 
 def create(event: EventSchema, email: str, db: Session):
-    event_db = Event(**event.dict(exclude={'pic', 'ubication', 'agenda'}),
+    event_db = Event(**event.dict(exclude={'ubication', 'agenda'}),
                      direction=event.ubication.direction,
                      latitude = event.ubication.latitude,
                      longitude = event.ubication.longitude, 

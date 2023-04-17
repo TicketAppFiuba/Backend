@@ -16,7 +16,6 @@ class EventSchema(BaseModel):
     capacity: int = Field(None, gt=0, lt=10000)
     vacancies: int
     ubication: UbicationSchema
-    pic: str
     agenda: Optional[List[SectionSchema]]
 
     class Config:

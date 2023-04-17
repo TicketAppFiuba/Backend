@@ -5,7 +5,7 @@ from src.models.organizer import Organizer
 from src.schemas.event import *
 from src.schemas.image import *
 from src.controllers.organizer.access import verify
-from src.controllers.organizer.image import add_image_to_event, update_image_to_event, delete_image_to_event, get_all_images_to_event
+from src.controllers.organizer.image import add_image_to_event, update_image_to_event, delete_image_to_event, get_all_images_to_event, add_event_pic
 
 router = APIRouter(tags=["Event Images | Organizer"])
 
@@ -24,3 +24,7 @@ def delete(image: ImageDeleteSchema, user_db: Organizer = Depends(verify), db: S
 @router.get("/organizer/event/images", status_code=200)
 def get(event_id: int, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return get_all_images_to_event(event_id, user_db, db)
+
+@router.post("/organizer/event/pic", status_code=200)
+def add_pic(image: ImageDeleteSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
+    return add_event_pic(image, user_db, db) 

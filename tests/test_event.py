@@ -11,7 +11,6 @@ event_json = {
     "description": "string",
     "capacity": 100,
     "vacancies": 100,
-    "pic": "str",
     "ubication": {
         "direction": "string",
         "latitude": 100,
