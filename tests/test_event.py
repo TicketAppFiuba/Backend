@@ -4,106 +4,56 @@ from tests.setUp import TestSetUp
 
 config = TestSetUp()
 client = TestClient(app)
+event_json = {
+    "title": "string",
+    "category": "string",
+    "date": "2023-03-31",
+    "description": "string",
+    "capacity": 100,
+    "vacancies": 100,
+    "pic": "str",
+    "ubication": {
+        "direction": "string",
+        "latitude": 100,
+        "longitude": 100
+    },
+    "agenda": [
+        {
+            "time": "string",
+            "description": "string",
+        }
+    ]
+}
 
 def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfully():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
-    event = {
-                "title": "string",
-                "category": "string",
-                "date": "2023-03-31",
-                "description": "string",
-                "capacity": 100,
-                "vacancies": 100,
-                "pic": "str",
-                "ubication": {
-                    "direction": "string",
-                    "latitude": 100,
-                    "longitude": 100
-                }
-            }
-    response = client.post("/organizer/event", json=event, headers=headers)
+    response = client.post("/organizer/event", json=event_json, headers=headers)
     get_response = client.get("/organizer/event", params={"event_id": response.json()["id"]}, headers=headers)
     config.clear()
     assert get_response.json()["id"] == response.json()["id"]
 
 def test02_ifTheOrganizerCreatesAnEventWithACorrectJwtThenTheStatusCodeIs200():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
-    event = {
-                "title": "string",
-                "category": "string",
-                "date": "2023-03-31",
-                "description": "string",
-                "capacity": 100,
-                "vacancies": 100,
-                "pic": "str",
-                "ubication": {
-                    "direction": "string",
-                    "latitude": 100,
-                    "longitude": 100
-                }
-            }
-    response = client.post("/organizer/event", json=event, headers=headers)
+    response = client.post("/organizer/event", json=event_json, headers=headers)
     config.clear()
     assert response.status_code == 200
 
 def test03_ifTheOrganizerCreatesAnEventWithAIncorrectJwtThenTheStatusCodeIs401():
     token = "jwt"
     headers = {"Authorization": f"Bearer {token}"}
-    event = {
-                "title": "string",
-                "category": "string",
-                "date": "2023-03-31",
-                "description": "string",
-                "capacity": 100,
-                "vacancies": 100,
-                "pic": "str",
-                "ubication": {
-                    "direction": "string",
-                    "latitude": 100,
-                    "longitude": 100
-                }
-            }
-    response = client.post("/organizer/event", json=event, headers=headers)
+    response = client.post("/organizer/event", json=event_json, headers=headers)
     assert response.status_code == 401
 
 def test04_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
-    event = {
-                "title": "string",
-                "category": "string",
-                "date": "2023-03-31",
-                "description": "string",
-                "capacity": 100,
-                "vacancies": 100,
-                "pic": "str",
-                "ubication": {
-                    "direction": "string",
-                    "latitude": 100,
-                    "longitude": 100
-                }
-            }
-    resp = client.post("/organizer/event", json=event, headers=headers)
+    resp = client.post("/organizer/event", json=event_json, headers=headers)
     response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
     assert response.json()["organizer_email"] == "rlareu@fi.uba.ar"
 
 def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
-    event = {
-                "title": "string",
-                "category": "string",
-                "date": "2023-03-31",
-                "description": "string",
-                "capacity": 100,
-                "vacancies": 100,
-                "pic": "str",
-                "ubication": {
-                    "direction": "string",
-                    "latitude": 100,
-                    "longitude": 100
-                }
-            }
-    resp = client.post("/organizer/event", json=event, headers=headers)
+    resp = client.post("/organizer/event", json=event_json, headers=headers)
     client.delete("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     get_response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
@@ -111,21 +61,7 @@ def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
 
 def test06_ifRLareuCreatedTheEventThenWhenRLareuRemovesTheStatusCodeIs200():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
-    event = {
-                "title": "string",
-                "category": "string",
-                "date": "2023-03-31",
-                "description": "string",
-                "capacity": 100,
-                "vacancies": 100,
-                "pic": "str",
-                "ubication": {
-                    "direction": "string",
-                    "latitude": 100,
-                    "longitude": 100
-                }
-            }
-    resp = client.post("/organizer/event", json=event, headers=headers)
+    resp = client.post("/organizer/event", json=event_json, headers=headers)
     response = client.delete("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
     assert response.status_code == 200
@@ -139,21 +75,7 @@ def test07_ifTheEventDoesntExistThenICantRemoveIt():
 def test08_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
     other_headers = config.addOrganizer("cbravor@fi.uba.ar")
-    event = {
-                "title": "string",
-                "category": "string",
-                "date": "2023-03-31",
-                "description": "string",
-                "capacity": 100,
-                "vacancies": 100,
-                "pic": "str",
-                "ubication": {
-                    "direction": "string",
-                    "latitude": 100,
-                    "longitude": 100
-                }
-            }
-    resp = client.post("/organizer/event", json=event, headers=headers)
+    resp = client.post("/organizer/event", json=event_json, headers=headers)
     client.delete("/organizer/event", params={"event_id": resp.json()["id"]}, headers=other_headers)
     get_response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
@@ -162,42 +84,14 @@ def test08_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
 def test09_ifRLareuCreatedTheEventThenWhenCBravorRemovesItTheStatusCodeIs404():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
     other_headers = config.addOrganizer("cbravor@fi.uba.ar")
-    event = {
-                "title": "string",
-                "category": "string",
-                "date": "2023-03-31",
-                "description": "string",
-                "capacity": 100,
-                "vacancies": 100,
-                "pic": "str",
-                "ubication": {
-                    "direction": "string",
-                    "latitude": 100,
-                    "longitude": 100
-                }
-            }
-    resp = client.post("/organizer/event", json=event, headers=headers)
+    resp = client.post("/organizer/event", json=event_json, headers=headers)
     response = client.delete("/organizer/event", params={"event_id": resp.json()["id"]}, headers=other_headers)
     config.clear()
     assert response.status_code == 404
 
 def test10_ifCbravorCreatedEventThenCbravorCanModifyIt():
     headers = config.addOrganizer("cbravor@fi.uba.ar")
-    event = {
-                "title": "string",
-                "category": "string",
-                "date": "2023-03-31",
-                "description": "string",
-                "capacity": 100,
-                "vacancies": 100,
-                "pic": "str",
-                "ubication": {
-                    "direction": "string",
-                    "latitude": 100,
-                    "longitude": 100
-                }
-            }
-    resp = client.post("/organizer/event", json=event, headers=headers)
+    resp = client.post("/organizer/event", json=event_json, headers=headers)
     update_event = {"id": resp.json()["id"], "title": "string2"}
     client.put("/organizer/event", json=update_event, headers=headers)
     get_response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
@@ -206,21 +100,7 @@ def test10_ifCbravorCreatedEventThenCbravorCanModifyIt():
 
 def test11_ifCbravorCreatedEventThenCbravorModifiesTheStatusCodeIs200():
     headers = config.addOrganizer("cbravor@fi.uba.ar")
-    event = {
-                "title": "string",
-                "category": "string",
-                "date": "2023-03-31",
-                "description": "string",
-                "capacity": 100,
-                "vacancies": 100,
-                "pic": "str",
-                "ubication": {
-                    "direction": "string",
-                    "latitude": 100,
-                    "longitude": 100
-                }
-            }
-    resp = client.post("/organizer/event", json=event, headers=headers)
+    resp = client.post("/organizer/event", json=event_json, headers=headers)
     new_event = {"id": resp.json()["id"], "title": "string2"}
     response = client.put("/organizer/event", json=new_event, headers=headers)
     config.clear()
@@ -229,21 +109,7 @@ def test11_ifCbravorCreatedEventThenCbravorModifiesTheStatusCodeIs200():
 def test12_ifRLareuCreatedEventThenCbravorCantModifyIt():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
     other_headers = config.addOrganizer("cbravor@fi.uba.ar")
-    event = {
-                "title": "string",
-                "category": "string",
-                "date": "2023-03-31",
-                "description": "string",
-                "capacity": 100,
-                "vacancies": 100,
-                "pic": "str",
-                "ubication": {
-                    "direction": "string",
-                    "latitude": 100,
-                    "longitude": 100
-                }
-            }
-    resp = client.post("/organizer/event", json=event, headers=headers)
+    resp = client.post("/organizer/event", json=event_json, headers=headers)
     new_event = {"id": resp.json()["id"], "title": "string2"}
     client.put("/organizer/event", json=new_event, headers=other_headers)
     get_response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
@@ -253,21 +119,7 @@ def test12_ifRLareuCreatedEventThenCbravorCantModifyIt():
 def test13_ifRLareuCreatedEventThenWhenCbravorModifiesTheStatusCodeItIs404():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
     other_headers = config.addOrganizer("cbravor@fi.uba.ar")
-    event = {
-                "title": "string",
-                "category": "string",
-                "date": "2023-03-31",
-                "description": "string",
-                "capacity": 100,
-                "vacancies": 100,
-                "pic": "str",
-                "ubication": {
-                    "direction": "string",
-                    "latitude": 100,
-                    "longitude": 100
-                }
-            }
-    resp = client.post("/organizer/event", json=event, headers=headers)
+    resp = client.post("/organizer/event", json=event_json, headers=headers)
     new_event = {"id": resp.json()["id"], "title": "string2"}
     response = client.put("/organizer/event", json=new_event, headers=other_headers)
     config.clear()

@@ -2,8 +2,10 @@ from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import date
 from src.schemas.ubication import UbicationSchema
+from src.schemas.section import *
 from src.schemas.image import *
 from src.schemas.faq import *
+from src.schemas.section import *
 from typing import List
 
 class EventSchema(BaseModel):
@@ -11,10 +13,12 @@ class EventSchema(BaseModel):
     category: str
     date: date
     description: str
-    capacity: int  #= Field(..., gt=0, lt=10000) comento pq no me corren las pruebas, dsp descomento
+    capacity: int = Field(None, gt=0, lt=10000)
     vacancies: int
     ubication: UbicationSchema
     pic: str
+    agenda: Optional[List[SectionSchema]]
+
     class Config:
         orm_mode = True
 
@@ -27,7 +31,8 @@ class EventSchemaUpdate(BaseModel):
     direction: Optional[str]
     latitude: Optional[float]
     longitude: Optional[float]
-    capacity: Optional[int]#= Field(..., gt=0, lt=10000)
+    capacity: Optional[int] = Field(None, gt=0, lt=10000)
+    agenda: Optional[List[SectionSchema]] = []
 
     vacancies: Optional[int]
     
@@ -46,6 +51,7 @@ class EventSchemaOut(BaseModel):
     date: date
     vacancies: int
     longitude: float
+    # sections: List[SectionSchema]
     
     class Config:
         orm_mode = True
@@ -54,6 +60,7 @@ class EventAllInfoSchemaOut(BaseModel):
     Event: EventSchemaOut
     Images: List[ImageSchemaOut]
     FAQ: List[FaqSchemaOut]
+    # Agenda: List[SectionSchema]
     
     class Config:
         orm_mode = True

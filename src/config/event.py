@@ -2,21 +2,28 @@ from sqlalchemy.orm import Session
 from src.schemas.event import EventSchema
 from src.models.event import Event
 from src.schemas.query import QuerySchema
+from src.models.section import Section
 from sqlalchemy.sql import func
 from sqlalchemy import func
 
 def create(event: EventSchema, email: str, db: Session):
-    event_db = Event(**event.dict(exclude={'pic', 'ubication'}),
+    event_db = Event(**event.dict(exclude={'pic', 'ubication', 'agenda'}),
                      direction=event.ubication.direction,
                      latitude = event.ubication.latitude,
                      longitude = event.ubication.longitude, 
                      organizer_email=email)
+    for section in event.agenda:
+        event_db.sections.append(Section(**section.dict()))
     db.add(event_db)
     db.commit()
     db.refresh(event_db)
     return event_db
 
-def update(event_db: Event, event: dict(), db: Session):
+def update(event_db: Event, event: dict(), db: Session, sections: list = []):
+    event_db.sections = []
+    for section in sections:
+        event_db.sections.append(Section(**section))
+
     for attr, value in event.items():
         setattr(event_db, attr, value)
     db.commit()
