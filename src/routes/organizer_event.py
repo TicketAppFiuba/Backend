@@ -28,14 +28,3 @@ def get(event_id: int, user_db: Organizer = Depends(verify), db: Session = Depen
 @router.get("/organizer/events", status_code=200)
 def get_events_from_organizer(user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return get_events_from(user_db, db)
-
-from sqlalchemy import text
-@router.delete('/deleteDataBase/')
-def delete():
-    with engine.connect() as c:
-        c.execute(text("DROP TABLE users"))
-        c.execute(text("DROP TABLE organizers"))
-        c.execute(text("DROP TABLE events"))
-        c.execute(text("DROP TABLE images"))
-        c.execute(text("DROP TABLE faqs"))
-        c.execute(text("DROP TABLE reservations"))
