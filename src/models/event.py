@@ -15,6 +15,7 @@ class Event(Base):
     vacancies = Column(Integer)  
     latitude = Column(Float)
     longitude = Column(Float)
+    pic_id = Column(Integer)
     organizer = relationship("Organizer", back_populates="events")
     images = relationship('Image', back_populates="event", cascade="all, delete, delete-orphan")
     faq = relationship('FAQ', back_populates="event", cascade="all, delete, delete-orphan")

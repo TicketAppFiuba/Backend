@@ -3,13 +3,10 @@ from src.models.organizer import Organizer
 from src.schemas.event import EventSchema, EventSchemaUpdate
 from src.config import event
 from src.schemas.image import *
-from src.controllers.organizer.image import add_image_to_event
 from src.controllers.organizer.validations import *
 
 def create_event(eventSchema: EventSchema, user_db: Organizer, db: Session):
     event_db = event.create(eventSchema, user_db.email, db)
-    imageSchema = ImageSchema(event_id=event_db.id, link=eventSchema.pic)
-    add_image_to_event(imageSchema, user_db, db)
     return {"detail": "Event created successfully", "id": event_db.id}
 
 def update_event(eventSchema: EventSchemaUpdate, user_db: Organizer, db: Session):
