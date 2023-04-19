@@ -237,3 +237,15 @@ def test25_ifTheEventHasOnlyTwoAvailableVacanciesAndTHeUserReservesZeroEventTick
     response = client.post("/user/event/reservation", json=query, headers=headers)
     config.clear()
     assert response.status_code == 403
+
+def test26_ifTheUserReservesTwoEventsThenTheNumberOfReservesIsTwo():
+    config.addEvent("cbravor@fi.uba.ar", "t", "c", 100, 100, 10, 6)
+    config.addEvent("tarrachea@fi.uba.ar", "t", "c", 100, 100, 10, 5)
+    headers = config.addUser("rlareu@fi.uba.ar")
+    query = {"event_id": 1, "tickets": 3}
+    otherQuery = {"event_id": 2, "tickets": 2}
+    client.post("/user/event/reservation", json=query, headers=headers)
+    client.post("/user/event/reservation", json=otherQuery, headers=headers)
+    response = client.get("/user/reservations", headers=headers)
+    config.clear()
+    assert len(response.json()) == 2

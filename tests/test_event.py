@@ -130,3 +130,19 @@ def test14_ifEventDoesntExistThenRLareuCantModifyIt():
     response = client.put("/organizer/event", json=new_event, headers=headers)
     config.clear()
     assert response.status_code == 404
+
+def test15_ifTheUserCreatesAnEventThenTheCoverPicIdIsNull():
+    headers = config.addOrganizer("gmovia@fi.uba.ar")
+    post_response = client.post("/organizer/event", json=event_json, headers=headers)
+    get_response = client.get("/organizer/event", params={"event_id": post_response.json()["id"]}, headers=headers)
+    config.clear()
+    assert get_response.json()["pic_id"] == None
+
+def test16_ifTheUserAddCoverPicThenTheCoverPicIdIsNotNull():
+    headers = config.addOrganizer("gmovia@fi.uba.ar")
+    post_response = client.post("/organizer/event", json=event_json, headers=headers)
+    image_response = client.post("/organizer/event/images", json={"event_id": 1, "link": "a"}, headers=headers)
+    client.post("/organizer/event/cover/pic", json={"id": image_response.json()["id"], "event_id": 1}, headers=headers)
+    get_response = client.get("/organizer/event", params={"event_id": post_response.json()["id"]}, headers=headers)
+    config.clear()
+    assert get_response.json()["pic_id"] == image_response.json()["id"]
