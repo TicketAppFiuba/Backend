@@ -5,3 +5,5 @@ sql_app.db
 .idea/.
 .idea/
 .coverage
+myenv/
+
