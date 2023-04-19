@@ -11,12 +11,12 @@ from typing import List
 
 router = APIRouter(tags=["Events | User"])
 
-@router.get("/user/events", response_model=List[EventAllInfoSchemaOut], status_code=200)
+@router.get("/user/events", response_model=List[EventAllInfoWithDistanceSchemaOut], status_code=200)
 def get_events(title: str | None = None, 
                category: str | None = None, 
                direction: str  = "-", 
-               latitude: int  = 0, 
-               longitude: int = 0, 
+               latitude: float  = 0, 
+               longitude: float = 0, 
                offset: int = 0, 
                limit: int = 15, 
                user_db: User = Depends(verify), 
