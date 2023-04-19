@@ -12,12 +12,11 @@ router = APIRouter(tags=["Authentication | User"])
 
 @router.get("/user/login", status_code=200)
 async def login(token: str, db: Session = Depends(get_db)):
-    #try:
-    #    id_info = id_token.verify_oauth2_token(token, requests.Request(), "651976534821-njeiiul5h073b0s321lvn9pevadj3aeg.apps.googleusercontent.com")
-    #except ValueError:
-    #    raise HTTPException(status_code=400, detail="JWT Invalid.")
-    #user = UserSchema(name=id_info["name"], email=id_info["email"])
-    user = UserSchema(name="rlareu", email="rlareu@fi.uba.ar")
+    try:
+        id_info = id_token.verify_oauth2_token(token, requests.Request(), "651976534821-njeiiul5h073b0s321lvn9pevadj3aeg.apps.googleusercontent.com")
+    except ValueError:
+        raise HTTPException(status_code=400, detail="JWT Invalid.")
+    user = UserSchema(name=id_info["name"], email=id_info["email"])
     return access.login(user, db)
 
 @router.get("/user/logout", status_code=200)
