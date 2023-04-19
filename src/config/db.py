@@ -8,6 +8,7 @@ from src.models.organizer import Organizer
 from src.models.user import User
 from src.models.reservation import Reservation
 from src.models.section import Section
+from src.models.authorizer import Authorizer
 #import os
 #from dotenv import load_dotenv
 
