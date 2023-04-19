@@ -13,7 +13,7 @@ from typing import List
 
 router = APIRouter(tags=["Events | User"])
 
-@router.get("/user/events", response_model=List[EventAllInfoSchemaOut], status_code=200)
+@router.get("/user/events", response_model=List[EventAllInfoWithDistanceSchemaOut], status_code=200)
 def get_events(title: str | None = None, 
                category: str | None = None, 
                direction: str  = "-", 

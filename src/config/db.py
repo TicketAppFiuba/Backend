@@ -8,8 +8,10 @@ from src.models.organizer import Organizer
 from src.models.user import User
 from src.models.reservation import Reservation
 from src.models.section import Section
+from src.models.authorizer import Authorizer
 import os
 from dotenv import load_dotenv
+
 
 load_dotenv()
 
@@ -23,6 +25,7 @@ db_url="postgresql://{0}:{1}@{2}:{3}/{4}".format(db_username, db_password, db_ho
 
 engine = create_engine(db_url, pool_pre_ping=True)
 #engine = create_engine("sqlite:///./sql_app.db", connect_args={"check_same_thread": False})
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def get_db():
@@ -33,4 +36,3 @@ def get_db():
         db.close()
 
 Base.metadata.create_all(bind=engine)
-

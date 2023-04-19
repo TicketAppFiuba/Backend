@@ -42,7 +42,7 @@ class EventSchemaOut(BaseModel):
     id: int
     title: str
     direction: str
-    capacity: str
+    capacity: int
     latitude: float
     organizer_email: str
     description: str
@@ -60,6 +60,15 @@ class EventAllInfoSchemaOut(BaseModel):
     Images: List[ImageSchemaOut]
     FAQ: List[FaqSchemaOut]
     # Agenda: List[SectionSchema]
+    
+    class Config:
+        orm_mode = True
+
+class EventAllInfoWithDistanceSchemaOut(BaseModel):
+    Event: EventSchemaOut
+    Images: List[ImageSchemaOut]
+    FAQ: List[FaqSchemaOut]
+    Distance: float
     
     class Config:
         orm_mode = True
