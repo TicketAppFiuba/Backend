@@ -2,6 +2,7 @@ from src.models.authorizer import Authorizer
 from sqlalchemy.orm import Session
 from src.schemas.user import UserSchema
 from src.models.event_authorizer import EventAuthorizer
+from src.models.event import Event
 
 def create(user: UserSchema, db: Session):
     user_db = Authorizer(email=user.email, name=user.name, login=True)
@@ -19,6 +20,9 @@ def update(user_db: Authorizer, new_attributes: dict(), db: Session):
 
 def get(email: str, db: Session):
     return db.query(Authorizer).filter(Authorizer.email == email).first()
+
+def getAllEvents(auth_email: str, db: Session):
+    return db.query(Event).filter(EventAuthorizer.email == auth_email).filter(EventAuthorizer.event_id == Event.id).all()
 
 def canScan(auth_email: str, event_id: int, db: Session):
     return db.query(EventAuthorizer).filter(EventAuthorizer.event_id == event_id).filter(EventAuthorizer.email == auth_email).first() is not None

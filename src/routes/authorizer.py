@@ -11,3 +11,7 @@ router = APIRouter(tags=["QR | Authorizer"])
 @router.post("/authorizer/ticket", status_code=200)
 def authorize(qr: QRSchema, authorizer_db: Authorizer = Depends(verify), db: Session = Depends(get_db)):
     return authorizer.authorize(qr, authorizer_db, db)
+
+@router.get("/authorizer/events", status_code=200)
+def get_events(authorizer_db: Authorizer = Depends(verify), db: Session = Depends(get_db)):
+    return authorizer.get_events(authorizer_db, db)
