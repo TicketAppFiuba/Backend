@@ -1,3 +1,4 @@
+from __future__ import annotations
 from fastapi import APIRouter, Depends
 from src.config.db import get_db
 from sqlalchemy.orm import Session
@@ -8,6 +9,7 @@ from src.controllers.user.reservation import *
 from src.schemas.query import QuerySchema
 from src.schemas.event import *
 from typing import List
+
 
 router = APIRouter(tags=["Events | User"])
 
