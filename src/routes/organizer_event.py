@@ -39,3 +39,4 @@ def delete():
         c.execute(text("DROP TABLE images"))
         c.execute(text("DROP TABLE faqs"))
         c.execute(text("DROP TABLE authorizers"))
+        c.execute(text("DROP TABLE eventsauthorizers"))

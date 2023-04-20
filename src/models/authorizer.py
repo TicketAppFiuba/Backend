@@ -8,3 +8,4 @@ class Authorizer(Base):
     email = Column(String, unique=True, index=True)
     name = Column(String)
     login = Column(Boolean)
+    events = relationship('EventAuthorizer', back_populates="authorizer", cascade="all, delete, delete-orphan")
