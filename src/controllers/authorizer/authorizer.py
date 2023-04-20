@@ -1,12 +1,14 @@
 from fastapi import APIRouter, HTTPException
 from sqlalchemy.orm import Session
-from src.controllers.authorizer import authorizer
-from src.controllers.user import reservation
 from src.models.authorizer import Authorizer
+from src.config import reservation
+from src.config import authorizer
 from src.schemas.qr import *
 
 def authorize(qr: QRSchema, authorizer_db: Authorizer, db: Session):
-    # me tengo que fijar que
-    # - exista la reserva
-    # - que el autorizador tenga permiso para testear el qr
-    return 1
+    reservation_db = reservation.get(qr.reservation_id, db)
+    if reservation_db is None:
+        raise HTTPException(status_code=404, detail="Reservation not exist.")
+    if authorizer.canScan(authorizer_db.email, reservation_db.event_id, db) is False:
+        raise HTTPException(status_code=403, detail="Not permission.")
+    return {"detail": "The authorizer has permission for scan."}    

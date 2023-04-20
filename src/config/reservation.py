@@ -15,3 +15,6 @@ def getByUserAndEvent(user_id: int, event_id: int, db: Session):
 
 def getAllFromUser(user_id: int, db: Session):
     return db.query(Reservation, Event).filter(Reservation.user_id == user_id).filter(Event.id == Reservation.event_id).all()
+
+def get(reservation_id: int, db: Session):
+    return db.query(Reservation).filter(Reservation.id == reservation_id).first()

@@ -21,7 +21,8 @@ event_json = {
             "time": "string",
             "description": "string",
         }
-    ]
+    ],
+    "authorizers":[]
 }
 
 def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfully():

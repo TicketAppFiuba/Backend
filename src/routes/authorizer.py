@@ -10,10 +10,4 @@ router = APIRouter(tags=["QR | Authorizer"])
 
 @router.post("/authorizer/ticket", status_code=200)
 def authorize(qr: QRSchema, authorizer_db: Authorizer = Depends(verify), db: Session = Depends(get_db)):
-    return authorizer.authorize()
-
-# Me llega
-    # Id de la reserva
-    # jwt del patovica
-# Devuelvo
-    # OK or NOK (?)
+    return authorizer.authorize(qr, authorizer_db, db)

@@ -1,12 +1,12 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 from datetime import date
 from src.schemas.ubication import UbicationSchema
 from src.schemas.section import *
 from src.schemas.image import *
 from src.schemas.faq import *
 from src.schemas.section import *
-from typing import List
+from src.schemas.authorizer import *
 
 class EventSchema(BaseModel):
     title: str
@@ -17,6 +17,7 @@ class EventSchema(BaseModel):
     vacancies: int
     ubication: UbicationSchema
     agenda: Optional[List[SectionSchema]]
+    authorizers: Optional[List[AuthorizerSchema]]
 
     class Config:
         orm_mode = True
