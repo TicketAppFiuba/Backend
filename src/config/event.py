@@ -9,6 +9,7 @@ from sqlalchemy import func
 
 def create(event: EventSchema, email: str, db: Session):
     event_db = Event(**event.dict(exclude={'authorizers', 'ubication', 'agenda'}),
+                     vacancies=event.capacity,
                      direction=event.ubication.direction,
                      latitude = event.ubication.latitude,
                      longitude = event.ubication.longitude, 

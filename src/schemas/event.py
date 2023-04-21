@@ -14,7 +14,6 @@ class EventSchema(BaseModel):
     date: date
     description: str
     capacity: int = Field(None, gt=0, lt=10000)
-    vacancies: int
     ubication: UbicationSchema
     agenda: Optional[List[SectionSchema]]
     authorizers: Optional[List[AuthorizerSchema]]
@@ -33,7 +32,6 @@ class EventSchemaUpdate(BaseModel):
     longitude: Optional[float]
     capacity: Optional[int] = Field(None, gt=0, lt=10000)
     agenda: Optional[List[SectionSchema]] = []
-
     vacancies: Optional[int]
     
     class Config:
