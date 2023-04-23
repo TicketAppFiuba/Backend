@@ -3,17 +3,21 @@ from src.schemas.event import EventSchema
 from src.models.event import Event
 from src.schemas.query import QuerySchema
 from src.models.section import Section
+from src.models.event_authorizer import EventAuthorizer
 from sqlalchemy.sql import func
 from sqlalchemy import func
 
 def create(event: EventSchema, email: str, db: Session):
-    event_db = Event(**event.dict(exclude={'ubication', 'agenda'}),
+    event_db = Event(**event.dict(exclude={'authorizers', 'ubication', 'agenda'}),
+                     vacancies=event.capacity,
                      direction=event.ubication.direction,
                      latitude = event.ubication.latitude,
                      longitude = event.ubication.longitude, 
                      organizer_email=email)
     for section in event.agenda:
         event_db.sections.append(Section(**section.dict()))
+    for authorizer in event.authorizers:
+        event_db.authorizers.append(EventAuthorizer(**authorizer.dict()))
     db.add(event_db)
     db.commit()
     db.refresh(event_db)

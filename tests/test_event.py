@@ -10,7 +10,6 @@ event_json = {
     "date": "2023-03-31",
     "description": "string",
     "capacity": 100,
-    "vacancies": 100,
     "ubication": {
         "direction": "string",
         "latitude": 100,
@@ -21,7 +20,8 @@ event_json = {
             "time": "string",
             "description": "string",
         }
-    ]
+    ],
+    "authorizers":[]
 }
 
 def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfully():

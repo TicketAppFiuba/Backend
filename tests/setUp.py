@@ -23,9 +23,22 @@ class TestSetUp:
             token = jwt.create(email)["access_token"]
             headers = {"Authorization": f"Bearer {token}"}
             return headers
+        
+    def addAuthorizer(self, email: str):
+        with engine.connect() as c:
+            query = "INSERT INTO authorizers (email, name, login) VALUES (:email, 'ldefeo', 'True')"
+            c.execute(query, {'email': email})
+            token = jwt.create(email)["access_token"]
+            headers = {"Authorization": f"Bearer {token}"}
+            return headers
+        
+    def addPermissionScan(self, email: str, event_id: int):
+        with engine.connect() as c:
+            query = "INSERT INTO eventsauthorizers (email, event_id) VALUES (:email, :event_id)"
+            c.execute(query, {'email': email, 'event_id': event_id})
 
     def addEvent(self, email, title, category, latitude, longitude, capacity, vacancies):
-           with engine.connect() as c:
+        with engine.connect() as c:
             query = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, longitude, vacancies, pic_id) VALUES (:email, 'a', :capacity, '2023-04-01', :title, :category, 'str', :latitude, :longitude, :vacancies, 0)"
             c.execute(query, {'email': email, "capacity": capacity, 'title': title, 'category': category, 'latitude':latitude, "longitude": longitude, "vacancies": vacancies})
 
@@ -38,3 +51,5 @@ class TestSetUp:
             c.execute(text("DELETE FROM faqs"))
             c.execute(text("DELETE FROM reservations"))
             c.execute(text("DELETE FROM sections"))
+            c.execute(text("DELETE FROM authorizers"))
+            c.execute(text("DELETE FROM eventsauthorizers"))
