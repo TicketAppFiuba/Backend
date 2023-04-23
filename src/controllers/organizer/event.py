@@ -23,7 +23,9 @@ def delete_event(event_id: int, user_db: Organizer, db: Session):
 
 def get_event(event_id: int, user_db: Organizer, db: Session):
     event_db = check_event(event_id, user_db, db)
-    return event_db
+    images_db = image.getAllFromEvent(event_id, db)
+    faq_db = faq.getAllFromEvent(event_id, db)
+    return {"Event": event_db, "Images": images_db, "FAQ": faq_db}
 
 def get_events_from(user_db: Organizer, db: Session):
     return event.getAllEventFromOrganizer(user_db.email, db)

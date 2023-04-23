@@ -29,7 +29,7 @@ def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfull
     response = client.post("/organizer/event", json=event_json, headers=headers)
     get_response = client.get("/organizer/event", params={"event_id": response.json()["id"]}, headers=headers)
     config.clear()
-    assert get_response.json()["id"] == response.json()["id"]
+    assert get_response.json()["Event"]["id"] == response.json()["id"]
 
 def test02_ifTheOrganizerCreatesAnEventWithACorrectJwtThenTheStatusCodeIs200():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
@@ -48,7 +48,7 @@ def test04_ifRLareuCreatesAnEventThenTheOrganizerOfTheEventIsRLareu():
     resp = client.post("/organizer/event", json=event_json, headers=headers)
     response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
-    assert response.json()["organizer_email"] == "rlareu@fi.uba.ar"
+    assert response.json()["Event"]["organizer_email"] == "rlareu@fi.uba.ar"
 
 def test05_ifRLareuCreatedTheEventThenRLareuCanRemoveIt():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
@@ -78,7 +78,7 @@ def test08_ifRLareuCreatedTheEventThenCbravorCantRemoveIt():
     client.delete("/organizer/event", params={"event_id": resp.json()["id"]}, headers=other_headers)
     get_response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
-    assert get_response.json()["id"] == resp.json()["id"]
+    assert get_response.json()["Event"]["id"] == resp.json()["id"]
 
 def test09_ifRLareuCreatedTheEventThenWhenCBravorRemovesItTheStatusCodeIs404():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
@@ -95,7 +95,7 @@ def test10_ifCbravorCreatedEventThenCbravorCanModifyIt():
     client.put("/organizer/event", json=update_event, headers=headers)
     get_response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
-    assert get_response.json()["title"] == "string2"
+    assert get_response.json()["Event"]["title"] == "string2"
 
 def test11_ifCbravorCreatedEventThenCbravorModifiesTheStatusCodeIs200():
     headers = config.addOrganizer("cbravor@fi.uba.ar")
@@ -113,7 +113,7 @@ def test12_ifRLareuCreatedEventThenCbravorCantModifyIt():
     client.put("/organizer/event", json=new_event, headers=other_headers)
     get_response = client.get("/organizer/event", params={"event_id": resp.json()["id"]}, headers=headers)
     config.clear()
-    assert get_response.json()["title"] == "string"
+    assert get_response.json()["Event"]["title"] == "string"
 
 def test13_ifRLareuCreatedEventThenWhenCbravorModifiesTheStatusCodeItIs404():
     headers = config.addOrganizer("rlareu@fi.uba.ar")
@@ -136,7 +136,7 @@ def test15_ifTheUserCreatesAnEventThenTheCoverPicIdIsNull():
     post_response = client.post("/organizer/event", json=event_json, headers=headers)
     get_response = client.get("/organizer/event", params={"event_id": post_response.json()["id"]}, headers=headers)
     config.clear()
-    assert get_response.json()["pic_id"] == None
+    assert get_response.json()["Event"]["pic_id"] == None
 
 def test16_ifTheUserAddCoverPicThenTheCoverPicIdIsNotNull():
     headers = config.addOrganizer("gmovia@fi.uba.ar")
@@ -145,4 +145,4 @@ def test16_ifTheUserAddCoverPicThenTheCoverPicIdIsNotNull():
     client.post("/organizer/event/cover/pic", json={"id": image_response.json()["id"], "event_id": 1}, headers=headers)
     get_response = client.get("/organizer/event", params={"event_id": post_response.json()["id"]}, headers=headers)
     config.clear()
-    assert get_response.json()["pic_id"] == image_response.json()["id"]
+    assert get_response.json()["Event"]["pic_id"] == image_response.json()["id"]

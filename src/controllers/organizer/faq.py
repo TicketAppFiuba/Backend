@@ -19,3 +19,7 @@ def delete_faq_to_event(faqSchema: FAQDeleteSchema, user_db: Organizer, db: Sess
     faq_db = check_faq(faqSchema, user_db, db)
     faq.delete(faq_db, db)
     return {"detail": "FAQ deleted successfully."}
+
+def get_all_faqs_to_event(event_id: int, user_db: Organizer, db: Session):
+    check_event(event_id, user_db, db)
+    return faq.getAllFromEvent(event_id, db)
