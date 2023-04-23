@@ -23,7 +23,6 @@ class FAQDeleteSchema(BaseModel):
     event_id: int
 
 class FaqSchemaOut(BaseModel):
-    id: int
     question: Optional[str]
     response: Optional[str]
 
