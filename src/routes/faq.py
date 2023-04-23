@@ -20,3 +20,7 @@ def update(faqSchema: FAQUpdateSchema, organizer: Organizer = Depends(verify), d
 @router.delete("/organizer/event/faq", status_code=200)
 def delete(faqSchema: FAQDeleteSchema, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return delete_faq_to_event(faqSchema, organizer, db)
+
+@router.get("/organizer/event/faq", status_code=200)
+def get(event_id: int, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
+    return get_all_faqs_to_event(event_id, organizer, db)
