@@ -8,4 +8,4 @@ class FAQ(Base):
     question = Column(String)
     response = Column(String)
     event_id = Column(Integer, ForeignKey('events.id'), index=True)
-    event = relationship("Event", back_populates="faq")
+    event = relationship("Event", back_populates="faqs")

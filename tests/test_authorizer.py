@@ -5,6 +5,28 @@ from tests.setUp import TestSetUp
 config = TestSetUp()
 client = TestClient(app)
 
+event_json = {
+    "title": "string",
+    "category": "string",
+    "date": "2023-03-31",
+    "description": "string",
+    "capacity": 100,
+    "ubication": {
+        "direction": "string",
+        "latitude": 100,
+        "longitude": 100
+    },
+    "agenda": [
+        {
+            "time": "string",
+            "description": "string",
+        }
+    ],
+    "faqs": [],
+    "authorizers":[]
+}
+
+
 def test01_ifTheAuthorizerCanScanTheTicketThenTheStatusCodeIs200():
     headers = config.addUser("rlareu@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10)
@@ -40,3 +62,15 @@ def test03_ifTheAuthorizerCantScanTheTicketBecauseHeDoesntHasPermissionThenTheSt
     response = client.post("/authorizer/ticket", json=query, headers=headers)
     config.clear()
     assert response.status_code == 403
+    
+def test04_ifTheAuthorizerCanScanTheTicketThenTheStatusCodeIs200():
+    org_headers = config.addOrganizer("rlareu@fi.uba.ar")
+    client.post("/organizer/event", json=event_json, headers=org_headers)
+    headers = config.addUser("gmovia@fi.uba.ar")
+    query = {"event_id": 1, "tickets": 3}  
+    client.post("/user/event/reservation", json=query, headers=headers)
+    auth_headers = config.addAuthorizer("rlareu@fi.uba.ar")
+    query = {"reservation_id": 1}
+    response = client.post("/authorizer/ticket", json=query, headers=auth_headers)
+    config.clear()
+    assert response.status_code == 200
