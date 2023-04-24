@@ -26,3 +26,6 @@ def getAllEvents(auth_email: str, db: Session):
 
 def canScan(auth_email: str, event_id: int, db: Session):
     return db.query(EventAuthorizer).filter(EventAuthorizer.event_id == event_id).filter(EventAuthorizer.email == auth_email).first() is not None
+
+def getAllFromEvent(event_id: int, db: Session):
+    return db.query(EventAuthorizer).filter(EventAuthorizer.event_id == event_id).all()

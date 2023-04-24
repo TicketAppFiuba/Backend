@@ -31,11 +31,9 @@ def create(event: EventSchema, email: str, db: Session):
     return event_db
 
 def update(event_db: Event, event: dict(), db: Session, sections: list = [], faqs: list = []):
-    event_db.sections = []
     for section in sections:
         event_db.sections.append(Section(**section))
 
-    event_db.faqs = []
     for faq in faqs:
         event_db.faqs.append(FAQ(**faq))
 
