@@ -21,8 +21,10 @@ def create(event: EventSchema, email: str, db: Session):
     for faq in event.faqs:
         event_db.faqs.append(FAQ(**faq.dict()))
 
+    event_db.authorizers.append(EventAuthorizer(event_id=event_db.id, email=email))
     for authorizer in event.authorizers:
         event_db.authorizers.append(EventAuthorizer(**authorizer.dict()))
+        
     db.add(event_db)
     db.commit()
     db.refresh(event_db)
