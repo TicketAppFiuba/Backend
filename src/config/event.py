@@ -9,7 +9,7 @@ from sqlalchemy.sql import func
 from sqlalchemy import func
 
 def create(event: EventSchema, email: str, db: Session):
-    event_db = Event(**event.dict(exclude={'authorizers', 'ubication', 'agenda'}),
+    event_db = Event(**event.dict(exclude={'authorizers', 'ubication', 'agenda', 'faqs'}),
                      vacancies=event.capacity,
                      direction=event.ubication.direction,
                      latitude = event.ubication.latitude,
@@ -18,8 +18,8 @@ def create(event: EventSchema, email: str, db: Session):
     for section in event.agenda:
         event_db.sections.append(Section(**section.dict()))
 
-    for section in event.faqs:
-        event_db.sections.append(FAQ(**section.dict()))
+    for faq in event.faqs:
+        event_db.faqs.append(FAQ(**faq.dict()))
 
     for authorizer in event.authorizers:
         event_db.authorizers.append(EventAuthorizer(**authorizer.dict()))

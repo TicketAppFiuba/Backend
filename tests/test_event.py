@@ -21,6 +21,7 @@ event_json = {
             "description": "string",
         }
     ],
+    "faqs": [],
     "authorizers":[]
 }
 
