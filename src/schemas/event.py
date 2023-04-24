@@ -16,6 +16,7 @@ class EventSchema(BaseModel):
     capacity: int = Field(None, gt=0, lt=10000)
     ubication: UbicationSchema
     agenda: Optional[List[SectionSchema]]
+    faqs: Optional[List[FAQCreateSchema]]
     authorizers: Optional[List[AuthorizerSchema]]
 
     class Config:
@@ -32,6 +33,7 @@ class EventSchemaUpdate(BaseModel):
     longitude: Optional[float]
     capacity: Optional[int] = Field(None, gt=0, lt=10000)
     agenda: Optional[List[SectionSchema]] = []
+    faqs: Optional[List[FAQCreateSchema]] = []
     vacancies: Optional[int]
     
     class Config:

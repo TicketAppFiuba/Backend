@@ -3,6 +3,7 @@ from src.schemas.event import EventSchema
 from src.models.event import Event
 from src.schemas.query import QuerySchema
 from src.models.section import Section
+from src.models.faq import FAQ
 from src.models.event_authorizer import EventAuthorizer
 from sqlalchemy.sql import func
 from sqlalchemy import func
@@ -16,6 +17,10 @@ def create(event: EventSchema, email: str, db: Session):
                      organizer_email=email)
     for section in event.agenda:
         event_db.sections.append(Section(**section.dict()))
+
+    for section in event.faqs:
+        event_db.sections.append(FAQ(**section.dict()))
+
     for authorizer in event.authorizers:
         event_db.authorizers.append(EventAuthorizer(**authorizer.dict()))
     db.add(event_db)
@@ -23,10 +28,14 @@ def create(event: EventSchema, email: str, db: Session):
     db.refresh(event_db)
     return event_db
 
-def update(event_db: Event, event: dict(), db: Session, sections: list = []):
+def update(event_db: Event, event: dict(), db: Session, sections: list = [], faqs: list = []):
     event_db.sections = []
     for section in sections:
         event_db.sections.append(Section(**section))
+
+    event_db.faqs = []
+    for faq in faqs:
+        event_db.faqs.append(FAQ(**faq))
 
     for attr, value in event.items():
         setattr(event_db, attr, value)
