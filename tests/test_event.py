@@ -4,7 +4,7 @@ from tests.setUp import TestSetUp
 
 config = TestSetUp()
 client = TestClient(app)
-event_json = {
+event_json = event_json = {
     "title": "string",
     "category": "string",
     "date": "2023-03-31",
@@ -21,8 +21,22 @@ event_json = {
             "description": "string",
         }
     ],
-    "faqs": [],
-    "authorizers":[]
+    "faqs": [
+        {
+        "question": "string",
+        "response": "string"
+        }
+    ],
+    "authorizers": [
+        {
+        "email": "string"
+        }
+    ],
+    "images": [
+        {
+        "link": "string"
+        }
+    ]
 }
 
 def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfully():

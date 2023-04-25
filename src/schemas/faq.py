@@ -16,7 +16,6 @@ class FAQCreateSchema(BaseModel):
     class Config:
         orm_mode = True
 
-
 class FAQUpdateSchema(BaseModel):
     id: int
     event_id: int

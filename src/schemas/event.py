@@ -2,8 +2,8 @@ from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import date
 from src.schemas.ubication import UbicationSchema
-from src.schemas.section import *
 from src.schemas.image import *
+from src.schemas.section import *
 from src.schemas.faq import *
 from src.schemas.section import *
 from src.schemas.authorizer import *
@@ -18,6 +18,7 @@ class EventSchema(BaseModel):
     agenda: Optional[List[SectionSchema]]
     faqs: Optional[List[FAQCreateSchema]]
     authorizers: Optional[List[AuthorizerSchema]]
+    images: Optional[List[ImageCreateSchema]]
 
     class Config:
         orm_mode = True
@@ -34,6 +35,7 @@ class EventSchemaUpdate(BaseModel):
     capacity: Optional[int] = Field(None, gt=0, lt=10000)
     agenda: Optional[List[SectionSchema]] = []
     faqs: Optional[List[FAQCreateSchema]] = []
+    images: Optional[List[ImageCreateSchema]] = []
     vacancies: Optional[int]
     
     class Config:
@@ -51,24 +53,34 @@ class EventSchemaOut(BaseModel):
     date: date
     vacancies: int
     longitude: float
-    # sections: List[SectionSchema]
     
     class Config:
         orm_mode = True
 
-class EventAllInfoSchemaOut(BaseModel):
+class EventUserSchemaOut(BaseModel): # Para usuarios
     Event: EventSchemaOut
     Images: List[ImageSchemaOut]
     FAQ: List[FaqSchemaOut]
-    # Agenda: List[SectionSchema]
+    Diary: List[SectionSchema]
     
     class Config:
         orm_mode = True
 
-class EventAllInfoWithDistanceSchemaOut(BaseModel):
+class EventOrganizerSchemaOut(BaseModel): # Para organizadores
     Event: EventSchemaOut
     Images: List[ImageSchemaOut]
     FAQ: List[FaqSchemaOut]
+    Diary: List[SectionSchema]
+    Authorizers: List[AuthorizerSchema]
+    
+    class Config:
+        orm_mode = True
+
+class EventWithDistanceSchemaOut(BaseModel): # Para usuarios
+    Event: EventSchemaOut
+    Images: List[ImageSchemaOut]
+    FAQ: List[FaqSchemaOut]
+    Diary: List[SectionSchema]
     Distance: float
     
     class Config:
