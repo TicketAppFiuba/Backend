@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from src.config import event, image, faq
+from src.config import event, image, faq, section
 from src.schemas.image import *
 from src.schemas.query import QuerySchema
 from src.schemas.ubication import UbicationSchema
@@ -11,14 +11,16 @@ def get_event(event_id: int, db: Session):
     event_db = validate_event(event_id, db)
     images_db = image.getAllFromEvent(event_id, db)
     faq_db = faq.getAllFromEvent(event_id, db)
-    return {"Event": event_db, "Images": images_db, "FAQ": faq_db}
+    diary_db = section.getAllFromEvent(event_id, db)
+    return {"Event": event_db, "Images": images_db, "FAQ": faq_db, "Diary": diary_db}
 
 def get_event_with_distance(event_id: int, ubication: UbicationSchema, db: Session):
     event_db = validate_event(event_id, db)
     images_db = image.getAllFromEvent(event_id, db)
     faq_db = faq.getAllFromEvent(event_id, db)
+    diary_db = section.getAllFromEvent(event_id, db)
     distance = haversine.distance(CoordinateSchema(latitude=event_db.latitude, longitude=event_db.longitude), CoordinateSchema(latitude=ubication.latitude, longitude=ubication.longitude))
-    return {"Event": event_db, "Images": images_db, "FAQ": faq_db, "Distance": distance}
+    return {"Event": event_db, "Images": images_db, "FAQ": faq_db, "Diary": diary_db, "Distance": distance}
 
 def update_vacancies(event_id: int, tickets: int, db: Session):
     event_db = validate_event(event_id, db)

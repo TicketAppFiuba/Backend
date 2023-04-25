@@ -17,6 +17,7 @@ async def login(token: str, db: Session = Depends(get_db)):
     except ValueError:
         raise HTTPException(status_code=400, detail="JWT Invalid.")
     user = UserSchema(name=id_info["name"], email=id_info["email"])
+    #user = UserSchema(name="rlareu", email="rlareu@fi.uba.ar")
     return access.login(user, db)
 
 @router.get("/organizer/logout", status_code=200)

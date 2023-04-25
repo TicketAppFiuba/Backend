@@ -60,7 +60,7 @@ class EventAllInfoSchemaOut(BaseModel):
     Event: EventSchemaOut
     Images: List[ImageSchemaOut]
     FAQ: List[FaqSchemaOut]
-    # Agenda: List[SectionSchema]
+    Diary: List[SectionSchema]
     
     class Config:
         orm_mode = True
@@ -69,6 +69,7 @@ class EventAllInfoWithDistanceSchemaOut(BaseModel):
     Event: EventSchemaOut
     Images: List[ImageSchemaOut]
     FAQ: List[FaqSchemaOut]
+    Diary: List[SectionSchema]
     Distance: float
     
     class Config:
