@@ -24,7 +24,7 @@ def get_event_with_distance(event_id: int, ubication: UbicationSchema, db: Sessi
 
 def update_vacancies(event_id: int, tickets: int, db: Session):
     event_db = validate_event(event_id, db)
-    event.update(event_db, {"vacancies": event_db.vacancies-tickets}, db)
+    event.reduce_vacancies(event_db, tickets, db)
 
 def get_all_event(query: QuerySchema, offset: int, limit: int, db: Session):
     events_db = event.getAll(query, offset, limit, db) 
