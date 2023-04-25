@@ -22,7 +22,8 @@ event_json = {
         }
     ],
     "faqs": [],
-    "authorizers":[]
+    "authorizers":[],
+    "images": []
 }
 
 def test01_ifTheOrganizerCreatesAnEventWithACorrectJwtThenItIsCreatedSuccessfully():

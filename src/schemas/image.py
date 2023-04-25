@@ -7,6 +7,12 @@ class ImageSchema(BaseModel):
     class Config:
         orm_mode = True
 
+class ImageCreateSchema(BaseModel):
+    link: str
+
+    class Config:
+        orm_mode = True
+
 class ImageUpdateSchema(BaseModel):
     event_id: int
     id: int

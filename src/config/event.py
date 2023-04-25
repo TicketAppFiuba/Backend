@@ -15,8 +15,7 @@ def create(event: EventSchema, email: str, db: Session):
                      latitude = event.ubication.latitude,
                      longitude = event.ubication.longitude, 
                      organizer_email=email)
-    event_db.authorizers.append(EventAuthorizer(event_id=event_db.id, email=email))
-    addRelationsToEvent(event_db, event)        
+    addRelationsToEvent(event_db, event, email)        
     db.add(event_db)
     db.commit()
     db.refresh(event_db)

@@ -23,7 +23,8 @@ event_json = {
         }
     ],
     "faqs": [],
-    "authorizers":[]
+    "authorizers":[],
+    "images": []
 }
 
 

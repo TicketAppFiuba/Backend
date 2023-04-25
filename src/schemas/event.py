@@ -18,6 +18,7 @@ class EventSchema(BaseModel):
     agenda: Optional[List[SectionSchema]]
     faqs: Optional[List[FAQCreateSchema]]
     authorizers: Optional[List[AuthorizerSchema]]
+    images: Optional[List[ImageCreateSchema]]
 
     class Config:
         orm_mode = True
@@ -34,6 +35,7 @@ class EventSchemaUpdate(BaseModel):
     capacity: Optional[int] = Field(None, gt=0, lt=10000)
     agenda: Optional[List[SectionSchema]] = []
     faqs: Optional[List[FAQCreateSchema]] = []
+    images: Optional[List[ImageCreateSchema]] = []
     vacancies: Optional[int]
     
     class Config:
@@ -51,7 +53,6 @@ class EventSchemaOut(BaseModel):
     date: date
     vacancies: int
     longitude: float
-    # sections: List[SectionSchema]
     
     class Config:
         orm_mode = True
