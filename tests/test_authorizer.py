@@ -22,11 +22,23 @@ event_json = {
             "description": "string",
         }
     ],
-    "faqs": [],
-    "authorizers":[],
-    "images": []
+    "faqs": [
+        {
+        "question": "string",
+        "response": "string"
+        }
+    ],
+    "authorizers": [
+        {
+        "email": "string"
+        }
+    ],
+    "images": [
+        {
+        "link": "string"
+        }
+    ]
 }
-
 
 def test01_ifTheAuthorizerCanScanTheTicketThenTheStatusCodeIs200():
     headers = config.addUser("rlareu@fi.uba.ar")

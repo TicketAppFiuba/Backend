@@ -2,8 +2,8 @@ from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import date
 from src.schemas.ubication import UbicationSchema
-from src.schemas.section import *
 from src.schemas.image import *
+from src.schemas.section import *
 from src.schemas.faq import *
 from src.schemas.section import *
 from src.schemas.authorizer import *
@@ -57,7 +57,7 @@ class EventSchemaOut(BaseModel):
     class Config:
         orm_mode = True
 
-class EventAllInfoSchemaOut(BaseModel):
+class EventUserSchemaOut(BaseModel): # Para usuarios
     Event: EventSchemaOut
     Images: List[ImageSchemaOut]
     FAQ: List[FaqSchemaOut]
@@ -66,7 +66,17 @@ class EventAllInfoSchemaOut(BaseModel):
     class Config:
         orm_mode = True
 
-class EventAllInfoWithDistanceSchemaOut(BaseModel):
+class EventOrganizerSchemaOut(BaseModel): # Para organizadores
+    Event: EventSchemaOut
+    Images: List[ImageSchemaOut]
+    FAQ: List[FaqSchemaOut]
+    Diary: List[SectionSchema]
+    Authorizers: List[AuthorizerSchema]
+    
+    class Config:
+        orm_mode = True
+
+class EventWithDistanceSchemaOut(BaseModel): # Para usuarios
     Event: EventSchemaOut
     Images: List[ImageSchemaOut]
     FAQ: List[FaqSchemaOut]

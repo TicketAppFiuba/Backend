@@ -26,7 +26,7 @@ def get_event(event_id: int, user_db: Organizer, db: Session):
     faq_db = faq.getAllFromEvent(event_id, db)
     diary_db = section.getAllFromEvent(event_id, db)
     authorizer_db = section.getAllFromEvent(event_id, db)
-    return {"Event": event_db, "Images": images_db, "FAQ": faq_db, "Diary": diary_db, "Authorizer": authorizer_db}
+    return {"Event": event_db, "Images": images_db, "FAQ": faq_db, "Diary": diary_db, "Authorizers": authorizer_db}
 
 def get_events_from(user_db: Organizer, db: Session):
     return event.getAllEventFromOrganizer(user_db.email, db)

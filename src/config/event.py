@@ -3,13 +3,12 @@ from src.schemas.event import EventSchema
 from src.models.event import Event
 from src.schemas.query import QuerySchema
 from src.models.faq import FAQ
-from src.models.event_authorizer import EventAuthorizer
 from src.config.relations import *
 from sqlalchemy.sql import func
 from sqlalchemy import func
 
 def create(event: EventSchema, email: str, db: Session):
-    event_db = Event(**event.dict(exclude={'authorizers', 'ubication', 'agenda', 'faqs'}),
+    event_db = Event(**event.dict(exclude={'authorizers', 'ubication', 'agenda', 'faqs', 'images'}),
                      vacancies=event.capacity,
                      direction=event.ubication.direction,
                      latitude = event.ubication.latitude,
