@@ -3,7 +3,6 @@ from src.routes import authorizer_access, organizer_event, user_access, organize
 from starlette.middleware.sessions import SessionMiddleware
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
-#from starlette.middleware.cors import CORSMiddleware
 
 
 app = FastAPI(title = "TicketAPP")
@@ -18,7 +17,8 @@ origins1 = ["http://localhost",
            "https://google.com",
            "https://mail.google.com",
            "https://accounts.google.com",
-           "https://web-organizacion.vercel.app"]
+           "https://web-organizacion.vercel.app",
+           "http://localhost:19006"]
            
 origins2 = ['*']
 
