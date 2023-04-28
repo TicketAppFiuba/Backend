@@ -15,12 +15,3 @@ def report(complaintSchema: ComplaintCreateSchema, user_db: User = Depends(verif
 @user_complaints.get("/user/complaints", status_code=200)
 def complaint(user_db: User = Depends(verify), db: Session = Depends(get_db)):
     return get_complaints_from_user(user_db, db)
-
-from src.config.complaint import *
-@user_complaints.get("/complaints/users/ranking", status_code=200)
-def complaint(db: Session = Depends(get_db)):
-    return getRankingFromUsers(db)
-
-@user_complaints.get("/complaints/events/ranking", status_code=200)
-def complaint(db: Session = Depends(get_db)):
-    return getRankingFromEvents(db)

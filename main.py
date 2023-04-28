@@ -12,6 +12,7 @@ from src.routes.user.access import user_access
 from src.routes.user.event import user_event
 from src.routes.user.reservation import user_reservation
 from src.routes.user.complaints import user_complaints
+from src.routes.admin.statistics import adm
 #from starlette.middleware.cors import CORSMiddleware
 
 app = FastAPI(title = "TicketAPP")
@@ -48,6 +49,7 @@ app.include_router(user_reservation)
 app.include_router(user_complaints)
 app.include_router(authorizer_access)
 app.include_router(authorizer_authorize)
+app.include_router(adm)
 app.add_middleware(SessionMiddleware, secret_key="!secret")
 
 if __name__ == '__main__':
