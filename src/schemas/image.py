@@ -30,3 +30,10 @@ class ImageSchemaOut(BaseModel):
 
     class Config:
         orm_mode = True
+
+class ImageCoverSchema(BaseModel):
+    event_id: int
+    link: str
+
+    class Config:
+        orm_mode = True

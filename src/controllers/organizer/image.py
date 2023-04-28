@@ -23,8 +23,10 @@ def get_all_images_to_event(event_id: int, user_db: Organizer, db: Session):
     check_event(event_id, user_db, db)
     return image.getAllFromEvent(event_id, db)
 
-def add_event_cover_pic(imageSchema: ImageDeleteSchema, user_db: Organizer, db: Session):
-    image_db = check_img(imageSchema, user_db, db)
+def add_event_cover_pic(imageSchema: ImageCoverSchema, user_db: Organizer, db: Session):
     event_db = check_event(imageSchema.event_id, user_db, db)
+    image_db = image.getImageBy(imageSchema, db)
+    if image_db is None:
+        image_db = image.create(ImageSchema(event_id=imageSchema.event_id, link=imageSchema.link), db)
     event.change_pic(event_db, image_db.id, db)
     return {"detail": "The cover image has been updated."}

@@ -12,12 +12,18 @@ def check_event(event_id: int, user_db: Organizer, db: Session):
     return event_db
 
 def check_img(imageSchema, user_db: Organizer, db: Session):
+    #image_db = validate_img(imageSchema.id, db)
+    #check_event(image_db.event_id, user_db, db)
+    #return image_db
     image_db = image.get(imageSchema.id, db)
     event_db = check_event(imageSchema.event_id, user_db, db)
     check_permission_img(image_db, event_db)
     return image_db
 
 def check_faq(faqSchema, user_db: Organizer, db: Session):
+    #faq_db = validate_faq(faqSchema.id, db)
+    #check_event(faq_db.event_id, user_db, db)
+    #return faq_db
     faq_db = faq.get(faqSchema.id, db)
     event_db = check_event(faqSchema.event_id, user_db, db)
     check_permission_faq(faq_db, event_db)
@@ -40,3 +46,13 @@ def check_permission_faq(faq_db: FAQ, event_db: Event):
         raise HTTPException(status_code=404, detail="FAQ not exist.")
     if faq_db.event_id != event_db.id:
         raise HTTPException(status_code=404, detail="Not permission.")
+    
+def validate_img(image_id: int, db: Session):
+    image_db = image.get(image_id, db)
+    if image_db is None:
+        raise HTTPException(status_code=404, detail="Image not exist.")
+
+def validate_faq(faq_id: int, db: Session):
+    faq_db = image.get(faq_id, db)
+    if faq_db is None:
+        raise HTTPException(status_code=404, detail="FAQ not exist.")   
