@@ -7,20 +7,20 @@ from src.controllers.organizer.access import verify
 from src.models.organizer import Organizer
 from src.controllers.organizer.faq import *
 
-router = APIRouter(tags=["Event FAQ | Organizer"])
+organizer_faq = APIRouter(tags=["Organizer | FAQ"])
 
-@router.post("/organizer/event/faq", status_code=200)
+@organizer_faq.post("/organizer/event/faq", status_code=200)
 def add(faqSchema: FAQSchema, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return add_faq_to_event(faqSchema, organizer, db)
 
-@router.put("/organizer/event/faq", status_code=200)
+@organizer_faq.put("/organizer/event/faq", status_code=200)
 def update(faqSchema: FAQUpdateSchema, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return update_faq_to_event(faqSchema, organizer, db)
 
-@router.delete("/organizer/event/faq", status_code=200)
+@organizer_faq.delete("/organizer/event/faq", status_code=200)
 def delete(faqSchema: FAQDeleteSchema, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return delete_faq_to_event(faqSchema, organizer, db)
 
-@router.get("/organizer/event/faq", status_code=200)
+@organizer_faq.get("/organizer/event/faq", status_code=200)
 def get(event_id: int, organizer: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return get_all_faqs_to_event(event_id, organizer, db)

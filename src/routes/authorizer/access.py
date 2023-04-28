@@ -8,9 +8,9 @@ from src.schemas.user import UserSchema
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
-router = APIRouter(tags=["Authentication | Authorizer"])
+authorizer_access = APIRouter(tags=["Authorizer | Authentication"])
 
-@router.get("/authorizer/login", status_code=200)
+@authorizer_access.get("/authorizer/login", status_code=200)
 async def login(token: str, db: Session = Depends(get_db)):
     try:
         id_info = id_token.verify_oauth2_token(token, requests.Request(), "651976534821-njeiiul5h073b0s321lvn9pevadj3aeg.apps.googleusercontent.com")
@@ -19,7 +19,7 @@ async def login(token: str, db: Session = Depends(get_db)):
     user = UserSchema(name=id_info["name"], email=id_info["email"])
     return access.login(user, db)
 
-@router.get("/authorizer/logout", status_code=200)
+@authorizer_access.get("/authorizer/logout", status_code=200)
 async def logout(request: Request, user_db: Organizer = Depends(access.verify), db: Session = Depends(get_db)):
     for key in list(request.session.keys()):
         request.session.pop(key)

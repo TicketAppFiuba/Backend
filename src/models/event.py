@@ -22,4 +22,4 @@ class Event(Base):
     sections = relationship('Section', back_populates="event", cascade="all, delete, delete-orphan")
     reservations = relationship('Reservation', back_populates="event", cascade="all, delete, delete-orphan")
     authorizers = relationship('EventAuthorizer', back_populates="event", cascade="all, delete, delete-orphan")
-
+    complaints = relationship('Complaint', back_populates="event", cascade="all, delete, delete-orphan")

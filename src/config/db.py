@@ -10,6 +10,7 @@ from src.models.reservation import Reservation
 from src.models.section import Section
 from src.models.authorizer import Authorizer
 from src.models.event_authorizer import EventAuthorizer
+from src.models.complaint import Complaint
 
 engine = create_engine("sqlite:///./sql_app.db", connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
