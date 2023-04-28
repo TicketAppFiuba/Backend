@@ -26,5 +26,5 @@ def get(event_id: int, user_db: Organizer = Depends(verify), db: Session = Depen
     return get_all_images_to_event(event_id, user_db, db)
 
 @organizer_images.post("/organizer/event/cover/pic", status_code=200)
-def add_pic(image: ImageCoverSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
+def add_pic(image: ImageSchema, user_db: Organizer = Depends(verify), db: Session = Depends(get_db)):
     return add_event_cover_pic(image, user_db, db) 

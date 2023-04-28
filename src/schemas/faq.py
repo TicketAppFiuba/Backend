@@ -18,7 +18,6 @@ class FAQCreateSchema(BaseModel):
 
 class FAQUpdateSchema(BaseModel):
     id: int
-    event_id: int
     question: Optional[str]
     response: Optional[str]
 
@@ -27,7 +26,6 @@ class FAQUpdateSchema(BaseModel):
 
 class FAQDeleteSchema(BaseModel):
     id: int
-    event_id: int
 
 class FaqSchemaOut(BaseModel):
     question: Optional[str]

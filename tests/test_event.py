@@ -161,3 +161,11 @@ def test16_ifTheUserAddCoverPicThenTheCoverPicIdIsNotNull():
     get_response = client.get("/organizer/event", params={"event_id": post_response.json()["id"]}, headers=headers)
     config.clear()
     assert get_response.json()["Event"]["pic_id"] == image_response.json()["id"]
+
+def test17_ifTheUserAddCoverPicThenTheCoverPicIdIsNotNull():
+    headers = config.addOrganizer("gmovia@fi.uba.ar")
+    post_response = client.post("/organizer/event", json=event_json, headers=headers)
+    client.post("/organizer/event/cover/pic", json={"link": "c", "event_id": 1}, headers=headers)
+    get_response = client.get("/organizer/event", params={"event_id": post_response.json()["id"]}, headers=headers)
+    config.clear()
+    assert get_response.json()["Event"]["pic_id"] == 2

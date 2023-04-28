@@ -14,7 +14,6 @@ class ImageCreateSchema(BaseModel):
         orm_mode = True
 
 class ImageUpdateSchema(BaseModel):
-    event_id: int
     id: int
     link: str
 
@@ -23,16 +22,11 @@ class ImageUpdateSchema(BaseModel):
 
 class ImageDeleteSchema(BaseModel):
     id: int
-    event_id: int
-
-class ImageSchemaOut(BaseModel):
-    link: str
 
     class Config:
         orm_mode = True
 
-class ImageCoverSchema(BaseModel):
-    event_id: int
+class ImageSchemaOut(BaseModel):
     link: str
 
     class Config:
