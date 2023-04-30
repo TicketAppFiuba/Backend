@@ -11,6 +11,8 @@ def authorize(qr: QRSchema, authorizer_db: Authorizer, db: Session):
         raise HTTPException(status_code=404, detail="Reservation not exist.")
     if authorizer.canScan(authorizer_db.email, reservation_db.event_id, db) is False:
         raise HTTPException(status_code=403, detail="Not permission.")
+    if reservation_db.event_id != qr.event_id:
+        raise HTTPException(status_code=403, detail="Not permission.")
     return {"detail": "The authorizer has permission for scan."} 
 
 def get_events(authorizer_db: Authorizer, db: Session):
