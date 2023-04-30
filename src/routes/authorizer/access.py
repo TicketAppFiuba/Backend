@@ -7,16 +7,18 @@ from starlette.requests import Request
 from src.schemas.user import UserSchema
 from google.oauth2 import id_token
 from google.auth.transport import requests
+import requests
+import json
 
 authorizer_access = APIRouter(tags=["Authorizer | Authentication"])
 
 @authorizer_access.get("/authorizer/login", status_code=200)
 async def login(token: str, db: Session = Depends(get_db)):
-    try:
-        id_info = id_token.verify_oauth2_token(token, requests.Request(), "651976534821-njeiiul5h073b0s321lvn9pevadj3aeg.apps.googleusercontent.com")
-    except ValueError:
-        raise HTTPException(status_code=400, detail="JWT Invalid.")
-    user = UserSchema(name=id_info["name"], email=id_info["email"])
+    url = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={}'.format(token)
+    response = requests.get(url)
+    if response.status_code != 200:
+        raise HTTPException(status_code=400, detail="JWT Invalid.")    
+    user = UserSchema(name=response.json()["name"], email=response.json()["email"])
     return access.login(user, db)
 
 @authorizer_access.get("/authorizer/logout", status_code=200)
