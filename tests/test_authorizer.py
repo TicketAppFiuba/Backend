@@ -45,9 +45,9 @@ def test01_ifTheAuthorizerCanScanTheTicketThenTheStatusCodeIs200():
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10)
     config.addPermissionScan("cbravor@fi.uba.ar", 1)
     query = {"event_id": 1, "tickets": 3}  
-    client.post("/user/event/reservation", json=query, headers=headers)
+    reservation = client.post("/user/event/reservation", json=query, headers=headers)
     headers = config.addAuthorizer("cbravor@fi.uba.ar")
-    query = {"reservation_id": 1}
+    query = {"reservation_code": reservation.json()["code"]}
     response = client.post("/authorizer/ticket", json=query, headers=headers)
     config.clear()
     assert response.status_code == 200
@@ -59,7 +59,7 @@ def test02_ifTheAuthorizerCantScanTheTicketBecauseReservationDoesntExistTheStatu
     query = {"event_id": 1, "tickets": 3}  
     client.post("/user/event/reservation", json=query, headers=headers)
     headers = config.addAuthorizer("cbravor@fi.uba.ar")
-    query = {"reservation_id": 7}
+    query = {"reservation_code": 7}
     response = client.post("/authorizer/ticket", json=query, headers=headers)
     config.clear()
     assert response.status_code == 404
@@ -69,9 +69,9 @@ def test03_ifTheAuthorizerCantScanTheTicketBecauseHeDoesntHasPermissionThenTheSt
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10)
     config.addPermissionScan("tarrachea@fi.uba.ar", 1)
     query = {"event_id": 1, "tickets": 3}  
-    client.post("/user/event/reservation", json=query, headers=headers)
+    reservation = client.post("/user/event/reservation", json=query, headers=headers)
     headers = config.addAuthorizer("cbravor@fi.uba.ar")
-    query = {"reservation_id": 1}
+    query = {"reservation_code": reservation.json()["code"]}
     response = client.post("/authorizer/ticket", json=query, headers=headers)
     config.clear()
     assert response.status_code == 403
@@ -81,9 +81,9 @@ def test04_ifTheAuthorizerCanScanTheTicketThenTheStatusCodeIs200():
     client.post("/organizer/event", json=event_json, headers=org_headers)
     headers = config.addUser("gmovia@fi.uba.ar")
     query = {"event_id": 1, "tickets": 3}  
-    client.post("/user/event/reservation", json=query, headers=headers)
+    reservation = client.post("/user/event/reservation", json=query, headers=headers)
     auth_headers = config.addAuthorizer("rlareu@fi.uba.ar")
-    query = {"reservation_id": 1}
+    query = {"reservation_code": reservation.json()["code"]}
     response = client.post("/authorizer/ticket", json=query, headers=auth_headers)
     config.clear()
     assert response.status_code == 200
