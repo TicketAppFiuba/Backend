@@ -99,3 +99,16 @@ def test05_ifTheAuthorizerCantScanTheTicketBecauseDoesntPermissionTheStatusCodeI
     response = client.post("/authorizer/ticket", json=query, headers=headers)
     config.clear()
     assert response.status_code == 403
+
+def test06_ifTheAuthorizerCantScanTheTicketBecauseTheTicketWasAlreadyScanned():
+    headers = config.addUser("rlareu@fi.uba.ar")
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10)
+    config.addPermissionScan("cbravor@fi.uba.ar", 1)
+    query = {"event_id": 1, "tickets": 3}  
+    response = client.post("/user/event/reservation", json=query, headers=headers)
+    headers = config.addAuthorizer("cbravor@fi.uba.ar")
+    query = {"reservation_code": response.json()["code"], "event_id": 2}
+    client.post("/authorizer/ticket", json=query, headers=headers)
+    response = client.post("/authorizer/ticket", json=query, headers=headers)
+    config.clear()
+    assert response.status_code == 403
