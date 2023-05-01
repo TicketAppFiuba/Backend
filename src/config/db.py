@@ -10,6 +10,7 @@ from src.models.reservation import Reservation
 from src.models.section import Section
 from src.models.authorizer import Authorizer
 from src.models.event_authorizer import EventAuthorizer
+from src.models.complaint import Complaint
 import os
 from dotenv import load_dotenv
 

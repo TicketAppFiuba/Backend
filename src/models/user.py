@@ -9,3 +9,4 @@ class User(Base):
     name = Column(String)
     login = Column(Boolean)
     reservations = relationship('Reservation', back_populates="user", cascade="all, delete, delete-orphan")
+    complaints = relationship('Complaint', back_populates="user", cascade="all, delete, delete-orphan")

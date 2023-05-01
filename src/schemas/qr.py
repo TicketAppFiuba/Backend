@@ -1,4 +1,5 @@
 from pydantic import BaseModel
 
 class QRSchema(BaseModel):
-    reservation_id: int
+    reservation_code: str
+    event_id: int

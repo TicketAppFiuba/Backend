@@ -1,8 +1,19 @@
-from fastapi import FastAPI
-from src.routes import authorizer_access, organizer_event, user_access, organizer_access, images, user_event, faq, authorizer
-from starlette.middleware.sessions import SessionMiddleware
 import uvicorn
+from fastapi import FastAPI
+from starlette.middleware.sessions import SessionMiddleware
 from fastapi.middleware.cors import CORSMiddleware
+from src.routes.authorizer.access import authorizer_access
+from src.routes.authorizer.authorizer import authorizer_authorize
+from src.routes.organizer.access import organizer_access
+from src.routes.organizer.event import organizer_event
+from src.routes.organizer.faq import organizer_faq
+from src.routes.organizer.images import organizer_images
+from src.routes.user.access import user_access
+from src.routes.user.event import user_event
+from src.routes.user.reservation import user_reservation
+from src.routes.user.complaints import user_complaints
+from src.routes.admin.statistics import adm
+#from starlette.middleware.cors import CORSMiddleware
 
 
 app = FastAPI(title = "TicketAPP")
@@ -30,16 +41,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(user_access.router)
-app.include_router(organizer_access.router)
-app.include_router(organizer_event.router)
-app.include_router(user_event.router)
-app.include_router(images.router)
-app.include_router(faq.router)
-app.include_router(authorizer_access.router)
-app.include_router(authorizer.router)
+app.include_router(organizer_access)
+app.include_router(organizer_event)
+app.include_router(organizer_images)
+app.include_router(organizer_faq)
+app.include_router(user_access)
+app.include_router(user_event)
+app.include_router(user_reservation)
+app.include_router(user_complaints)
+app.include_router(authorizer_access)
+app.include_router(authorizer_authorize)
+app.include_router(adm)
 app.add_middleware(SessionMiddleware, secret_key="!secret")
-
 
 if __name__ == '__main__':
     uvicorn.run('main:app', port=8000, reload=True)

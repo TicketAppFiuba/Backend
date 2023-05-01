@@ -23,3 +23,6 @@ def get(image_id: int, db: Session):
 
 def getAllFromEvent(event_id: int, db: Session):
     return db.query(Image).filter(Image.event_id == event_id).all()
+
+def getImageBy(imageSchema: ImageSchema, db: Session):
+    return db.query(Image).filter(Image.event_id == imageSchema.event_id).filter(Image.link == imageSchema.link).first()
