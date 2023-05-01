@@ -15,6 +15,7 @@ from src.routes.user.complaints import user_complaints
 from src.routes.admin.statistics import adm
 #from starlette.middleware.cors import CORSMiddleware
 
+
 app = FastAPI(title = "TicketAPP")
 
 origins1 = ["http://localhost",
@@ -27,7 +28,8 @@ origins1 = ["http://localhost",
            "https://google.com",
            "https://mail.google.com",
            "https://accounts.google.com",
-           "https://web-organizacion.vercel.app"]
+           "https://web-organizacion.vercel.app",
+           "http://localhost:19006"]
            
 origins2 = ['*']
 
