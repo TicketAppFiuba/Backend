@@ -23,7 +23,7 @@ def get(email: str, db: Session):
     return db.query(Authorizer).filter(Authorizer.email == email).first()
 
 def getAllEvents(auth_email: str, db: Session):
-    return db.query(Event, Image.link).filter(EventAuthorizer.email == auth_email).filter(EventAuthorizer.event_id == Event.id).filter(Event.pic_id == Image.id).all()
+    return db.query(Event).filter(EventAuthorizer.email == auth_email).filter(EventAuthorizer.event_id == Event.id).all()
 
 def canScan(auth_email: str, event_id: int, db: Session):
     return db.query(EventAuthorizer).filter(EventAuthorizer.event_id == event_id).filter(EventAuthorizer.email == auth_email).first() is not None

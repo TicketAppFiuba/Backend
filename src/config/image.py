@@ -26,3 +26,6 @@ def getAllFromEvent(event_id: int, db: Session):
 
 def getImageBy(imageSchema: ImageSchema, db: Session):
     return db.query(Image).filter(Image.event_id == imageSchema.event_id).filter(Image.link == imageSchema.link).first()
+
+def getCoverImage(pic_id: int, db: Session):
+    return db.query(Image).filter(Image.id == pic_id).first()

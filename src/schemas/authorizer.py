@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import date
+from typing import Optional
 
 class AuthorizerSchema(BaseModel):
     email: str
@@ -12,14 +12,9 @@ class EventOutSchema(BaseModel):
     title: str
     direction: str
     capacity: int
-    latitude: float
-    organizer_email: str
-    description: str
-    category: str
-    date: date
     vacancies: int
-    longitude: float
-    link: str
+    description: str
+    link: Optional[str]
 
     class Config:
         orm_mode = True

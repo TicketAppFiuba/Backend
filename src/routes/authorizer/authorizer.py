@@ -5,7 +5,7 @@ from src.controllers.authorizer.access import verify
 from src.controllers.authorizer import authorizer
 from src.models.authorizer import Authorizer
 from src.schemas.qr import *
-from src.schemas.authorizer import EventOutSchema   
+from src.schemas.authorizer import EventOutSchema
 from typing import List
 
 authorizer_authorize = APIRouter(tags=["Authorizer | QR"])
