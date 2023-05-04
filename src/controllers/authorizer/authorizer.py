@@ -6,10 +6,10 @@ from src.config import authorizer
 from src.config import image
 from src.schemas.qr import *
 from src.schemas.authorizer import EventOutSchema
-from src.controllers.authorizer import validations
+from src.controllers.authorizer import permissions
 
 def authorize(qr: QRSchema, authorizer_db: Authorizer, db: Session):
-    reservation_db = validations.check_scan_reservation(qr, authorizer_db, db)
+    reservation_db = permissions.check_scan_reservation(qr, authorizer_db, db)
     reservation.scan(reservation_db, db)
     return {"detail": "La reserva fue escaneada correctamente."} 
 

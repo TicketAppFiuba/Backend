@@ -13,6 +13,7 @@ from src.routes.user.event import user_event
 from src.routes.user.reservation import user_reservation
 from src.routes.user.complaints import user_complaints
 from src.routes.admin.statistics import adm
+from src.routes.admin.moderation import adm_moderation
 #from starlette.middleware.cors import CORSMiddleware
 
 
@@ -52,6 +53,7 @@ app.include_router(user_complaints)
 app.include_router(authorizer_access)
 app.include_router(authorizer_authorize)
 app.include_router(adm)
+app.include_router(adm_moderation)
 app.add_middleware(SessionMiddleware, secret_key="!secret")
 
 if __name__ == '__main__':
