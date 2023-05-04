@@ -1,4 +1,4 @@
-from fastapi import HTTPException, Depends
+from fastapi import Depends
 from src.objects.jwt import JWTToken
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
@@ -6,6 +6,7 @@ from src.config.db import get_db
 from src.config import authorizer
 from src.models.authorizer import Authorizer
 from src.schemas.user import UserSchema
+from src.controllers.validator import validator
 
 jwt = JWTToken("HS256", 200)
 oauth2 = OAuth2PasswordBearer(tokenUrl="/authorizer/login")
@@ -23,7 +24,5 @@ def logout(user_db: Authorizer, db: Session):
 
 def verify(token: str = Depends(oauth2), db: Session = Depends(get_db)):
     email = jwt.auth(token, authorizer, db)
-    user_db = authorizer.get(email, db)
-    if user_db is None or user_db.login == False:
-        raise HTTPException(status_code=400, detail="Auth Error.")
-    return user_db
+    authorizer_db = validator.validate_authorizer(email, db)
+    return authorizer_db

@@ -8,5 +8,6 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     name = Column(String)
     login = Column(Boolean)
+    suspended = Column(Boolean)
     reservations = relationship('Reservation', back_populates="user", cascade="all, delete, delete-orphan")
     complaints = relationship('Complaint', back_populates="user", cascade="all, delete, delete-orphan")

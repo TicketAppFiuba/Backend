@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from src.config import image, event, faq, reservation, user
+from src.config import image, event, faq, reservation, user, organizer, authorizer
 from src.models.event import Event
 from src.schemas.image import *
 from src.schemas.faq import *
@@ -33,8 +33,28 @@ def validate_reservation(code: str, db: Session):
 def validate_user(email: str, db: Session):
     user_db = user.get(email, db)
     if user_db is None:
-        raise HTTPException(status_code=404, detail="User not exist.")
+        raise HTTPException(status_code=400, detail="User not exist.")
+    if user_db.login == False:
+        raise HTTPException(status_code=400, detail="Auth error.")
+    if user_db.suspended == True:
+        raise HTTPException(status_code=400, detail="The user is suspended.")
     return user_db
+
+def validate_authorizer(email: str, db: Session):
+    authorizer_db = authorizer.get(email, db)
+    if authorizer_db is None:
+        raise HTTPException(status_code=400, detail="User not exist.")
+    if authorizer_db.login == False:
+        raise HTTPException(status_code=400, detail="Auth error.")
+    return authorizer_db
+
+def validate_organizer(email: str, db: Session):
+    organizer_db = organizer.get(email, db)
+    if organizer_db is None:
+        raise HTTPException(status_code=400, detail="User not exist.")
+    if organizer_db.login == False:
+        raise HTTPException(status_code=400, detail="Auth error.")
+    return organizer_db
 
 def validate_tickets(tickets: int, event_db: Event):
     if tickets > 4 or tickets <= 0:

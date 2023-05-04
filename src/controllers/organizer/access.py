@@ -1,4 +1,4 @@
-from fastapi import HTTPException, Depends
+from fastapi import Depends
 from src.objects.jwt import JWTToken
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
@@ -6,6 +6,7 @@ from src.config.db import get_db
 from src.config import organizer
 from src.models.organizer import Organizer
 from src.schemas.user import UserSchema
+from src.controllers.validator import validator
 
 jwt = JWTToken("HS256", 200)
 oauth2 = OAuth2PasswordBearer(tokenUrl="/organizer/login")
@@ -23,7 +24,5 @@ def logout(user_db: Organizer, db: Session):
 
 def verify(token: str = Depends(oauth2), db: Session = Depends(get_db)):
     email = jwt.auth(token, organizer, db)
-    user_db = organizer.get(email, db)
-    if user_db is None or user_db.login == False:
-        raise HTTPException(status_code=400, detail="Auth Error.")
-    return user_db
+    organizer_db = validator.validate_organizer(email, db)
+    return organizer_db
