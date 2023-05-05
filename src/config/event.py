@@ -43,7 +43,7 @@ def change_pic(event_db: Event, pic_id: int, db: Session):
 
 
 def getAll(querySchema: QuerySchema, offset: int, limit: int, db: Session):
-    query = db.query(Event)
+    query = db.query(Event).filter(Event.state == "published")
     if querySchema.title is not None:
         query = query.filter(Event.title.ilike('%{}%'.format(querySchema.title)))
     if querySchema.category is not None:

@@ -16,6 +16,7 @@ event_json = {
         "latitude": 100,
         "longitude": 100
     },
+    "state": "published",
     "agenda": [
         {
             "time": "string",
@@ -42,7 +43,7 @@ event_json = {
 
 def test01_ifTheAuthorizerCanScanTheTicketThenTheStatusCodeIs200():
     headers = config.addUser("rlareu@fi.uba.ar")
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10)
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addPermissionScan("cbravor@fi.uba.ar", 1)
     query = {"event_id": 1, "tickets": 3}  
     reservation = client.post("/user/event/reservation", json=query, headers=headers)
@@ -54,7 +55,7 @@ def test01_ifTheAuthorizerCanScanTheTicketThenTheStatusCodeIs200():
 
 def test02_ifTheAuthorizerCantScanTheTicketBecauseReservationDoesntExistTheStatusCodeIs403():
     headers = config.addUser("rlareu@fi.uba.ar")
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10)
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addPermissionScan("cbravor@fi.uba.ar", 1)
     query = {"event_id": 1, "tickets": 3}  
     client.post("/user/event/reservation", json=query, headers=headers)
@@ -66,7 +67,7 @@ def test02_ifTheAuthorizerCantScanTheTicketBecauseReservationDoesntExistTheStatu
 
 def test03_ifTheAuthorizerCantScanTheTicketBecauseHeDoesntHasPermissionThenTheStatusCodeIs403():
     headers = config.addUser("rlareu@fi.uba.ar")
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10)
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addPermissionScan("tarrachea@fi.uba.ar", 1)
     query = {"event_id": 1, "tickets": 3}  
     reservation = client.post("/user/event/reservation", json=query, headers=headers)
@@ -90,7 +91,7 @@ def test04_ifTheAuthorizerCanScanTheTicketThenTheStatusCodeIs200():
 
 def test05_ifTheAuthorizerCantScanTheTicketBecauseDoesntPermissionTheStatusCodeIs403():
     headers = config.addUser("rlareu@fi.uba.ar")
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10)
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addPermissionScan("cbravor@fi.uba.ar", 1)
     query = {"event_id": 1, "tickets": 3}  
     response = client.post("/user/event/reservation", json=query, headers=headers)
@@ -102,7 +103,7 @@ def test05_ifTheAuthorizerCantScanTheTicketBecauseDoesntPermissionTheStatusCodeI
 
 def test06_ifTheAuthorizerCantScanTheTicketBecauseTheTicketWasAlreadyScanned():
     headers = config.addUser("rlareu@fi.uba.ar")
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10)
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addPermissionScan("cbravor@fi.uba.ar", 1)
     query = {"event_id": 1, "tickets": 3}  
     response = client.post("/user/event/reservation", json=query, headers=headers)

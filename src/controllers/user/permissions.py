@@ -15,7 +15,7 @@ def check_create_reservation(reservationSchema: ReservationCreateSchema, user_db
     return ReservationSchema(**reservationSchema.dict(), user_id=user_db.id) 
 
 def check_create_complaint(complaintSchema: ComplaintCreateSchema, user_db: User, db: Session):
-    validator.validate_event(complaintSchema.event_id, db)
+    validator.validate_complaint_by(complaintSchema, db)
     complaint_db = complaint.getByUserAndEvent(user_db.id, complaintSchema.event_id, db)
     if complaint_db is not None:
         raise HTTPException(status_code=403, detail="Complaint already report.")

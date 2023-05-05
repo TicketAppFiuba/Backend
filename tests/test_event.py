@@ -10,6 +10,7 @@ event_json = event_json = {
     "date": "2023-03-31",
     "description": "string",
     "capacity": 100,
+    "state": "published",
     "ubication": {
         "direction": "string",
         "latitude": 100,
@@ -169,3 +170,5 @@ def test17_ifTheUserAddCoverPicThenTheCoverPicIdIsNotNull():
     get_response = client.get("/organizer/event", params={"event_id": post_response.json()["id"]}, headers=headers)
     config.clear()
     assert get_response.json()["Event"]["pic_id"] == 2
+
+  
