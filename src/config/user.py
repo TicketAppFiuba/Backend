@@ -17,7 +17,7 @@ def update(user_db: User, new_attributes: dict(), db: Session):
     return user_db
 
 def suspend(user_db, db: Session):
-    user_db.suspend = True
+    user_db.suspended = True
     db.commit()
     db.refresh(user_db)
 

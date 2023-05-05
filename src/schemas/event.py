@@ -15,6 +15,7 @@ class EventSchema(BaseModel):
     description: str
     capacity: int = Field(None, gt=0, lt=10000)
     ubication: UbicationSchema
+    state: str
     agenda: Optional[List[SectionSchema]]
     faqs: Optional[List[FAQCreateSchema]]
     authorizers: Optional[List[AuthorizerSchema]]
@@ -32,6 +33,7 @@ class EventSchemaUpdate(BaseModel):
     direction: Optional[str]
     latitude: Optional[float]
     longitude: Optional[float]
+    state: Optional[str]
     capacity: Optional[int] = Field(None, gt=0, lt=10000)
     agenda: Optional[List[SectionSchema]] = []
     faqs: Optional[List[FAQCreateSchema]] = []
@@ -51,6 +53,7 @@ class EventSchemaOut(BaseModel):
     description: str
     category: str
     date: date
+    state: str
     vacancies: int
     longitude: float
     

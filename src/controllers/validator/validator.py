@@ -5,6 +5,7 @@ from src.models.event import Event
 from src.schemas.image import *
 from src.schemas.faq import *
 from src.schemas.reservation import *
+from src.schemas.complaint import *
 
 def validate_event(event_id: int, db: Session):
     event_db = event.get(event_id, db)
@@ -62,5 +63,15 @@ def validate_tickets(tickets: int, event_db: Event):
     if event_db.vacancies - tickets < 0:
         raise HTTPException(status_code=403, detail="The number of tickets exceeds the capacity of the event.")
     
-def validate_reservation_by(schema: ReservationSchema, db: Session):
-    validate_tickets(schema.tickets, validate_event(schema.event_id, db))
+def validate_reservation_by(schema: ReservationCreateSchema, db: Session):
+    event_db = validate_event(schema.event_id, db)
+    if event_db.state != "published":
+        raise HTTPException(status_code=403, detail="The event is not published.")
+    validate_tickets(schema.tickets, event_db)
+    return schema
+
+def validate_complaint_by(schema: ComplaintCreateSchema, db: Session):
+    event_db = validate_event(schema.event_id, db)
+    if event_db.state != "published":
+        raise HTTPException(status_code=403, detail="The event is not published.")
+    return schema
