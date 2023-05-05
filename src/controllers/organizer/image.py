@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from src.models.organizer import Organizer
 from src.config import event, image
 from src.schemas.image import *
-from src.controllers.organizer.validations import *
+from src.controllers.organizer.permissions import *
 
 def add_image_to_event(imageSchema: ImageSchema, user_db: Organizer, db: Session):
     check_event(imageSchema.event_id, user_db, db)

@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from src.models.organizer import Organizer
 from src.config import event, faq
 from src.schemas.faq import *
-from src.controllers.organizer.validations import *
+from src.controllers.organizer.permissions import *
 
 def add_faq_to_event(faqSchema: FAQSchema, user_db: Organizer, db: Session):
     check_event(faqSchema.event_id, user_db, db)

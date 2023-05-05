@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from src.schemas.user import UserSchema
 from src.models.event_authorizer import EventAuthorizer
 from src.models.event import Event
+from src.models.image import Image
 
 def create(user: UserSchema, db: Session):
     user_db = Authorizer(email=user.email, name=user.name, login=True)

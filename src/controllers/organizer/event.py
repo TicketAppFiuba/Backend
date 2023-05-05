@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 from src.models.organizer import Organizer
 from src.schemas.event import EventSchema, EventSchemaUpdate
-from src.config import event, section, authorizer
+from src.config import event, section, authorizer, image, faq
 from src.schemas.image import *
-from src.controllers.organizer.validations import *
+from src.controllers.organizer.permissions import *
 
 def create_event(eventSchema: EventSchema, user_db: Organizer, db: Session):
     event_db = event.create(eventSchema, user_db.email, db)
