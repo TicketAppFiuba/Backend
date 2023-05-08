@@ -9,13 +9,13 @@ from src.schemas.section import *
 from src.schemas.authorizer import *
 
 class EventSchema(BaseModel):
-    title: str
-    category: str
-    date: date
-    description: str
-    capacity: int = Field(None, gt=0, lt=10000)
-    ubication: UbicationSchema
-    state: str
+    title: Optional[str]
+    category: Optional[str]
+    date: Optional[date]
+    description: Optional[str]
+    capacity: Optional[int] = Field(None, gt=0, lt=10000)
+    ubication: Optional[UbicationSchema]
+    state: Optional[str]
     agenda: Optional[List[SectionSchema]]
     faqs: Optional[List[FAQCreateSchema]]
     authorizers: Optional[List[AuthorizerSchema]]

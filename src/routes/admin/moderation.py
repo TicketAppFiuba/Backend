@@ -11,6 +11,6 @@ adm_moderation = APIRouter(tags=["Admin | Moderation"])
 def suspend(email: str, db: Session = Depends(get_db)):
     return suspend_user(email, db)
 
-@adm_moderation.post("/admin/complaints", status_code=200)
+@adm_moderation.get("/admin/complaints", status_code=200)
 def complaints(db: Session = Depends(get_db)):
     return getAll(db)
