@@ -22,6 +22,13 @@ class JWTToken:
         except JWTError:
             raise HTTPException(status_code=401, detail="JWT Error")
         return sub
+
+    def basic_auth(self, token: str):
+        try:
+            sub = jwt.decode(token, self.secret, self.algorithm).get("sub")
+        except JWTError:
+            raise HTTPException(status_code=401, detail="JWT Error")
+        return sub
     
     def expired(self, token: str, user, db: Session):
         try:

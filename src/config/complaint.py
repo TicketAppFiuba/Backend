@@ -12,6 +12,9 @@ def create(complaint: ComplaintSchema, db: Session):
     db.refresh(complaint_db)
     return complaint_db
 
+def getAll(db: Session):
+    return db.query(Complaint).all()
+
 def getAllFromUser(user_id: int, db: Session):
     return db.query(Complaint).filter(Complaint.user_id == user_id).all()
 
@@ -33,9 +36,3 @@ def getRankingFromEvents(db: Session):
              .order_by(func.count(Complaint.id).desc())\
              .limit(10)\
              .all()
-
-# SELECT user.email, COUNT(complaints.id) as cantidades
-# FROM complaints, users
-# WHERE complaints.user_id == users.id
-# GROUP BY(user.id)
-# ORDER_BY(cantidades)

@@ -14,6 +14,7 @@ from src.routes.user.reservation import user_reservation
 from src.routes.user.complaints import user_complaints
 from src.routes.admin.statistics import adm
 from src.routes.admin.moderation import adm_moderation
+from src.routes.admin.access import adm_access
 #from starlette.middleware.cors import CORSMiddleware
 
 
@@ -54,6 +55,7 @@ app.include_router(authorizer_access)
 app.include_router(authorizer_authorize)
 app.include_router(adm)
 app.include_router(adm_moderation)
+app.include_router(adm_access)
 app.add_middleware(SessionMiddleware, secret_key="!secret")
 
 if __name__ == '__main__':
