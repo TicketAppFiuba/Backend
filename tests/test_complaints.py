@@ -72,7 +72,8 @@ def test06_userRanking():
     client.post("/user/event/complaint", json=otherQuery, headers=headers)
     client.post("/user/event/complaint", json=otherQuery, headers=otherHeaders)
     
-    response = client.get("/admin/complaints/users/ranking")
+    headers = config.addAdmin()
+    response = client.get("/admin/complaints/users/ranking", headers=headers)
     config.clear()
     assert response.json()[0]["email"] == "rlareu@fi.uba.ar"
     assert response.json()[1]["email"] == "cbravor@fi.uba.ar"
@@ -90,7 +91,8 @@ def test07_eventRanking():
     client.post("/user/event/complaint", json=otherQuery, headers=headers)
     client.post("/user/event/complaint", json=otherQuery, headers=otherHeaders)
     
-    response = client.get("/admin/complaints/events/ranking")
+    headers = config.addAdmin()
+    response = client.get("/admin/complaints/events/ranking", headers=headers)
     config.clear()
     assert response.json()[0]["title"] == "e2"
     assert response.json()[1]["title"] == "e1"

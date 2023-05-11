@@ -67,6 +67,8 @@ def validate_reservation_by(schema: ReservationCreateSchema, db: Session):
     event_db = validate_event(schema.event_id, db)
     if event_db.state != "published":
         raise HTTPException(status_code=403, detail="The event is not published.")
+    if event_db.state == "suspended":
+        raise HTTPException(status_code=403, detail="The event is suspended.")
     validate_tickets(schema.tickets, event_db)
     return schema
 

@@ -32,6 +32,11 @@ class TestSetUp:
             headers = {"Authorization": f"Bearer {token}"}
             return headers
         
+    def addAdmin(self):
+        token = jwt.create("admin")["access_token"]
+        headers = {"Authorization": f"Bearer {token}"}
+        return headers
+        
     def addPermissionScan(self, email: str, event_id: int):
         with engine.connect() as c:
             query = "INSERT INTO eventsauthorizers (email, event_id) VALUES (:email, :event_id)"

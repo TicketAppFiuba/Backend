@@ -41,6 +41,15 @@ def change_pic(event_db: Event, pic_id: int, db: Session):
     db.commit()
     db.refresh(event_db)
 
+def suspend(event_db: Event, db: Session):
+    event_db.state = "suspended"
+    db.commit()
+    db.refresh(event_db)
+
+def enable(event_db: Event, db: Session):
+    event_db.state = "published"
+    db.commit()
+    db.refresh(event_db)
 
 def getAll(querySchema: QuerySchema, offset: int, limit: int, db: Session):
     query = db.query(Event).filter(Event.state == "published")
