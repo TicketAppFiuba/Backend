@@ -13,7 +13,7 @@ def create(complaint: ComplaintSchema, db: Session):
     return complaint_db
 
 def getAll(query: ComplaintQuerySchema,db: Session):
-    complaints = db.query(Complaint)
+    complaints = db.query(Complaint, User, Event).join(User, Event)
     if query.category is not None:
         complaints = complaints.filter(Complaint.category == query.category)
     return complaints.all()
