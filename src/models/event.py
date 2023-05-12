@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, Date
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Date, DateTime
 from sqlalchemy.orm import relationship
 from . import Base
 
@@ -10,7 +10,7 @@ class Event(Base):
     title = Column(String)
     category = Column(String)
     direction = Column(String)
-    date = Column(Date)
+    date = Column(DateTime)
     capacity = Column(Integer)
     vacancies = Column(Integer)  
     latitude = Column(Float)

@@ -3,6 +3,7 @@ from sqlalchemy import text
 from fastapi.testclient import TestClient
 from src.objects.jwt import JWTToken
 from main import app
+import datetime
 
 client = TestClient(app)
 jwt = JWTToken("HS256", 15)
@@ -44,8 +45,8 @@ class TestSetUp:
 
     def addEvent(self, email, title, category, latitude, longitude, capacity, vacancies, state):
         with engine.connect() as c:
-            query = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, longitude, vacancies, pic_id, state) VALUES (:email, 'a', :capacity, '2023-04-01', :title, :category, 'str', :latitude, :longitude, :vacancies, 0, :state)"
-            c.execute(query, {'email': email, "capacity": capacity, 'title': title, 'category': category, 'latitude':latitude, "longitude": longitude, "vacancies": vacancies, 'state': state})
+            query = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, longitude, vacancies, pic_id, state) VALUES (:email, 'a', :capacity, :date, :title, :category, 'str', :latitude, :longitude, :vacancies, 0, :state)"
+            c.execute(query, {'email': email, "capacity": capacity, 'title': title, 'category': category, 'latitude':latitude, "longitude": longitude, "vacancies": vacancies, 'state': state, 'date': datetime.datetime.strptime('2023-05-12T12:30:45', '%Y-%m-%dT%H:%M:%S')})
 
     def clear(self):
         with engine.connect() as c:

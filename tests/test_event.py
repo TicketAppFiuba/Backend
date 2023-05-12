@@ -1,13 +1,14 @@
 from fastapi.testclient import TestClient
 from main import app
 from tests.setUp import TestSetUp
+import datetime
 
 config = TestSetUp()
 client = TestClient(app)
 event_json = event_json = {
     "title": "string",
     "category": "string",
-    "date": "2023-03-31",
+    "date": '2023-05-12T12:30:45',
     "description": "string",
     "capacity": 100,
     "state": "published",
