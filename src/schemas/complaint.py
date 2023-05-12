@@ -16,3 +16,7 @@ class ComplaintCreateSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
+class ComplaintQuerySchema(BaseModel):
+    category: str
+    

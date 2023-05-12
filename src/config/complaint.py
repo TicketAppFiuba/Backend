@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from src.schemas.complaint import ComplaintSchema
+from src.schemas.complaint import *
 from src.models.complaint import Complaint
 from src.models.user import User
 from src.models.event import Event
@@ -12,8 +12,11 @@ def create(complaint: ComplaintSchema, db: Session):
     db.refresh(complaint_db)
     return complaint_db
 
-def getAll(db: Session):
-    return db.query(Complaint).all()
+def getAll(query: ComplaintQuerySchema,db: Session):
+    complaints = db.query(Complaint)
+    if query.category is not None:
+        complaints = complaints.filter(Complaint.category == query.category)
+    return complaints.all()
 
 def getAllFromUser(user_id: int, db: Session):
     return db.query(Complaint).filter(Complaint.user_id == user_id).all()

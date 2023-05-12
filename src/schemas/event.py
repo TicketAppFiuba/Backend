@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
-from datetime import date
+from datetime import datetime
 from src.schemas.ubication import UbicationSchema
 from src.schemas.image import *
 from src.schemas.section import *
@@ -11,7 +11,7 @@ from src.schemas.authorizer import *
 class EventSchema(BaseModel):
     title: Optional[str]
     category: Optional[str]
-    date: Optional[date]
+    date: Optional[datetime]
     description: Optional[str]
     capacity: Optional[int] = Field(None, gt=0, lt=10000)
     ubication: Optional[UbicationSchema]
@@ -28,7 +28,7 @@ class EventSchemaUpdate(BaseModel):
     id: int
     title: Optional[str]
     category: Optional[str]
-    date: Optional[date]
+    date: Optional[datetime]
     description: Optional[str]
     direction: Optional[str]
     latitude: Optional[float]
@@ -52,7 +52,7 @@ class EventSchemaOut(BaseModel):
     organizer_email: str
     description: str
     category: str
-    date: date
+    date: datetime
     state: str
     vacancies: int
     longitude: float
