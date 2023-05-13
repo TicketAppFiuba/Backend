@@ -27,6 +27,9 @@ def getAllFromEvent(event_id: int, db: Session):
 def getByUserAndEvent(user_id: int, event_id: int, db: Session):
     return db.query(Complaint).filter(Complaint.user_id == user_id).filter(Complaint.event_id == event_id).first()
 
+def getAllCategorys(db: Session):
+    return db.query(Complaint.category).distinct().all()
+
 def getRankingFromUsers(db: Session):
     return db.query(User.id, User.email, func.count(Complaint.id).label("denounce"))\
              .filter(User.id == Complaint.user_id)\
