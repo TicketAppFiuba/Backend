@@ -4,5 +4,5 @@ from src.schemas.image import *
 from src.controllers.validator import validator
 
 def get_all_images_from_event(event_id: int, db: Session):
-    validator.validate_event(event_id, db)
+    validator.validate_get_event(event_id, db)
     return image.getAllFromEvent(event_id, db)

@@ -13,13 +13,16 @@ def create(complaint: ComplaintSchema, db: Session):
     return complaint_db
 
 def getAll(query: ComplaintQuerySchema,db: Session):
-    complaints = db.query(Complaint)
+    complaints = db.query(Complaint, User, Event).join(User, Event)
     if query.category is not None:
         complaints = complaints.filter(Complaint.category == query.category)
     return complaints.all()
 
 def getAllFromUser(user_id: int, db: Session):
     return db.query(Complaint).filter(Complaint.user_id == user_id).all()
+
+def getAllFromEvent(event_id: int, db: Session):
+    return db.query(Complaint).filter(Complaint.event_id == event_id).all()
 
 def getByUserAndEvent(user_id: int, event_id: int, db: Session):
     return db.query(Complaint).filter(Complaint.user_id == user_id).filter(Complaint.event_id == event_id).first()
