@@ -19,3 +19,7 @@ def complaints(category: str | None = None,
 @adm_complaint.get("/admin/event/complaints", status_code=200)
 def complaints_by_event(event_id: int, admin: str = Depends(verify), db: Session = Depends(get_db)):
     return complaint.get_complaints_by_event(event_id, db)
+
+@adm_complaint.get("/admin/complaints/categorys", status_code=200)
+def categorys(admin: str = Depends(verify), db: Session = Depends(get_db)):
+    return complaint.get_categorys(db)
