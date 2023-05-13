@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from src.config.db import get_db
 from src.schemas.complaint import *
 from src.config.complaint import *
-from src.controllers.admin import moderation, complaint
+from src.controllers.admin import moderation
 from src.controllers.admin.access import verify
 
 adm_moderation = APIRouter(tags=["Admin | Moderation"])
@@ -23,10 +23,3 @@ def enabled_user(email: str, admin: str = Depends(verify), db: Session = Depends
 @adm_moderation.post("/admin/event/enable", status_code=200)
 def enable_event(event_id: int, admin: str = Depends(verify), db: Session = Depends(get_db)):
     return moderation.enable_event(event_id, db)
-
-@adm_moderation.get("/admin/complaints", status_code=200)
-def complaints(category: str | None = None,
-               admin: str = Depends(verify), 
-               db: Session = Depends(get_db)):
-    query = ComplaintQuerySchema(category=category)
-    return complaint.get_complaints(query, db)

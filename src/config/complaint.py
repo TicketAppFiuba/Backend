@@ -21,6 +21,9 @@ def getAll(query: ComplaintQuerySchema,db: Session):
 def getAllFromUser(user_id: int, db: Session):
     return db.query(Complaint).filter(Complaint.user_id == user_id).all()
 
+def getAllFromEvent(event_id: int, db: Session):
+    return db.query(Complaint).filter(Complaint.event_id == event_id).all()
+
 def getByUserAndEvent(user_id: int, event_id: int, db: Session):
     return db.query(Complaint).filter(Complaint.user_id == user_id).filter(Complaint.event_id == event_id).first()
 

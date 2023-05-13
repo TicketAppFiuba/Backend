@@ -77,3 +77,9 @@ def validate_complaint_by(schema: ComplaintCreateSchema, db: Session):
     if event_db.state != "published":
         raise HTTPException(status_code=403, detail="The event is not published.")
     return schema
+
+def validate_get_event(event_id: int, db: Session):
+    event_db = validate_event(event_id, db)
+    if event_db.state != "published":
+        raise HTTPException(status_code=403, detail="The event is not published.")
+    return event_db
