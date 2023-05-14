@@ -4,7 +4,7 @@ from src.config import user
 from src.config import event
 
 def suspend_user(email: str, db: Session):
-    user_db = validator.validate_user_exist(email, db)
+    user_db = validator.validate_user(email, db)
     user.suspend(user_db, db)
     return {"detail": "User suspended successfully."}
 
@@ -14,7 +14,7 @@ def suspend_event(event_id: int, db: Session):
     return {"detail": "Event suspended successfully."}
 
 def enable_user(email: str, db: Session):
-    user_db = validator.validate_user_exist(email, db)
+    user_db = validator.validate_user(email, db)
     user.enable(user_db, db)
     return {"detail": "User enabled successfully."}
 

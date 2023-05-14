@@ -24,5 +24,5 @@ def logout(user_db: User, db: Session):
 
 def verify(token: str = Depends(oauth2), db: Session = Depends(get_db)):
     email = jwt.auth(token, user, db)
-    user_db = validator.validate_user(email, db)
+    user_db = validator.validate_access_user(email, db)
     return user_db
