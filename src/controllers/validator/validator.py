@@ -83,3 +83,9 @@ def validate_get_event(event_id: int, db: Session):
     if event_db.state != "published":
         raise HTTPException(status_code=403, detail="The event is not published.")
     return event_db
+
+def validate_user_exist(email: str, db: Session):
+    user_db = user.get(email, db)
+    if user_db is None:
+        raise HTTPException(status_code=400, detail="User not exist.")
+    return user_db

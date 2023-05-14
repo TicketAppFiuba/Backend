@@ -8,7 +8,7 @@ client = TestClient(app)
 event_json = event_json = {
     "title": "string",
     "category": "string",
-    "date": '2023-05-12T12:30:45',
+    "date": datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
     "description": "string",
     "capacity": 100,
     "state": "published",

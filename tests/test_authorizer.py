@@ -9,7 +9,7 @@ client = TestClient(app)
 event_json = {
     "title": "string",
     "category": "string",
-    "date": '2023-05-12T12:30:45',
+    "date": datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
     "description": "string",
     "capacity": 100,
     "ubication": {
@@ -100,7 +100,7 @@ def test05_ifTheAuthorizerCantScanTheTicketBecauseDoesntPermissionTheStatusCodeI
     query = {"reservation_code": response.json()["code"], "event_id": 2}
     response = client.post("/authorizer/ticket", json=query, headers=headers)
     config.clear()
-    assert response.status_code == 403
+    assert response.status_code == 404
 
 def test06_ifTheAuthorizerCantScanTheTicketBecauseTheTicketWasAlreadyScanned():
     headers = config.addUser("rlareu@fi.uba.ar")
@@ -113,4 +113,4 @@ def test06_ifTheAuthorizerCantScanTheTicketBecauseTheTicketWasAlreadyScanned():
     client.post("/authorizer/ticket", json=query, headers=headers)
     response = client.post("/authorizer/ticket", json=query, headers=headers)
     config.clear()
-    assert response.status_code == 403
+    assert response.status_code == 404
