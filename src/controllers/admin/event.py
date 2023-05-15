@@ -4,7 +4,7 @@ from src.schemas.image import *
 from src.controllers.validator import validator
 
 def get_event(event_id: int, db: Session):
-    event_db = validator.validate_get_event(event_id, db)
+    event_db = validator.validate_event(event_id, db)
     images_db = image.getAllFromEvent(event_id, db)
     faq_db = faq.getAllFromEvent(event_id, db)
     diary_db = section.getAllFromEvent(event_id, db)
