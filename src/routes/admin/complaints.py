@@ -11,9 +11,11 @@ adm_complaint = APIRouter(tags=["Admin | Complaints"])
 
 @adm_complaint.get("/admin/complaints", status_code=200)
 def complaints(category: str | None = None,
+               date_init: date | None = None,
+               date_end: date | None = None,
                admin: str = Depends(verify), 
                db: Session = Depends(get_db)):
-    query = ComplaintQuerySchema(category=category)
+    query = ComplaintQuerySchema(category=category, date_init=date_init, date_end=date_end)
     return complaint.get_complaints(query, db)
 
 @adm_complaint.get("/admin/event/complaints", status_code=200)

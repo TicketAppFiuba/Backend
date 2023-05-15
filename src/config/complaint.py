@@ -4,9 +4,10 @@ from src.models.complaint import Complaint
 from src.models.user import User
 from src.models.event import Event
 from sqlalchemy import func
+from datetime import date
 
 def create(complaint: ComplaintSchema, db: Session):
-    complaint_db = Complaint(**complaint.dict())
+    complaint_db = Complaint(**complaint.dict(), date=date.today())
     db.add(complaint_db)
     db.commit()
     db.refresh(complaint_db)
@@ -16,6 +17,8 @@ def getAll(query: ComplaintQuerySchema,db: Session):
     complaints = db.query(Complaint, User, Event).join(User, Event)
     if query.category is not None:
         complaints = complaints.filter(Complaint.category == query.category)
+    if (query.date_init is not None) and (query.date_end is not None):
+        complaints = complaints.filter(query.date_init <= Complaint.date).filter(Complaint.date <= query.date_end)
     return complaints.all()
 
 def getAllFromUser(user_id: int, db: Session):
