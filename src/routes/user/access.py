@@ -7,8 +7,6 @@ from src.controllers.user import access
 from src.schemas.user import UserSchema
 from google.oauth2 import id_token
 from google.auth.transport import requests
-from starlette.requests import Request
-import requests
 
 user_access = APIRouter(tags=["User | Authentication"])
 
