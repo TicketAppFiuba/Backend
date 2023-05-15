@@ -10,5 +10,9 @@ def get_complaints_by_event(event_id: int, db: Session):
     validator.validate_event(event_id, db)
     return complaint.getAllFromEvent(event_id, db)
 
+def get_complaints_by_user(email: str, db: Session):
+    user_db = validator.validate_user(email, db)
+    return complaint.getAllFromUser(user_db.id, db)
+
 def get_categorys(db: Session):
     return complaint.getAllCategorys(db)

@@ -5,7 +5,7 @@ from src.schemas.complaint import *
 from src.config.complaint import *
 from src.controllers.admin.access import verify
 from src.schemas.event import *
-from src.controllers.user import event
+from src.controllers.admin import event
 
 adm_event = APIRouter(tags=["Admin | Event"])
 
