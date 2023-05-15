@@ -15,7 +15,7 @@ itsdangerous
 starlette
 google-auth
 requests
-
+firebase-admin==6.1.0
 
 
 

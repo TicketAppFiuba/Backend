@@ -1,12 +1,14 @@
 from sqlalchemy.orm import Session
 from src.models.organizer import Organizer
 from src.schemas.event import EventSchema, EventSchemaUpdate
-from src.config import event, section, authorizer, image, faq
+from src.schemas.notification import NotificationSchema
+from src.config import event, section, authorizer, image, faq, notifications
 from src.schemas.image import *
 from src.controllers.organizer.permissions import *
 
 def create_event(eventSchema: EventSchema, user_db: Organizer, db: Session):
     event_db = event.create(eventSchema, user_db.email, db)
+    notifications.create_scheduled_notification(event_db)
     return {"detail": "Event created successfully", "id": event_db.id}
 
 def update_event(eventSchema: EventSchemaUpdate, user_db: Organizer, db: Session):
@@ -18,6 +20,7 @@ def update_event(eventSchema: EventSchemaUpdate, user_db: Organizer, db: Session
 def delete_event(event_id: int, user_db: Organizer, db: Session):
     event_db = check_event(event_id, user_db, db)
     event.delete(event_db, db)
+    notifications.delete_event_notifications(event_db)
     return {"detail": "Event deleted successfully."}
 
 def get_event(event_id: int, user_db: Organizer, db: Session):
@@ -30,3 +33,8 @@ def get_event(event_id: int, user_db: Organizer, db: Session):
 
 def get_events_from(user_db: Organizer, db: Session):
     return event.getAllEventFromOrganizer(user_db.email, db)
+
+def notify_subscribers(event_id: int, notification: NotificationSchema, user_db: Organizer, db: Session):
+    check_event(event_id, user_db, db)
+    notifications.send_notification(event_id, notification)
+    return { "detail": "Event notified successfully." }
