@@ -17,10 +17,11 @@ from src.routes.admin.moderation import adm_moderation
 from src.routes.admin.access import adm_access
 from src.routes.admin.event import adm_event
 from src.routes.admin.complaints import adm_complaint
-#from starlette.middleware.cors import CORSMiddleware
-
+from src.services.firebase import initialize_firebase
 
 app = FastAPI(title = "TicketAPP")
+
+app.add_event_handler("startup", initialize_firebase)
 
 origins1 = ["http://localhost",
            "https://localhost", 
