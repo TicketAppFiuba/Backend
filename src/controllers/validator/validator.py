@@ -7,6 +7,14 @@ from src.schemas.faq import *
 from src.schemas.reservation import *
 from src.schemas.complaint import *
 
+### Exist ###
+
+def validate_user(email: str, db: Session):
+    user_db = user.get(email, db)
+    if user_db is None:
+        raise HTTPException(status_code=400, detail="User not exist.")
+    return user_db
+
 def validate_event(event_id: int, db: Session):
     event_db = event.get(event_id, db)
     if event_db is None:
@@ -31,17 +39,19 @@ def validate_reservation(code: str, db: Session):
         raise HTTPException(status_code=404, detail="La reserva no existe.")
     return reservation_db
 
-def validate_user(email: str, db: Session):
-    user_db = user.get(email, db)
-    if user_db is None:
-        raise HTTPException(status_code=400, detail="User not exist.")
+
+
+### Access ###
+
+def validate_access_user(email: str, db: Session):
+    user_db = validate_user(email, db)
     if user_db.login == False:
         raise HTTPException(status_code=400, detail="Auth error.")
     if user_db.suspended == True:
         raise HTTPException(status_code=400, detail="The user is suspended.")
     return user_db
 
-def validate_authorizer(email: str, db: Session):
+def validate_access_authorizer(email: str, db: Session):
     authorizer_db = authorizer.get(email, db)
     if authorizer_db is None:
         raise HTTPException(status_code=400, detail="User not exist.")
@@ -49,7 +59,7 @@ def validate_authorizer(email: str, db: Session):
         raise HTTPException(status_code=400, detail="Auth error.")
     return authorizer_db
 
-def validate_organizer(email: str, db: Session):
+def validate_access_organizer(email: str, db: Session):
     organizer_db = organizer.get(email, db)
     if organizer_db is None:
         raise HTTPException(status_code=400, detail="User not exist.")
@@ -57,28 +67,37 @@ def validate_organizer(email: str, db: Session):
         raise HTTPException(status_code=400, detail="Auth error.")
     return organizer_db
 
+
+
+### Reservation
+
 def validate_tickets(tickets: int, event_db: Event):
     if tickets > 4 or tickets <= 0:
         raise HTTPException(status_code=403, detail="The number of tickets is invalid.")
     if event_db.vacancies - tickets < 0:
         raise HTTPException(status_code=403, detail="The number of tickets exceeds the capacity of the event.")
     
-def validate_reservation_by(schema: ReservationCreateSchema, db: Session):
+def validate_user_reservation(schema: ReservationCreateSchema, db: Session):
     event_db = validate_event(schema.event_id, db)
     if event_db.state != "published":
         raise HTTPException(status_code=403, detail="The event is not published.")
-    if event_db.state == "suspended":
-        raise HTTPException(status_code=403, detail="The event is suspended.")
     validate_tickets(schema.tickets, event_db)
     return schema
 
-def validate_complaint_by(schema: ComplaintCreateSchema, db: Session):
+
+### Complaint
+
+def validate_user_complaint(schema: ComplaintCreateSchema, db: Session):
     event_db = validate_event(schema.event_id, db)
     if event_db.state != "published":
         raise HTTPException(status_code=403, detail="The event is not published.")
     return schema
 
-def validate_get_event(event_id: int, db: Session):
+
+
+### View User Event
+
+def validate_user_get_event(event_id: int, db: Session):
     event_db = validate_event(event_id, db)
     if event_db.state != "published":
         raise HTTPException(status_code=403, detail="The event is not published.")

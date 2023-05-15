@@ -31,7 +31,7 @@ def getAllCategorys(db: Session):
     return db.query(Complaint.category).distinct().all()
 
 def getRankingFromUsers(db: Session):
-    return db.query(User.id, User.email, func.count(Complaint.id).label("denounce"))\
+    return db.query(User.id, User.email, User.name, User.suspended, func.count(Complaint.id).label("denounce"))\
              .filter(User.id == Complaint.user_id)\
              .group_by(User.id)\
              .order_by(func.count(Complaint.id).desc())\

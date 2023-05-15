@@ -18,7 +18,7 @@ def suspend_event(event_id: int, admin: str = Depends(verify), db: Session = Dep
 
 @adm_moderation.post("/admin/user/enable", status_code=200)
 def enabled_user(email: str, admin: str = Depends(verify), db: Session = Depends(get_db)):
-    return moderation.enabled_user(email, db)
+    return moderation.enable_user(email, db)
 
 @adm_moderation.post("/admin/event/enable", status_code=200)
 def enable_event(event_id: int, admin: str = Depends(verify), db: Session = Depends(get_db)):

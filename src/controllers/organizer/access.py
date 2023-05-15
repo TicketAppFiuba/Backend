@@ -24,5 +24,5 @@ def logout(user_db: Organizer, db: Session):
 
 def verify(token: str = Depends(oauth2), db: Session = Depends(get_db)):
     email = jwt.auth(token, organizer, db)
-    organizer_db = validator.validate_organizer(email, db)
+    organizer_db = validator.validate_access_organizer(email, db)
     return organizer_db
