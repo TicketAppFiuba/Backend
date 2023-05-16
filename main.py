@@ -18,6 +18,7 @@ from src.routes.admin.access import adm_access
 from src.routes.admin.event import adm_event
 from src.routes.admin.complaints import adm_complaint
 from src.services.firebase import initialize_firebase
+from src.routes.user.favorites import user_favorites
 
 app = FastAPI(title = "TicketAPP")
 
@@ -54,6 +55,7 @@ app.include_router(user_access)
 app.include_router(user_event)
 app.include_router(user_reservation)
 app.include_router(user_complaints)
+app.include_router(user_favorites)
 app.include_router(authorizer_access)
 app.include_router(authorizer_authorize)
 app.include_router(adm)
