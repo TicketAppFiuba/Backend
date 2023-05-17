@@ -16,6 +16,7 @@ def test01_ifTheEventExistsThenWhenTheUserAddsTheEventToTheFavoriteListTheStatus
 def test02_ifTheEventExistsThenWhenTheUserAddsTheEventToTheFavoriteListTheSizeFavoriteListIs1():
     headers = config.addUser("rlareu@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "soccer", "sport", 100, 100, 10, 10, "published")
+    config.addEvent("gmovia@fi.uba.ar", "soccer", "basket", 100, 100, 10, 10, "published")
     query = {"event_id": 1}
     response = client.post("/user/event/favorite", params=query, headers=headers)
     response = client.get("/user/favorites", headers=headers)
@@ -39,3 +40,38 @@ def test04_ifTheEventDoesntExistsThenWhenTheUserAddsTheEventToTheFavoriteListThe
     response = client.post("/user/event/favorite", params=query, headers=headers)
     config.clear()
     assert response.status_code == 404
+
+def test05_ifTheEventIsInFavoriteListThenWhenTheUserDeletesTheEventToTheFavoriteListTheStatusCodeWillBe200():
+    headers = config.addUser("rlareu@fi.uba.ar")
+    config.addEvent("gmovia@fi.uba.ar", "soccer", "sport", 100, 100, 10, 10, "published")
+    query = {"event_id": 1}
+    response = client.post("/user/event/favorite", params=query, headers=headers)
+    response = client.delete("/user/event/favorite", params=query, headers=headers)
+    config.clear()
+    assert response.status_code == 200
+
+def test06_ifTheEventIsNotInFavoriteListThenWhenTheUserDeletesTheEventToTheFavoriteListTheStatusCodeWillBe():
+    headers = config.addUser("rlareu@fi.uba.ar")
+    config.addEvent("gmovia@fi.uba.ar", "soccer", "sport", 100, 100, 10, 10, "published")
+    query = {"event_id": 1}
+    response = client.delete("/user/event/favorite", params=query, headers=headers)
+    config.clear()
+    assert response.status_code == 403
+
+def test07_ifTheEventDoesntExistThenWhenTheUserDeletesTheEventToTheFavoriteListTheStatusCodeWillBe():
+    headers = config.addUser("rlareu@fi.uba.ar")
+    config.addEvent("gmovia@fi.uba.ar", "soccer", "sport", 100, 100, 10, 10, "published")
+    query = {"event_id": 6}
+    response = client.delete("/user/event/favorite", params=query, headers=headers)
+    config.clear()
+    assert response.status_code == 404
+
+def test08_ifTheEventIsNotInFavoriteListThenWhenTheUserDeletesTheEventToTheFavoriteListTheStatusCodeWillBe():
+    headers = config.addUser("rlareu@fi.uba.ar")
+    config.addEvent("gmovia@fi.uba.ar", "soccer", "sport", 100, 100, 10, 10, "published")
+    query = {"event_id": 1}
+    response = client.post("/user/event/favorite", params=query, headers=headers)
+    response = client.delete("/user/event/favorite", params=query, headers=headers)
+    response = client.delete("/user/event/favorite", params=query, headers=headers)
+    config.clear()
+    assert response.status_code == 403

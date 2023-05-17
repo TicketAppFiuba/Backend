@@ -10,6 +10,10 @@ user_favorites = APIRouter(tags=["User | Favorites"])
 @user_favorites.post("/user/event/favorite", status_code=200)
 def add_favorite(event_id: int, user_db: User = Depends(verify), db: Session = Depends(get_db)):
     return favorite.add_favorite(event_id, user_db, db)
+
+@user_favorites.delete("/user/event/favorite", status_code=200)
+def delete_favorite(event_id: int, user_db: User = Depends(verify), db: Session = Depends(get_db)):
+    return favorite.delete_favorite(event_id, user_db, db)
     
 @user_favorites.get("/user/favorites", status_code=200)
 def get_favorites(user_db: User = Depends(verify), db: Session = Depends(get_db)):

@@ -28,4 +28,11 @@ def check_add_favorite_event(user_id: int, event_id: int, db: Session):
     if favorite_db is not None:
         raise HTTPException(status_code=403, detail="The event has already been added.")
     return event_db
+
+def check_delete_favorite_event(user_id: int, event_id: int, db: Session):
+    validator.validate_user_get_event(event_id, db)
+    favorite_db = favorite.getByUserAndEvent(user_id, event_id, db)
+    if favorite_db is None:
+        raise HTTPException(status_code=403, detail="The event is not includes in the favorite event list.")
+    return favorite_db
        
