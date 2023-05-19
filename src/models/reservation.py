@@ -12,3 +12,4 @@ class Reservation(Base):
     scanned = Column(Boolean)
     user = relationship("User", back_populates="reservations")   
     event = relationship("Event", back_populates="reservations")
+    attendance = relationship("Attendance", back_populates="reservation")

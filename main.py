@@ -19,6 +19,8 @@ from src.routes.admin.event import adm_event
 from src.routes.admin.complaints import adm_complaint
 from src.services.firebase import initialize_firebase
 from src.routes.user.favorites import user_favorites
+from src.routes.authorizer.attendances import authorizer_attendances
+from src.routes.authorizer.statistics import authorizer_statistics
 
 app = FastAPI(title = "TicketAPP")
 
@@ -63,6 +65,8 @@ app.include_router(adm_moderation)
 app.include_router(adm_access)
 app.include_router(adm_event)
 app.include_router(adm_complaint)
+app.include_router(authorizer_attendances)
+app.include_router(authorizer_statistics)
 
 app.add_middleware(SessionMiddleware, secret_key="!secret")
 
