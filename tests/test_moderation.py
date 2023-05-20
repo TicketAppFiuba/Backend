@@ -17,7 +17,7 @@ def test02_ifTheUserDoesntExistThenWhenTheAdmSuspendTheAccountTheStatusCodeIs400
     response = client.post("/admin/user/suspend", params={"email": "gmovia@fi.uba.ar"}, headers=headers)
     assert response.status_code == 400
 
-def test03_ifTheUserIsSuspendedThenWhenTheUserReserveAnEventTheStatusCodeIs400():
+def test03_ifTheUserIsSuspendedThenWhenTheUserReserveAnEventTheStatusCodeIs403():
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     query = {"event_id": 1, "tickets": 2}
     headers = config.addAdmin()
@@ -25,7 +25,7 @@ def test03_ifTheUserIsSuspendedThenWhenTheUserReserveAnEventTheStatusCodeIs400()
     client.post("/admin/user/suspend", params={"email": "rlareu@fi.uba.ar"}, headers=headers)
     response = client.post("/user/event/reservation", json=query, headers=other_headers)
     config.clear()
-    assert response.status_code == 400
+    assert response.status_code == 403
 
 def test04_ifTheUserIsSuspendedAndTheAdminEnablesTheUserTheStatusCodeWillBe200():
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
