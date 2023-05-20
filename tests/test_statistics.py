@@ -17,6 +17,5 @@ def test01_statistics200():
     query = {"reservation_code": reservation.json()["code"], "event_id": 1}
     response = client.post("/authorizer/ticket", json=query, headers=headers)
     response = client.get("/authorizer/event/statistics", params={"event_id": 1}, headers=headers)
-    print(response.json())
     config.clear()
     assert response.status_code == 200

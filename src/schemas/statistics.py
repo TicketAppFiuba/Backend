@@ -28,7 +28,7 @@ class AttendancePerHourSchema(BaseModel):
 class StatisticsSchema(BaseModel):
     reservation_date: ReservationDateSchema
     attendance_date: AttendanceDateSchema
-    distribution_per_hour: List[AttendanceDateSchema]
+    distribution_per_hour: List[AttendancePerHourSchema]
 
     class Config:
         orm_mode = True

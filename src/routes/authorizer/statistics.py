@@ -8,7 +8,7 @@ from src.schemas.statistics import StatisticsSchema
 
 authorizer_statistics = APIRouter(tags=["Authorizer | Statistics"])
 
-@authorizer_statistics.get("/authorizer/event/statistics", status_code=200)
+@authorizer_statistics.get("/authorizer/event/statistics", response_model=StatisticsSchema, status_code=200)
 def event_statistics(event_id: int, authorizer_db: Authorizer = Depends(verify), db: Session = Depends(get_db)):
     return statistics.get_statistics(event_id, authorizer_db, db)
 

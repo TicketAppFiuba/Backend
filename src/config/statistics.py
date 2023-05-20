@@ -5,7 +5,7 @@ from src.models.attendance import Attendance
 from src.models.reservation import Reservation
 
 def attendance_date(event_id: int, db: Session):
-    return db.query(func.count(Event.id).label("attendaces"),
+    return db.query(func.count(Event.id).label("attendances"),
                     (Event.capacity-func.count(Event.id)).label("availability"),
                     (cast(func.count(Event.id), Float)/Event.capacity).label("attendance_ratio"))\
              .join(Reservation, Reservation.event_id == Event.id)\
