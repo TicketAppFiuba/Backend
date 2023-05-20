@@ -5,7 +5,7 @@ from tests.setUp import TestSetUp
 config = TestSetUp()
 client = TestClient(app)
 
-def test01_():
+def test01_statistics200():
     headers = config.addUser("rlareu@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "event_1", "category_1", 100, 100, 10, 10, "published")
     config.addPermissionScan("cbravor@fi.uba.ar", 1)

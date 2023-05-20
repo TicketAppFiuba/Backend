@@ -5,6 +5,11 @@ from src.controllers.authorizer import permissions
 
 def get_statistics(event_id: int, authorizer_db: Authorizer, db: Session):
     event_db = permissions.check_authorizer_permission(event_id, authorizer_db, db)
-    reservation_rate = statistics.reservation_rate(event_db.id, db)
-    distribution = statistics.attendance_per_hour(event_db.id, db)
-    return {"Reservation_rate": reservation_rate, "Distribution": distribution}
+    reservation_date = statistics.reservation_date(event_db.id, db)
+    attendance_date = statistics.attendance_date(event_db.id, db)
+    distribution_per_hour = statistics.attendance_per_hour(event_db.id, db)
+    return { 
+            "reservation_date": reservation_date, 
+            "attendance_date": attendance_date,
+            "distribution_per_hour": distribution_per_hour
+            }

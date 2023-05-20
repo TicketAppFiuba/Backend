@@ -4,17 +4,21 @@ from sqlalchemy import func, cast, Float
 from src.models.attendance import Attendance
 from src.models.reservation import Reservation
 
-def attendance_rate(event_id: int, db: Session):
-    #return db.query(Event.title, func.count(Reservation.event_id).label("att"), Event.capacity)\
-    #         .join(Reservation, Attendance.reservation_id == Reservation.id)\
-    #         .join(Event, Reservation.event_id == Event.id)\
-    #         .filter(Event.id == event_id)\
-    #         .group_by(Reservation.event_id)\
-    #         .first()
-    return 1
+def attendance_date(event_id: int, db: Session):
+    return db.query(func.count(Event.id).label("attendaces"),
+                    (Event.capacity-func.count(Event.id)).label("availability"),
+                    (cast(func.count(Event.id), Float)/Event.capacity).label("attendance_ratio"))\
+             .join(Reservation, Reservation.event_id == Event.id)\
+             .join(Attendance, Attendance.reservation_id == Reservation.id)\
+             .filter(Event.id == event_id)\
+             .group_by(Event.id)\
+             .first()
 
-def reservation_rate(event_id: int, db: Session):
-    return db.query(Event.id, Event.title, (cast(Event.vacancies, Float)/Event.capacity).label("reservation_ratio"))\
+def reservation_date(event_id: int, db: Session):
+    return db.query(Event.capacity, 
+                    Event.vacancies,
+                    (Event.capacity-Event.vacancies).label("occupancy"),
+                    (cast(Event.capacity-Event.vacancies, Float)/Event.capacity).label("reservation_ratio"))\
              .filter(Event.id == event_id)\
              .first()
 
@@ -25,18 +29,3 @@ def attendance_per_hour(event_id: int, db: Session):
              .group_by(Attendance.hour)\
              .order_by(Attendance.hour)\
              .all()
-
-# SELECT Event.vacancies/Event.capacity
-# FROM Event
-# WHERE Event.id == event_id
-
-# SELECT Assistance.hour, func.count(Assistance.hour).label("assistance")
-# FROM Assistance
-# GROUP_BY Assitance.hour
-# ORDER_BY Assistance.hour
-
-# SELECT COUNT(Reservation.event_id)/Event.capacity, Event.id
-# FROM Assistance, Reservation, Event
-# WHERE Assistance.reservation_id == Reservation.id
-# AND Reservation.event_id == Event.id
-# GROUP BY Reservation.event_id
