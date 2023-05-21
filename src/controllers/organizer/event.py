@@ -8,7 +8,6 @@ from src.controllers.organizer.permissions import *
 
 def create_event(eventSchema: EventSchema, user_db: Organizer, db: Session):
     event_db = event.create(eventSchema, user_db.email, db)
-    notifications.create_scheduled_notification(event_db)
     return {"detail": "Event created successfully", "id": event_db.id}
 
 def update_event(eventSchema: EventSchemaUpdate, user_db: Organizer, db: Session):
@@ -20,7 +19,6 @@ def update_event(eventSchema: EventSchemaUpdate, user_db: Organizer, db: Session
 def delete_event(event_id: int, user_db: Organizer, db: Session):
     event_db = check_event(event_id, user_db, db)
     event.delete(event_db, db)
-    notifications.delete_event_notifications(event_db)
     return {"detail": "Event deleted successfully."}
 
 def get_event(event_id: int, user_db: Organizer, db: Session):
