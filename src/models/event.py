@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, Date, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Date, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from . import Base
 
@@ -17,6 +17,7 @@ class Event(Base):
     longitude = Column(Float)
     pic_id = Column(Integer)
     state = Column(String)
+    notified = Column(Boolean, default=False)
     organizer = relationship("Organizer", back_populates="events")
     images = relationship('Image', back_populates="event", cascade="all, delete, delete-orphan")
     faqs = relationship('FAQ', back_populates="event", cascade="all, delete, delete-orphan")
