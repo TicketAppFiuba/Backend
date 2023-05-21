@@ -4,6 +4,9 @@ from src.models.user import User
 from firebase_admin import messaging
 from src.schemas.notification import NotificationSchema
 import datetime
+from main import lock, pendingEvents
+
+REMINDER_TIME_HOURS = 24
 
 def send_notification(event_id: int, notification: NotificationSchema):
     message = messaging.Message(
@@ -22,20 +25,11 @@ def create_subscription(user_id: int, event_id: int, db: Session):
         return response
 
 def create_scheduled_notification(event_db: Event):
-    event_hour = event_db.date.strftime('%H:%M')
-    schedule_time = event_db.date - datetime.timedelta(hours=24)
-
-    # message = messaging.Message(
-    #     notification=messaging.Notification(
-    #         title=f'Falta poco para \'{event_db.title}\'!',
-    #         body=f'Recuerda: faltan 24hs para el inicio de \'{event_db.title}\', que comienza a las {event_hour} hs.'
-    #     ),
-    #     topic=str(event_db.id),
-    #     schedule_time=schedule_time # revisar, si no funciona tengo que hacer un proceso que chequee los times
-    # )
-    # response = messaging.send(message)
+    schedule_time = event_db.date - datetime.timedelta(hours=REMINDER_TIME_HOURS)
+    with lock:
+        pendingEvents[event_db.id] = schedule_time
     print('Successfully scheduled notification at', schedule_time, ': ')
 
 def delete_event_notifications(event_db: Event):
-    # depende de como se seteen las scheduled notifications. 
-    print('Successfully deleted all scheduled messages for event:', event_db.id)
+    with lock:
+        pendingEvents.pop(event_db.id)
