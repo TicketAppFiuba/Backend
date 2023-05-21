@@ -11,6 +11,8 @@ def reminder_notifications():
     while True:
         events = db.query(Event).filter(Event.state == "published")
         for event_db in events:
+            if event_db.notified == True:
+                continue
             notification_time = event_db.date - datetime.timedelta(hours=24)
             if notification_time <= datetime.datetime.now:
                 notify(event_db)
