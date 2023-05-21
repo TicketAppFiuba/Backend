@@ -12,3 +12,4 @@ class User(Base):
     firebase_token = Column(String)
     reservations = relationship('Reservation', back_populates="user", cascade="all, delete, delete-orphan")
     complaints = relationship('Complaint', back_populates="user", cascade="all, delete, delete-orphan")
+    favorites = relationship('Favorite', back_populates="user", cascade="all, delete, delete-orphan")   

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from . import Base
 
@@ -9,5 +9,6 @@ class Complaint(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
     category = Column(String)
     description = Column(String)
+    date = Column(Date)
     event = relationship("Event", back_populates="complaints")
     user = relationship("User", back_populates="complaints")

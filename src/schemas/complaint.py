@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import date
 
 class ComplaintSchema(BaseModel):
     event_id: int
@@ -20,4 +21,8 @@ class ComplaintCreateSchema(BaseModel):
 
 class ComplaintQuerySchema(BaseModel):
     category: Optional[str]
+    date_init: Optional[date]
+    date_end: Optional[date]
     
+    class Config:
+        orm_mode = True

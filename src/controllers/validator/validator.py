@@ -48,7 +48,7 @@ def validate_access_user(email: str, db: Session):
     if user_db.login == False:
         raise HTTPException(status_code=400, detail="Auth error.")
     if user_db.suspended == True:
-        raise HTTPException(status_code=400, detail="The user is suspended.")
+        raise HTTPException(status_code=403, detail="The user is suspended.")
     return user_db
 
 def validate_access_authorizer(email: str, db: Session):

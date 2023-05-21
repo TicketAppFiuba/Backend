@@ -1,4 +1,4 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from src.objects.jwt import JWTToken
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
@@ -15,6 +15,8 @@ def login(schema: UserSchema, db: Session):
     user_db = user.get(schema.email, db)
     if user_db is None:
         user_db = user.create(schema, db)
+    if user_db.suspended == True:
+        raise HTTPException(status_code=400, detail="The user is suspended.")
     user.update(user_db, {"login": True}, db)
     return jwt.create(schema.email)
 

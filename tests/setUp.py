@@ -60,3 +60,5 @@ class TestSetUp:
             c.execute(text("DELETE FROM authorizers"))
             c.execute(text("DELETE FROM eventsauthorizers"))
             c.execute(text("DELETE FROM complaints"))
+            c.execute(text("DELETE FROM favorites"))
+            c.execute(text("DELETE FROM attendances"))
