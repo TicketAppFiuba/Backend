@@ -4,11 +4,10 @@ from src.models.event import Event
 from src.config.db import SessionLocal
 from src.config.notifications import send_notification
 from src.schemas.notification import NotificationSchema
-from sqlalchemy.orm import Session
 
-def reminder_notifications():
+def reminder_notifications(stop_flag):
     db = SessionLocal()
-    while True:
+    while not stop_flag.is_set(): # muere 1hs despues, cuando termina el sleep
         events = db.query(Event).filter(Event.state == "published")
         for event_db in events:
             if event_db.notified == True:
@@ -18,6 +17,7 @@ def reminder_notifications():
                 notify(event_db)
                 event_db.notified = True
         time.sleep(3600) # cada 1 hs
+    db.close()
 
 def notify(event_db):
     event_name = event_db.name
