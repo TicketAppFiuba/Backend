@@ -5,10 +5,8 @@ from src.controllers.authorizer import access
 from src.models.organizer import Organizer
 from starlette.requests import Request
 from src.schemas.user import UserSchema
-from google.oauth2 import id_token
 from google.auth.transport import requests
 import requests
-import json
 
 authorizer_access = APIRouter(tags=["Authorizer | Authentication"])
 

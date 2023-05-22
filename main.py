@@ -21,7 +21,7 @@ from src.services.firebase import initialize_firebase
 from src.routes.user.favorites import user_favorites
 from src.routes.authorizer.attendances import authorizer_attendances
 from src.routes.authorizer.statistics import authorizer_statistics
-from threading import Thread
+from threading import Thread, Event
 from notification_process import reminder_notifications
 
 app = FastAPI(title = "TicketAPP")
@@ -71,7 +71,14 @@ app.include_router(authorizer_attendances)
 app.include_router(authorizer_statistics)
 app.add_middleware(SessionMiddleware, secret_key="!secret")
 
-Thread(target=reminder_notifications).start()
+stop_flag = Event()
+notifications_thread = Thread(target=reminder_notifications, args=(stop_flag,), daemon=True)
+notifications_thread.start()
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    stop_flag.set()
+    print("Stopping notifications thread.")
 
 if __name__ == '__main__':
     uvicorn.run('main:app', port=8000, reload=True)
