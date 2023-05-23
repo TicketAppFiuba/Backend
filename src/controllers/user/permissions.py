@@ -23,14 +23,14 @@ def check_create_complaint(complaintSchema: ComplaintCreateSchema, user_db: User
     return ComplaintSchema(**complaintSchema.dict(), user_id=user_db.id)    
 
 def check_add_favorite_event(user_id: int, event_id: int, db: Session):
-    event_db = validator.validate_user_get_event(event_id, db)
+    event_db = validator.validate_event(event_id, db)
     favorite_db = favorite.getByUserAndEvent(user_id, event_id, db)
     if favorite_db is not None:
         raise HTTPException(status_code=403, detail="The event has already been added.")
     return event_db
 
 def check_delete_favorite_event(user_id: int, event_id: int, db: Session):
-    validator.validate_user_get_event(event_id, db)
+    validator.validate_event(event_id, db)
     favorite_db = favorite.getByUserAndEvent(user_id, event_id, db)
     if favorite_db is None:
         raise HTTPException(status_code=403, detail="The event is not includes in the favorite event list.")
