@@ -8,7 +8,7 @@ from datetime import datetime
 def register(reservation_id: int, db: Session):
     attendance_db = Attendance(reservation_id=reservation_id,
                                date=datetime.now().date(),
-                               hour=datetime.now().strftime("%H"))
+                               hour=datetime.now().strftime("%H:%M"))
     db.add(attendance_db)
     db.commit()
     db.refresh(attendance_db)
