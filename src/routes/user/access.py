@@ -11,8 +11,8 @@ user_access = APIRouter(tags=["User | Authentication"])
 
 @user_access.get("/user/login", status_code=200)
 async def login(token: str, name: str, mail: str, db: Session = Depends(get_db)):
-    url = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={}'.format(token)
-    response = requests.get(url)
+    #url = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={}'.format(token)
+    #response = requests.get(url)
     # if response.status_code != 200:
     #     raise HTTPException(status_code=400, detail="JWT Invalid.")    
     user = UserSchema(name=name, email=mail)
