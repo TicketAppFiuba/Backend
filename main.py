@@ -12,6 +12,7 @@ from src.routes.user.access import user_access
 from src.routes.user.event import user_event
 from src.routes.user.reservation import user_reservation
 from src.routes.user.complaints import user_complaints
+from src.routes.user.firebase import firebase
 from src.routes.admin.statistics import adm
 from src.routes.admin.moderation import adm_moderation
 from src.routes.admin.access import adm_access
@@ -69,6 +70,7 @@ app.include_router(adm_event)
 app.include_router(adm_complaint)
 app.include_router(authorizer_attendances)
 app.include_router(authorizer_statistics)
+app.include_router(firebase)
 app.add_middleware(SessionMiddleware, secret_key="!secret")
 
 stop_flag = Event()
