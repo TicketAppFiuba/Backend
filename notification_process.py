@@ -4,6 +4,9 @@ from src.models.event import Event
 from src.config.db import SessionLocal
 from src.config.notifications import send_notification
 from src.schemas.notification import NotificationSchema
+from src.services.firebase import initialize_firebase
+
+initialize_firebase()
 
 def reminder_notifications(stop_flag):
     db = SessionLocal()
