@@ -6,7 +6,7 @@ from src.config.notifications import send_notification
 from src.schemas.notification import NotificationSchema
 from src.services.firebase import initialize_firebase
 
-initialize_firebase()
+initialize_firebase('scheduled_notifications')
 
 def reminder_notifications(stop_flag):
     db = SessionLocal()
