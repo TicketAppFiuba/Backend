@@ -12,8 +12,8 @@ def reminder_notifications(stop_flag):
         for event_db in events:
             if event_db.notified == True:
                 continue
-            notification_time = event_db.date - datetime.timedelta(hours=24)
-            if notification_time <= datetime.datetime.now():
+            if event_db.date >= datetime.datetime.now() - datetime.timedelta(hours=24):
+                print("Proceso de notificaciones - enviado a evento: " + event_db.title)
                 notify(event_db)
                 event_db.notified = True
         time.sleep(3600) # cada 1 hs
