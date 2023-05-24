@@ -4,11 +4,10 @@ from src.models.event import Event
 from src.config.db import SessionLocal
 from src.config.notifications import send_notification
 from src.schemas.notification import NotificationSchema
-from src.services.firebase import initialize_firebase
-
-initialize_firebase('scheduled_notifications')
+from firebase_admin import get_app
 
 def reminder_notifications(stop_flag):
+    get_app()
     db = SessionLocal()
     while not stop_flag.is_set(): # muere 1hs despues, cuando termina el sleep
         events = db.query(Event).filter(Event.state == "published")
