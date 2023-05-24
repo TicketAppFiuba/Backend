@@ -13,7 +13,7 @@ def reminder_notifications(stop_flag):
             if event_db.notified == True:
                 continue
             notification_time = event_db.date - datetime.timedelta(hours=24)
-            if notification_time <= datetime.datetime.now:
+            if notification_time <= datetime.datetime.now():
                 notify(event_db)
                 event_db.notified = True
         time.sleep(3600) # cada 1 hs

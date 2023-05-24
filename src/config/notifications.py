@@ -17,5 +17,5 @@ def send_notification(event_id: int, notification: NotificationSchema):
 def create_subscription(user_id: int, event_id: int, db: Session):
     token = db.query(User).filter(User.id == user_id).first().firebase_token
     if token:
-        response = messaging.subscribe_to_topic(token, str(event_id))
+        response = messaging.subscribe_to_topic([token], str(event_id))
         return response
