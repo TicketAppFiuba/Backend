@@ -9,7 +9,7 @@ from src.controllers.authorizer import permissions
 def authorize(qr: QRSchema, authorizer_db: Authorizer, db: Session):
     reservation_db = permissions.check_scan_reservation(qr, authorizer_db, db)
     reservation.scan(reservation_db, db)
-    attendance.register(reservation_db.id, db)
+    attendance.register(reservation_db.id, reservation_db.tickets, db)
     return {"detail": "La reserva fue escaneada correctamente."} 
 
 def get_events(authorizer_db: Authorizer, db: Session):

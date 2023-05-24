@@ -5,8 +5,9 @@ from src.models.event import Event
 from src.models.reservation import Reservation
 from datetime import datetime
 
-def register(reservation_id: int, db: Session):
+def register(reservation_id: int, tickets: int, db: Session):
     attendance_db = Attendance(reservation_id=reservation_id,
+                               tickets = tickets,
                                date=datetime.now().date(),
                                hour=datetime.now().strftime("%H:%M"))
     db.add(attendance_db)
