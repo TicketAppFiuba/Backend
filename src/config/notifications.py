@@ -4,13 +4,17 @@ from src.models.user import User
 from firebase_admin import messaging
 from src.schemas.notification import NotificationSchema
 from fastapi import HTTPException
+from src.config import image, event
 
-def send_notification(event_id: int, notification: NotificationSchema):
+def send_notification(event_id: int, notification: NotificationSchema, db: Session):
+    event_db = event.get(event_id, db)
     message = messaging.Message(
         notification=messaging.Notification(
             title=notification.title,
             body=notification.description,
+            image=image.getCoverImage(event_db.pic_id, db)
         ),
+        data={ 'event_id': str(event_id) },
         topic=str(event_id)
     )
     send = messaging.send(message)
