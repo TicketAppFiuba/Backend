@@ -22,8 +22,8 @@ def create_subscription(user_id: int, event_id: int, db: Session):
     if token:
         response = messaging.subscribe_to_topic([token], str(event_id))
         if response.success_count == 0:
-            raise(HTTPException(status_code=400, detail="No se crearon subscripciones en firebase"))
-        print("SE CREARON " +str(response.success_count) + "SUBSCRIPCIONES")
+            raise HTTPException(status_code=400, detail= (f"Failed to subscribe to topic {str(event_id)} due to {list(map(lambda e: e.reason,response.errors))}"))
+        print("SE CREARON " +str(response.success_count) + " SUBSCRIPCIONES")
         return response
     else:
         print('No hay token FCM seteado para el usuario')

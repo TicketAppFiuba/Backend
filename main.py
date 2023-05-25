@@ -27,6 +27,8 @@ from notification_process import reminder_notifications
 
 app = FastAPI(title = "TicketAPP")
 
+app.add_event_handler("startup", initialize_firebase)
+
 origins1 = ["http://localhost",
            "https://localhost", 
            "http://localhost:8080",

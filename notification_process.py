@@ -7,7 +7,6 @@ from src.schemas.notification import NotificationSchema
 from firebase_admin import get_app
 
 def reminder_notifications(stop_flag):
-    get_app()
     db = SessionLocal()
     while not stop_flag.is_set(): # muere 1hs despues, cuando termina el sleep
         events = db.query(Event).filter(Event.state == "published")
