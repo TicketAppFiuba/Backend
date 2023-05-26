@@ -6,6 +6,7 @@ class Attendance(Base):
     __tablename__ = "attendances"
     id = Column(Integer, primary_key=True)
     reservation_id = Column(Integer, ForeignKey("reservations.id"), index=True)
+    tickets = Column(Integer)
     date = Column(Date)
     hour = Column(String)
     reservation = relationship("Reservation", back_populates="attendance")

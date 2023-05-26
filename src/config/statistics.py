@@ -5,9 +5,9 @@ from src.models.attendance import Attendance
 from src.models.reservation import Reservation
 
 def attendance_date(event_id: int, db: Session):
-    return db.query(func.count(Event.id).label("attendances"),
-                    (Event.capacity-func.count(Event.id)).label("availability"),
-                    (cast(func.count(Event.id), Float)/Event.capacity).label("attendance_ratio"))\
+    return db.query(func.sum(Attendance.tickets).label("attendances"),
+                    (Event.capacity-func.sum(Attendance.tickets)).label("availability"),
+                    (cast(func.sum(Attendance.tickets), Float)/Event.capacity).label("attendance_ratio"))\
              .join(Reservation, Reservation.event_id == Event.id)\
              .join(Attendance, Attendance.reservation_id == Reservation.id)\
              .filter(Event.id == event_id)\
@@ -23,7 +23,7 @@ def reservation_date(event_id: int, db: Session):
              .first()
 
 def attendance_per_hour(event_id: int, db: Session):
-    return db.query(Attendance.hour, func.count(Attendance.hour).label("attendances"))\
+    return db.query(Attendance.hour, func.sum(Attendance.tickets).label("attendances"))\
              .filter(Attendance.reservation_id == Reservation.id)\
              .filter(Reservation.event_id == event_id)\
              .group_by(Attendance.hour)\

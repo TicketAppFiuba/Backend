@@ -34,5 +34,5 @@ def get_events_from(user_db: Organizer, db: Session):
 
 def notify_subscribers(event_id: int, notification: NotificationSchema, user_db: Organizer, db: Session):
     check_event(event_id, user_db, db)
-    notifications.send_notification(event_id, notification)
+    notifications.send_notification(event_id, notification, db)
     return { "detail": "Event notified successfully." }
