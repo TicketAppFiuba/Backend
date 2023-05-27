@@ -12,6 +12,7 @@ from src.models.authorizer import Authorizer
 from src.models.event_authorizer import EventAuthorizer
 from src.models.complaint import Complaint
 from src.models.favorites import Favorite
+from src.models.calendar import Calendar
 from src.models.attendance import Attendance
 import os
 from dotenv import load_dotenv
