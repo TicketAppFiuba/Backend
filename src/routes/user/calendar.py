@@ -3,7 +3,9 @@ from sqlalchemy.orm import Session
 from src.config.db import get_db
 from src.models.user import User
 from src.controllers.user.access import verify
-from src.controllers.user import calendar
+from src.controllers.user import calendar, event
+from src.schemas.event import EventSchemaOut
+
 
 user_calendar = APIRouter(tags=["User | Calendar"])
 
@@ -17,4 +19,5 @@ def delete_calendar(event_id: int, user_db: User = Depends(verify), db: Session 
     
 @user_calendar.get("/user/calendar", status_code=200)
 def get_calendar(user_db: User = Depends(verify), db: Session = Depends(get_db)):
-    return calendar.get_calendar(user_db, db)
+    cal_events = calendar.get_calendar(user_db, db)
+    return [event.get_event(cal_event.id, db) for cal_event in cal_events]

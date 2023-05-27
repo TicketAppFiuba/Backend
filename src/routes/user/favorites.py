@@ -17,7 +17,7 @@ def add_favorite(event_id: int, user_db: User = Depends(verify), db: Session = D
 def delete_favorite(event_id: int, user_db: User = Depends(verify), db: Session = Depends(get_db)):
     return favorite.delete_favorite(event_id, user_db, db)
     
-@user_favorites.get("/user/favorites", status_code=200, response_model=list[EventSchemaOut])
+@user_favorites.get("/user/favorites", status_code=200)
 def get_favorites(user_db: User = Depends(verify), db: Session = Depends(get_db)):
     fav_events = favorite.get_favorites(user_db, db)
     return [event.get_event(fav_event.id, db) for fav_event in fav_events]
