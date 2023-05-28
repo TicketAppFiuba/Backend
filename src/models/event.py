@@ -25,4 +25,5 @@ class Event(Base):
     reservations = relationship('Reservation', back_populates="event", cascade="all, delete, delete-orphan")
     authorizers = relationship('EventAuthorizer', back_populates="event", cascade="all, delete, delete-orphan")
     complaints = relationship('Complaint', back_populates="event", cascade="all, delete, delete-orphan")
-    favorites = relationship('Favorite', back_populates="event", cascade="all, delete, delete-orphan")   
+    favorites = relationship('Favorite', back_populates="event", cascade="all, delete, delete-orphan")
+    calendar = relationship('Calendar', back_populates="event", cascade="all, delete, delete-orphan")   

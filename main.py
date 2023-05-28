@@ -20,6 +20,7 @@ from src.routes.admin.event import adm_event
 from src.routes.admin.complaints import adm_complaint
 from src.services.firebase import initialize_firebase
 from src.routes.user.favorites import user_favorites
+from src.routes.user.calendar import user_calendar
 from src.routes.authorizer.attendances import authorizer_attendances
 from src.routes.authorizer.statistics import authorizer_statistics
 from threading import Thread, Event
@@ -61,6 +62,7 @@ app.include_router(user_event)
 app.include_router(user_reservation)
 app.include_router(user_complaints)
 app.include_router(user_favorites)
+app.include_router(user_calendar)
 app.include_router(authorizer_access)
 app.include_router(authorizer_authorize)
 app.include_router(adm)

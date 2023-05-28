@@ -12,23 +12,24 @@ from src.models.authorizer import Authorizer
 from src.models.event_authorizer import EventAuthorizer
 from src.models.complaint import Complaint
 from src.models.favorites import Favorite
+from src.models.calendar import Calendar
 from src.models.attendance import Attendance
-#import os
-#from dotenv import load_dotenv
+import os
+from dotenv import load_dotenv
 
 
-#load_dotenv()
+load_dotenv()
 
-#db_hostname = os.environ["DATABASE_HOSTNAME"]
-#db_port = os.environ["DATABASE_PORT"]
-#database = os.environ["DATABASE"]
-#db_username = os.environ["DATABASE_USERNAME"]
-#db_password = os.environ["DATABASE_PASSWORD"]
+db_hostname = os.environ["DATABASE_HOSTNAME"]
+db_port = os.environ["DATABASE_PORT"]
+database = os.environ["DATABASE"]
+db_username = os.environ["DATABASE_USERNAME"]
+db_password = os.environ["DATABASE_PASSWORD"]
 
-#db_url="postgresql://{0}:{1}@{2}:{3}/{4}".format(db_username, db_password, db_hostname, db_port, database)
+db_url="postgresql://{0}:{1}@{2}:{3}/{4}".format(db_username, db_password, db_hostname, db_port, database)
 
-#engine = create_engine(db_url, pool_pre_ping=True)
-engine = create_engine("sqlite:///./sql_app.db", connect_args={"check_same_thread": False})
+engine = create_engine(db_url, pool_pre_ping=True)
+#engine = create_engine("sqlite:///./sql_app.db", connect_args={"check_same_thread": False})
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

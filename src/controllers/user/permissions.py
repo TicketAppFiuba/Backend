@@ -7,6 +7,7 @@ from src.schemas.reservation import *
 from src.schemas.complaint import *
 from src.controllers.validator import validator
 from src.config import favorite
+from src.config import calendar
     
 def check_create_reservation(reservationSchema: ReservationCreateSchema, user_db: User, db: Session):
     validator.validate_user_reservation(reservationSchema, db)
@@ -35,4 +36,19 @@ def check_delete_favorite_event(user_id: int, event_id: int, db: Session):
     if favorite_db is None:
         raise HTTPException(status_code=403, detail="The event is not includes in the favorite event list.")
     return favorite_db
+       
+def check_add_calendar_event(user_id: int, event_id: int, db: Session):
+    event_db = validator.validate_event(event_id, db)
+    calendar_db = calendar.getByUserAndEvent(user_id, event_id, db)
+    if calendar_db is not None:
+        raise HTTPException(status_code=403, detail="The event has already been added.")
+    return event_db
+
+def check_delete_calendar_event(user_id: int, event_id: int, db: Session):
+    validator.validate_event(event_id, db)
+    calendar_db = calendar.getByUserAndEvent(user_id, event_id, db)
+    if calendar_db is None:
+        raise HTTPException(status_code=403, detail="The event is not includes in the favorite event list.")
+    return calendar_db
+       
        
