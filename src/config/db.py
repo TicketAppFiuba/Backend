@@ -12,6 +12,7 @@ from src.models.authorizer import Authorizer
 from src.models.event_authorizer import EventAuthorizer
 from src.models.complaint import Complaint
 from src.models.favorites import Favorite
+from src.models.calendar import Calendar
 from src.models.attendance import Attendance
 import os
 from dotenv import load_dotenv
@@ -27,8 +28,8 @@ db_password = os.environ["DATABASE_PASSWORD"]
 
 db_url="postgresql://{0}:{1}@{2}:{3}/{4}".format(db_username, db_password, db_hostname, db_port, database)
 
-engine = create_engine(db_url, pool_pre_ping=True)
-#engine = create_engine("sqlite:///./sql_app.db", connect_args={"check_same_thread": False})
+#engine = create_engine(db_url, pool_pre_ping=True)
+engine = create_engine("sqlite:///./sql_app.db", connect_args={"check_same_thread": False})
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
