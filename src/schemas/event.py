@@ -65,6 +65,7 @@ class EventUserSchemaOut(BaseModel): # Para usuarios
     Images: List[ImageSchemaOut]
     FAQ: List[FaqSchemaOut]
     Diary: List[SectionSchema]
+    favorite: bool
     
     class Config:
         orm_mode = True

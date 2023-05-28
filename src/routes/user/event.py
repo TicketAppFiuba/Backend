@@ -12,7 +12,7 @@ user_event = APIRouter(tags=["User | Events"])
 
 @user_event.get("/user/event", response_model = EventUserSchemaOut, status_code=200)
 def get_event(event_id: int, user_db: User = Depends(verify), db: Session = Depends(get_db)):
-    return event.get_event(event_id, db)
+    return event.get_event(user_db.id, event_id, db)
 
 @user_event.get("/user/events", response_model=List[EventWithDistanceSchemaOut], status_code=200)
 def get_events(title: Union[str, None] = None, 
@@ -29,6 +29,6 @@ def get_events(title: Union[str, None] = None,
                         ubication=UbicationSchema(direction=direction,
                                                   latitude=latitude,
                                                   longitude=longitude))
-    return event.get_all_event(query, offset, limit, db)
+    return event.get_all_event(user_db.id, query, offset, limit, db)
 
 
