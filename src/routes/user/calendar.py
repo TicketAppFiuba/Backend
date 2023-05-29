@@ -5,7 +5,7 @@ from src.models.user import User
 from src.controllers.user.access import verify
 from src.controllers.user import calendar, event
 from src.schemas.event import EventSchemaOut
-
+from typing import List
 
 user_calendar = APIRouter(tags=["User | Calendar"])
 
@@ -19,4 +19,4 @@ def delete_calendar(event_id: int, user_db: User = Depends(verify), db: Session 
     
 @user_calendar.get("/user/calendar", status_code=200)
 def get_calendar(user_db: User = Depends(verify), db: Session = Depends(get_db)):
-    return calendar.get_calendar(user_db, db)
+    return calendar.get_events(user_db, db)
