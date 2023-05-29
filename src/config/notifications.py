@@ -12,7 +12,7 @@ def send_notification(event_id: int, notification: NotificationSchema, db: Sessi
         notification=messaging.Notification(
             title=notification.title,
             body=notification.description,
-            image=image.getCoverImage(event_db.pic_id, db).link
+            image=image.getCoverImage(event_db.pic_id, db).link if image.getCoverImage(event_db.pic_id, db) else None
         ),
         data={ 'event_id': str(event_id) },
         topic=str(event_id)
