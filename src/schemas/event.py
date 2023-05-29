@@ -105,6 +105,7 @@ class EventWithDistanceSchemaOut(BaseModel): # Para usuarios
     FAQ: List[FaqSchemaOut]
     Diary: List[SectionSchema]
     Distance: float
+    favorite: bool
     
     class Config:
         orm_mode = True
