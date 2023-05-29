@@ -74,6 +74,7 @@ class EventSchemaOutWithLink(BaseModel):
     vacancies: int
     longitude: float
     link: Optional[str]
+    favorite: Optional[bool]
     
     class Config:
         orm_mode = True
