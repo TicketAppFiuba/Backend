@@ -4,7 +4,8 @@ from src.config.db import get_db
 from src.models.user import User
 from src.controllers.user.access import verify
 from src.controllers.user import favorite, event
-from src.schemas.event import EventSchemaOut
+from src.schemas.event import EventUserSchemaOut
+from typing import Optional
 
 
 user_favorites = APIRouter(tags=["User | Favorites"])
@@ -17,7 +18,7 @@ def add_favorite(event_id: int, user_db: User = Depends(verify), db: Session = D
 def delete_favorite(event_id: int, user_db: User = Depends(verify), db: Session = Depends(get_db)):
     return favorite.delete_favorite(event_id, user_db, db)
     
-@user_favorites.get("/user/favorites", status_code=200)
+@user_favorites.get("/user/favorites", status_code=200, response_model=list[EventUserSchemaOut])
 def get_favorites(user_db: User = Depends(verify), db: Session = Depends(get_db)):
     fav_events = favorite.get_favorites(user_db, db)
-    return [event.get_event(fav_event.id, db) for fav_event in fav_events]
+    return [event.get_event(user_db.id, fav_event.id, db) for fav_event in fav_events]

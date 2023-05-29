@@ -19,5 +19,4 @@ def delete_calendar(event_id: int, user_db: User = Depends(verify), db: Session 
     
 @user_calendar.get("/user/calendar", status_code=200)
 def get_calendar(user_db: User = Depends(verify), db: Session = Depends(get_db)):
-    cal_events = calendar.get_calendar(user_db, db)
-    return [event.get_event(cal_event.id, db) for cal_event in cal_events]
+    return calendar.get_calendar(user_db, db)
