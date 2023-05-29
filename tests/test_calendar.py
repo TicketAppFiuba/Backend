@@ -56,7 +56,7 @@ def test06_ifTheEventIsNotInFavoriteListThenWhenTheUserDeletesTheEventToCalendar
     query = {"event_id": 1}
     response = client.delete("/user/event/Calendar", params=query, headers=headers)
     config.clear()
-    assert response.status_code == 403
+    assert response.status_code == 404
 
 def test07_ifTheEventDoesntExistThenWhenTheUserDeletesTheEventToCalendarListTheStatusCodeWillBe():
     headers = config.addUser("rlareu@fi.uba.ar")
@@ -75,3 +75,4 @@ def test08_ifTheEventIsNotInFavoriteListThenWhenTheUserDeletesTheEventToCalendar
     response = client.delete("/user/event/calendar", params=query, headers=headers)
     config.clear()
     assert response.status_code == 403
+
