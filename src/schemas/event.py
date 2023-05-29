@@ -60,6 +60,25 @@ class EventSchemaOut(BaseModel):
     class Config:
         orm_mode = True
 
+class EventSchemaOutWithLink(BaseModel):
+    id: int
+    title: str
+    direction: str
+    capacity: int
+    latitude: float
+    organizer_email: str
+    description: str
+    category: str
+    date: datetime
+    state: str
+    vacancies: int
+    longitude: float
+    link: Optional[str]
+    
+    class Config:
+        orm_mode = True
+
+
 class EventUserSchemaOut(BaseModel): # Para usuarios
     Event: EventSchemaOut
     Images: List[ImageSchemaOut]

@@ -25,6 +25,7 @@ from src.routes.authorizer.attendances import authorizer_attendances
 from src.routes.authorizer.statistics import authorizer_statistics
 from threading import Thread, Event
 from notification_process import reminder_notifications
+from date_process import change_status_to_finalished
 
 app = FastAPI(title = "TicketAPP")
 
@@ -86,4 +87,5 @@ if __name__ == '__main__':
     initialize_firebase()
     notifications_thread = Thread(target=reminder_notifications, args=(stop_flag,), daemon=True)
     notifications_thread.start()
+    #change_status_to_finalished()
     uvicorn.run('main:app', port=8000, reload=True)

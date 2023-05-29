@@ -51,6 +51,11 @@ def enable(event_db: Event, db: Session):
     db.commit()
     db.refresh(event_db)
 
+def finish(event_db: Event, db: Session):
+    event_db.state = "finished"
+    db.commit()
+    db.refresh(event_db)
+
 def getAll(querySchema: QuerySchema, offset: int, limit: int, db: Session):
     query = db.query(Event).filter(Event.state == "published")
     if querySchema.title is not None:
