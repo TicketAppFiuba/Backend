@@ -29,3 +29,21 @@ def attendance_per_hour(event_id: int, db: Session):
              .group_by(Attendance.hour)\
              .order_by(Attendance.hour)\
              .all()
+
+def all_attendance_per_month(db: Session):
+    return db.query(func.strftime("%Y-%m", Attendance.date).label("year_month"), func.sum(Attendance.tickets).label("attendances"))\
+             .filter(Attendance.reservation_id == Reservation.id)\
+             .group_by(func.strftime("%Y-%m", Attendance.date).label("year_month"))\
+             .order_by(func.strftime("%Y-%m", Attendance.date).label("year_month"))\
+             .all()
+
+def all_event_per_month(db: Session):
+    return db.query(func.strftime("%Y-%m", Event.date).label("year_month"), func.sum(Event.tickets).label("attendances"))\
+             .group_by(func.strftime("%Y-%m", Event.date).label("year_month"))\
+             .order_by(func.strftime("%Y-%m", Event.date).label("year_month"))\
+             .all()
+
+def amount_event_per_state(db: Session):
+    return db.query(Event.state, func.sum(Event.id).label("amount"))\
+             .group_by(Event.state)\
+             .all()
