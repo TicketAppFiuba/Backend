@@ -5,7 +5,7 @@ from tests.setUp import TestSetUp
 config = TestSetUp()
 client = TestClient(app)
 
-def test01_statistics200():
+def test01_ifTheAdminGetEventsStatisticsThenTheStatusCodeIs200():
     headers = config.addUser("rlareu@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "event_1", "category_1", 100, 100, 10, 10, "published")
     config.addPermissionScan("cbravor@fi.uba.ar", 1)
@@ -20,7 +20,7 @@ def test01_statistics200():
     config.clear()
     assert response.status_code == 200
 
-def test02_statistics200():
+def test02_ifTheAdminGetAttendancesDistributionTheStatusCodeIs200():
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     query = {"event_id": 1, "tickets": 2}
     
@@ -33,11 +33,46 @@ def test02_statistics200():
     response = client.post("/authorizer/ticket", json=query, headers=headers)
 
     headers = config.addAdmin()
-    response = client.get("/admin/attendances/statistics/distribution", params={"email": "rlareu@fi.uba.ar"}, headers=headers)
- 
-    print(response.json())
     
-    response = client.get("/admin/event/statistics/state", params={"email": "rlareu@fi.uba.ar"}, headers=headers)
-    print(response.json())
+    response = client.get("/admin/attendances/statistics/distribution", json={"email": "rlareu@fi.uba.ar"}, headers=headers)
+    
+    config.clear()
+    assert response.status_code == 200
+
+def test03_ifTheAdminGetStateStatisticsTheStatusCodeIs200():
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
+    query = {"event_id": 1, "tickets": 2}
+    
+    other_headers = config.addUser("rlareu@fi.uba.ar")
+    reservation = client.post("/user/event/reservation", json=query, headers=other_headers)
+    
+    config.addPermissionScan("cbravor@fi.uba.ar", 1)
+    headers = config.addAuthorizer("cbravor@fi.uba.ar")
+    query = {"reservation_code": reservation.json()["code"], "event_id": 1}
+    response = client.post("/authorizer/ticket", json=query, headers=headers)
+
+    headers = config.addAdmin()
+    
+    response = client.get("/admin/event/statistics/state", json={"email": "rlareu@fi.uba.ar"}, headers=headers)
+
+    config.clear()
+    assert response.status_code == 200
+
+def test04_ifTheAdminGetEventsDistributionTheStatusCodeIs200():
+    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
+    query = {"event_id": 1, "tickets": 2}
+    
+    other_headers = config.addUser("rlareu@fi.uba.ar")
+    reservation = client.post("/user/event/reservation", json=query, headers=other_headers)
+    
+    config.addPermissionScan("cbravor@fi.uba.ar", 1)
+    headers = config.addAuthorizer("cbravor@fi.uba.ar")
+    query = {"reservation_code": reservation.json()["code"], "event_id": 1}
+    response = client.post("/authorizer/ticket", json=query, headers=headers)
+
+    headers = config.addAdmin()
+    
+    response = client.get("/admin/events/statistics/distribution", json={"email": "rlareu@fi.uba.ar"}, headers=headers)
+
     config.clear()
     assert response.status_code == 200

@@ -3,6 +3,7 @@ from src.models.event import Event
 from sqlalchemy import func, cast, Float
 from src.models.attendance import Attendance
 from src.models.reservation import Reservation
+from src.schemas.statistics import QueryDistributionSchema
 
 def attendance_date(event_id: int, db: Session):
     return db.query(func.sum(Attendance.tickets).label("attendances"),
@@ -30,20 +31,41 @@ def attendance_per_hour(event_id: int, db: Session):
              .order_by(Attendance.hour)\
              .all()
 
-def all_attendance_per_month(db: Session):
-    return db.query(func.strftime("%Y-%m", Attendance.date).label("year_month"), func.sum(Attendance.tickets).label("attendances"))\
-             .filter(Attendance.reservation_id == Reservation.id)\
-             .group_by(func.strftime("%Y-%m", Attendance.date).label("year_month"))\
-             .order_by(func.strftime("%Y-%m", Attendance.date).label("year_month"))\
-             .all()
+def all_attendance_per_month(query: QueryDistributionSchema, db: Session):
+    q = db.query(func.strftime("%Y-%m", Attendance.date).label("year_month"), func.sum(Attendance.tickets).label("attendances"))\
+          .filter(Attendance.reservation_id == Reservation.id)\
+          .group_by(func.strftime("%Y-%m", Attendance.date).label("year_month"))\
+          .order_by(func.strftime("%Y-%m", Attendance.date).label("year_month"))
+    
+    if query.init_date:
+        q = q.filter(Event.date >= query.init_date)
+        
+    if query.end_date:
+        q = q.filter(Event.date <= query.end_date)
+    
+    return q.all()
 
-def all_event_per_month(db: Session):
-    return db.query(func.strftime("%Y-%m", Event.date).label("year_month"), func.sum(Event.tickets).label("attendances"))\
-             .group_by(func.strftime("%Y-%m", Event.date).label("year_month"))\
-             .order_by(func.strftime("%Y-%m", Event.date).label("year_month"))\
-             .all()
+def all_event_per_month(query: QueryDistributionSchema, db: Session):
+    q = db.query(func.strftime("%Y-%m", Event.create_date).label("year_month"), func.sum(Event.id).label("events"))\
+          .group_by(func.strftime("%Y-%m", Event.create_date).label("year_month"))\
+          .order_by(func.strftime("%Y-%m", Event.create_date).label("year_month"))
 
-def amount_event_per_state(db: Session):
-    return db.query(Event.state, func.sum(Event.id).label("amount"))\
-             .group_by(Event.state)\
-             .all()
+    if query.init_date:
+        q = q.filter(Event.date >= query.init_date)
+        
+    if query.end_date:
+        q = q.filter(Event.date <= query.end_date)
+        
+    return q.all()
+
+def amount_event_per_state(query: QueryDistributionSchema, db: Session):
+    q = db.query(Event.state, func.sum(Event.id).label("amount"))\
+          .group_by(Event.state)\
+
+    if query.init_date:
+        q = q.filter(Event.date >= query.init_date)
+        
+    if query.end_date:
+        q = q.filter(Event.date <= query.end_date)
+        
+    return q.all()

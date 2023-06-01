@@ -11,6 +11,7 @@ class Event(Base):
     category = Column(String)
     direction = Column(String)
     date = Column(DateTime)
+    create_date = Column(DateTime)
     capacity = Column(Integer)
     vacancies = Column(Integer)  
     latitude = Column(Float)
