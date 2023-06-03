@@ -6,13 +6,15 @@ from src.models.faq import FAQ
 from src.config.relations import *
 from sqlalchemy.sql import func
 from sqlalchemy import func
+from datetime import datetime
 
 def create(event: EventSchema, email: str, db: Session):
     event_db = Event(**event.dict(exclude={'authorizers', 'ubication', 'agenda', 'faqs', 'images'}),
                      vacancies=event.capacity,
                      direction=event.ubication.direction,
-                     latitude = event.ubication.latitude,
-                     longitude = event.ubication.longitude, 
+                     latitude=event.ubication.latitude,
+                     longitude=event.ubication.longitude,
+                     create_date=datetime.now().date(), 
                      organizer_email=email)
     addRelationsToEvent(event_db, event, email)        
     db.add(event_db)

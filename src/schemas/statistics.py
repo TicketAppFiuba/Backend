@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
+from datetime import date
 
 class ReservationDateSchema(BaseModel):
     capacity: int
@@ -30,5 +31,12 @@ class StatisticsSchema(BaseModel):
     attendance_date: AttendanceDateSchema
     distribution_per_hour: List[AttendancePerHourSchema]
 
+    class Config:
+        orm_mode = True
+
+class QueryDistributionSchema(BaseModel):
+    init_date: Optional[date]
+    end_date: Optional[date]
+ 
     class Config:
         orm_mode = True
