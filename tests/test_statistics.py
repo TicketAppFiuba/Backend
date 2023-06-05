@@ -34,7 +34,7 @@ def test02_ifTheAdminGetAttendancesDistributionTheStatusCodeIs200():
 
     headers = config.addAdmin()
     
-    response = client.get("/admin/attendances/statistics/distribution", json={"email": "rlareu@fi.uba.ar"}, headers=headers)
+    response = client.get("/admin/attendances/statistics/distribution", params={"email": "rlareu@fi.uba.ar"}, headers=headers)
     
     config.clear()
     assert response.status_code == 200
@@ -53,7 +53,7 @@ def test03_ifTheAdminGetStateStatisticsTheStatusCodeIs200():
 
     headers = config.addAdmin()
     
-    response = client.get("/admin/event/statistics/state", json={"email": "rlareu@fi.uba.ar"}, headers=headers)
+    response = client.get("/admin/event/statistics/state", params={"email": "rlareu@fi.uba.ar"}, headers=headers)
 
     config.clear()
     assert response.status_code == 200
@@ -72,7 +72,7 @@ def test04_ifTheAdminGetEventsDistributionTheStatusCodeIs200():
 
     headers = config.addAdmin()
     
-    response = client.get("/admin/events/statistics/distribution", json={"email": "rlareu@fi.uba.ar"}, headers=headers)
+    response = client.get("/admin/events/statistics/distribution", params={"email": "rlareu@fi.uba.ar"}, headers=headers)
 
     config.clear()
     assert response.status_code == 200
