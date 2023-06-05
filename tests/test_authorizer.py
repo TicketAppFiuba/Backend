@@ -9,7 +9,8 @@ client = TestClient(app)
 event_json = {
     "title": "string",
     "category": "string",
-    "date": datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
+    "init_date": datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
+    "end_date": datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
     "description": "string",
     "capacity": 100,
     "ubication": {

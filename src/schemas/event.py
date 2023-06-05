@@ -11,7 +11,8 @@ from src.schemas.authorizer import *
 class EventSchema(BaseModel):
     title: Optional[str]
     category: Optional[str]
-    date: Optional[datetime]
+    init_date: Optional[datetime]
+    end_date: Optional[datetime]
     description: Optional[str]
     capacity: Optional[int] = Field(None, gt=0, lt=10000)
     ubication: Optional[UbicationSchema]
@@ -28,7 +29,8 @@ class EventSchemaUpdate(BaseModel):
     id: int
     title: Optional[str]
     category: Optional[str]
-    date: Optional[datetime]
+    init_date: Optional[datetime]
+    end_date: Optional[datetime]
     description: Optional[str]
     direction: Optional[str]
     latitude: Optional[float]
@@ -52,7 +54,8 @@ class EventSchemaOut(BaseModel):
     organizer_email: str
     description: str
     category: str
-    date: datetime
+    init_date: Optional[datetime]
+    end_date: Optional[datetime]
     state: str
     vacancies: int
     longitude: float
@@ -69,7 +72,8 @@ class EventSchemaOutWithLink(BaseModel):
     organizer_email: str
     description: str
     category: str
-    date: datetime
+    init_date: Optional[datetime]
+    end_date: Optional[datetime]
     state: str
     vacancies: int
     longitude: float
