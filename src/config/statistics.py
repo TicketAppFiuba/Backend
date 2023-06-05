@@ -38,10 +38,10 @@ def all_attendance_per_month(query: QueryDistributionSchema, db: Session):
           .order_by(func.strftime("%Y-%m", Attendance.date).label("year_month"))
     
     if query.init_date:
-        q = q.filter(Event.date >= query.init_date)
+        q = q.filter(Event.init_date >= query.init_date)
         
     if query.end_date:
-        q = q.filter(Event.date <= query.end_date)
+        q = q.filter(Event.init_date <= query.end_date)
     
     return q.all()
 
@@ -51,10 +51,10 @@ def all_event_per_month(query: QueryDistributionSchema, db: Session):
           .order_by(func.strftime("%Y-%m", Event.create_date).label("year_month"))
 
     if query.init_date:
-        q = q.filter(Event.date >= query.init_date)
+        q = q.filter(Event.create_date >= query.init_date)
         
     if query.end_date:
-        q = q.filter(Event.date <= query.end_date)
+        q = q.filter(Event.create_date <= query.end_date)
         
     return q.all()
 
@@ -63,9 +63,9 @@ def amount_event_per_state(query: QueryDistributionSchema, db: Session):
           .group_by(Event.state)\
 
     if query.init_date:
-        q = q.filter(Event.date >= query.init_date)
+        q = q.filter(Event.create_date >= query.init_date)
         
     if query.end_date:
-        q = q.filter(Event.date <= query.end_date)
+        q = q.filter(Event.create_date <= query.end_date)
         
     return q.all()

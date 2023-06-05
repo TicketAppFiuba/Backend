@@ -1,10 +1,10 @@
-import datetime
-import time
 from src.models.event import Event
 from src.config.db import SessionLocal
 from src.config.notifications import send_notification
 from src.schemas.notification import NotificationSchema
 from firebase_admin import get_app
+import time
+import datetime
 
 def reminder_notifications(stop_flag):
     db = SessionLocal()
@@ -19,8 +19,8 @@ def reminder_notifications(stop_flag):
     db.close()
 
 def should_notify_event(event_db):
-    prev_day = datetime.datetime.now() - datetime.timedelta(hours=24)
-    return event_db.date >= prev_day and event_db.date < datetime.datetime.now() and event_db.notified == False
+    prev_day = event_db.init_date - datetime.timedelta(hours=24)
+    return datetime.datetime.now() >= prev_day and event_db.init_date > datetime.datetime.now() and event_db.notified == False
 
 def notify(event_db, db):
     event_name = event_db.title

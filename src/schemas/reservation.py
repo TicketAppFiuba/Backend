@@ -20,7 +20,8 @@ class ReservationOutSchema(BaseModel):
     organizer_email: str
     description: str
     category: str
-    date: datetime
+    init_date: Optional[datetime]
+    end_date: Optional[datetime]
     state: str
     vacancies: int
     longitude: float

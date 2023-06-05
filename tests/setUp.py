@@ -45,8 +45,8 @@ class TestSetUp:
 
     def addEvent(self, email, title, category, latitude, longitude, capacity, vacancies, state):
         with engine.connect() as c:
-            query = "INSERT INTO events (organizer_email, description, capacity, date, title, category, direction, latitude, longitude, vacancies, pic_id, state, create_date) VALUES (:email, 'a', :capacity, :date, :title, :category, 'str', :latitude, :longitude, :vacancies, 0, :state, :create_date)"
-            c.execute(query, {'email': email, "capacity": capacity, 'title': title, 'category': category, 'latitude':latitude, "longitude": longitude, "vacancies": vacancies, 'state': state, 'date': datetime.datetime.now(), 'create_date': datetime.datetime.now()})
+            query = "INSERT INTO events (organizer_email, description, capacity, init_date, end_date, title, category, direction, latitude, longitude, vacancies, pic_id, state, create_date) VALUES (:email, 'a', :capacity, :init_date, :end_date, :title, :category, 'str', :latitude, :longitude, :vacancies, 0, :state, :create_date)"
+            c.execute(query, {'email': email, "capacity": capacity, 'title': title, 'category': category, 'latitude':latitude, "longitude": longitude, "vacancies": vacancies, 'state': state, 'init_date': datetime.datetime.now(), 'end_date': datetime.datetime.now(), 'create_date': datetime.datetime.now()})
 
     def clear(self):
         with engine.connect() as c:
