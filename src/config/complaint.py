@@ -3,7 +3,6 @@ from src.schemas.complaint import *
 from src.models.complaint import Complaint
 from src.models.user import User
 from src.models.event import Event
-from sqlalchemy import func
 from datetime import date
 
 def create(complaint: ComplaintSchema, db: Session):
@@ -32,19 +31,3 @@ def getByUserAndEvent(user_id: int, event_id: int, db: Session):
 
 def getAllCategorys(db: Session):
     return db.query(Complaint.category).distinct().all()
-
-def getRankingFromUsers(db: Session):
-    return db.query(User.id, User.email, User.name, User.suspended, func.count(Complaint.id).label("denounce"))\
-             .filter(User.id == Complaint.user_id)\
-             .group_by(User.id)\
-             .order_by(func.count(Complaint.id).desc())\
-             .limit(10)\
-             .all()
-
-def getRankingFromEvents(db: Session):
-    return db.query(Event.id, Event.title, func.count(Complaint.id).label("denounce"))\
-             .filter(Complaint.event_id == Event.id)\
-             .group_by(Event.id)\
-             .order_by(func.count(Complaint.id).desc())\
-             .limit(10)\
-             .all()
