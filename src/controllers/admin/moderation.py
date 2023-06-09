@@ -2,10 +2,12 @@ from sqlalchemy.orm import Session
 from src.controllers.validator import validator
 from src.config import user
 from src.config import event
+from src.config import suspension
 
 def suspend_user(email: str, db: Session):
     user_db = validator.validate_user(email, db)
     user.suspend(user_db, db)
+    suspension.create(db)
     return {"detail": "User suspended successfully."}
 
 def suspend_event(event_id: int, db: Session):
