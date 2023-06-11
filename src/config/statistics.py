@@ -35,11 +35,18 @@ def attendance_per_hour(event_id: int, db: Session):
              .order_by(Attendance.hour)\
              .all()
 
+def date_filter(unit: str):
+    return {
+        "month": "%Y-%m",
+        "day": "%Y-%m-%d",
+        "year": "%Y"
+    }[unit]
+
 def all_attendances_per_date(query: QueryDistributionSchema, db: Session):
-    q = db.query(func.strftime("%Y-%m", Attendance.date).label("date"), func.sum(Attendance.tickets).label("attendances"))\
+    q = db.query(func.strftime(date_filter(query.unit), Attendance.date).label("date"), func.sum(Attendance.tickets).label("attendances"))\
           .filter(Attendance.reservation_id == Reservation.id)\
-          .group_by(func.strftime("%Y-%m", Attendance.date).label("date"))\
-          .order_by(func.strftime("%Y-%m", Attendance.date).label("date"))
+          .group_by(func.strftime(date_filter(query.unit), Attendance.date).label("date"))\
+          .order_by(func.strftime(date_filter(query.unit), Attendance.date).label("date"))
     
     if query.init_date:
         q = q.filter(Attendance.date >= query.init_date)
@@ -50,9 +57,9 @@ def all_attendances_per_date(query: QueryDistributionSchema, db: Session):
     return q.all()
 
 def all_complaints_per_date(query: QueryDistributionSchema, db: Session):
-    q = db.query(func.strftime("%Y-%m", Complaint.date).label("date"), func.count(Complaint.id).label("complaints"))\
-          .group_by(func.strftime("%Y-%m", Complaint.date).label("date"))\
-          .order_by(func.strftime("%Y-%m", Complaint.date).label("date"))
+    q = db.query(func.strftime(date_filter(query.unit), Complaint.date).label("date"), func.count(Complaint.id).label("complaints"))\
+          .group_by(func.strftime(date_filter(query.unit), Complaint.date).label("date"))\
+          .order_by(func.strftime(date_filter(query.unit), Complaint.date).label("date"))
     
     if query.init_date:
         q = q.filter(Complaint.date >= query.init_date)
@@ -63,9 +70,9 @@ def all_complaints_per_date(query: QueryDistributionSchema, db: Session):
     return q.all()
 
 def all_events_per_date(query: QueryDistributionSchema, db: Session):
-    q = db.query(func.strftime("%Y-%m", Event.create_date).label("date"), func.count(Event.id).label("events"))\
-          .group_by(func.strftime("%Y-%m", Event.create_date).label("date"))\
-          .order_by(func.strftime("%Y-%m", Event.create_date).label("date"))
+    q = db.query(func.strftime(date_filter(query.unit), Event.create_date).label("date"), func.count(Event.id).label("events"))\
+          .group_by(func.strftime(date_filter(query.unit), Event.create_date).label("date"))\
+          .order_by(func.strftime(date_filter(query.unit), Event.create_date).label("date"))
 
     if query.init_date:
         q = q.filter(Event.create_date >= query.init_date)
@@ -76,9 +83,9 @@ def all_events_per_date(query: QueryDistributionSchema, db: Session):
     return q.all()
 
 def all_suspensions_per_date(query: QueryDistributionSchema, db: Session):
-    q = db.query(func.strftime("%Y-%m", Suspension.date).label("date"), func.count(Suspension.id).label("suspensions"))\
-          .group_by(func.strftime("%Y-%m", Suspension.date).label("date"))\
-          .order_by(func.strftime("%Y-%m", Suspension.date).label("date"))
+    q = db.query(func.strftime(date_filter(query.unit), Suspension.date).label("date"), func.count(Suspension.id).label("suspensions"))\
+          .group_by(func.strftime(date_filter(query.unit), Suspension.date).label("date"))\
+          .order_by(func.strftime(date_filter(query.unit), Suspension.date).label("date"))
 
     if query.init_date:
         q = q.filter(Suspension.date >= query.init_date)

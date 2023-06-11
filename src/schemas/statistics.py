@@ -80,6 +80,7 @@ class QueryDistributionSchema(BaseModel):
     init_date: Optional[date]
     end_date: Optional[date]
     category: Optional[str]
+    unit: Optional[str]
  
     class Config:
         orm_mode = True
