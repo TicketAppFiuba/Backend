@@ -14,50 +14,55 @@ adm = APIRouter(tags=["Admin | Statistics"])
 def attendances_distribution(                    
                         init_date: Union[date, None] = None,
                         end_date: Union[date, None] = None,
+                        unit: Optional[str] = 'month',
                         admin: str = Depends(verify), 
                         db: Session = Depends(get_db)
                     ):
-    query = QueryDistributionSchema(init_date=init_date, end_date=end_date)
+    query = QueryDistributionSchema(init_date=init_date, end_date=end_date, unit=unit)
     return statistics.all_attendances_per_date(query, db)
 
 @adm.get("/admin/events/statistics/distribution", response_model=List[EventsDistributionSchema], status_code=200)
 def events_distribution(
                     init_date: Union[date, None] = None,
                     end_date: Union[date, None] = None,
+                    unit: Optional[str] = 'month',
                     admin: str = Depends(verify), 
                     db: Session = Depends(get_db)
                 ):
-    query = QueryDistributionSchema(init_date=init_date, end_date=end_date)
+    query = QueryDistributionSchema(init_date=init_date, end_date=end_date, unit=unit)
     return statistics.all_events_per_date(query, db)
 
 @adm.get("/admin/complaints/statistics/distribution", response_model=List[ComplaintsDistributionSchema], status_code=200)
 def complaints_distribution(
                     init_date: Union[date, None] = None,
                     end_date: Union[date, None] = None,
+                    unit: Optional[str] = 'month',
                     admin: str = Depends(verify), 
                     db: Session = Depends(get_db)
                 ):
-    query = QueryDistributionSchema(init_date=init_date, end_date=end_date)
+    query = QueryDistributionSchema(init_date=init_date, end_date=end_date, unit=unit)
     return statistics.all_complaints_per_date(query, db)
 
 @adm.get("/admin/suspensions/statistics/distribution", response_model=List[SuspensionsDistributionSchema], status_code=200)
 def suspensions_distribution(
                     init_date: Union[date, None] = None,
                     end_date: Union[date, None] = None,
+                    unit: Optional[str] = 'month',
                     admin: str = Depends(verify), 
                     db: Session = Depends(get_db)
                 ):
-    query = QueryDistributionSchema(init_date=init_date, end_date=end_date)
+    query = QueryDistributionSchema(init_date=init_date, end_date=end_date, unit=unit)
     return statistics.all_suspensions_per_date(query, db)
 
 @adm.get("/admin/event/statistics/state", status_code=200)
 def events_state(
                 init_date: Union[date, None] = None,
                 end_date: Union[date, None] = None, 
+                unit: Optional[str] = 'month',
                 admin: str = Depends(verify), 
                 db: Session = Depends(get_db)
             ):
-    query = QueryDistributionSchema(init_date=init_date, end_date=end_date)
+    query = QueryDistributionSchema(init_date=init_date, end_date=end_date, unit=unit)
     return statistics.amount_event_per_state(query, db)
 
 
@@ -65,22 +70,24 @@ def events_state(
 def top_organizer_by_number_of_events(
                 init_date: Union[date, None] = None,
                 end_date: Union[date, None] = None, 
+                unit: Optional[str] = 'month',
                 category: Union[str, None] = None,
                 admin: str = Depends(verify), 
                 db: Session = Depends(get_db)
             ):
-    query = QueryDistributionSchema(init_date=init_date, end_date=end_date, category=category)
+    query = QueryDistributionSchema(init_date=init_date, end_date=end_date, category=category, unit=unit)
     return statistics.top_organizers_by_number_of_events(query, db)
 
 @adm.get("/admin/attendances/organizers/ranking", response_model=List[TopOrganizersByAttendancesSchemaOut], status_code=200)
 def top_organizer_by_attendances(
                 init_date: Union[date, None] = None,
-                end_date: Union[date, None] = None, 
+                end_date: Union[date, None] = None,
+                unit: Optional[str] = 'month',
                 category: Union[str, None] = None,
                 admin: str = Depends(verify), 
                 db: Session = Depends(get_db)
             ):
-    query = QueryDistributionSchema(init_date=init_date, end_date=end_date, category=category)
+    query = QueryDistributionSchema(init_date=init_date, end_date=end_date, category=category, unit=unit)
     return statistics.top_organizers_by_attendances(query, db)
 
 @adm.get("/admin/complaints/users/ranking", status_code=200)
