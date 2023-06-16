@@ -18,8 +18,9 @@ def test02_ifTheUserDoesntExistThenWhenTheAdmSuspendTheAccountTheStatusCodeIs400
     assert response.status_code == 400
 
 def test03_ifTheUserIsSuspendedThenWhenTheUserReserveAnEventTheStatusCodeIs403():
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
-    query = {"event_id": 1, "tickets": 2}
+    config.addOrganizer("gmovia@fi.uba.ar")
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
+    query = {"event_id": event_id, "tickets": 2}
     headers = config.addAdmin()
     other_headers = config.addUser("rlareu@fi.uba.ar")
     client.post("/admin/user/suspend", params={"email": "rlareu@fi.uba.ar"}, headers=headers)
@@ -28,8 +29,9 @@ def test03_ifTheUserIsSuspendedThenWhenTheUserReserveAnEventTheStatusCodeIs403()
     assert response.status_code == 403
 
 def test04_ifTheUserIsSuspendedAndTheAdminEnablesTheUserTheStatusCodeWillBe200():
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
-    query = {"event_id": 1, "tickets": 2}
+    config.addOrganizer("gmovia@fi.uba.ar")
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
+    query = {"event_id": event_id, "tickets": 2}
     headers = config.addAdmin()
     other_headers = config.addUser("rlareu@fi.uba.ar")
     client.post("/admin/user/suspend", params={"email": "rlareu@fi.uba.ar"}, headers=headers)
@@ -39,18 +41,20 @@ def test04_ifTheUserIsSuspendedAndTheAdminEnablesTheUserTheStatusCodeWillBe200()
     assert response.status_code == 200
 
 def test05_ifTheEventIsSuspendedThenWhenTheUserReserveAnEventTheStatusCodeIs403():
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
-    query = {"event_id": 1, "tickets": 2}
+    config.addOrganizer("gmovia@fi.uba.ar")
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
+    query = {"event_id": event_id, "tickets": 2}
     headers = config.addAdmin()
     other_headers = config.addUser("rlareu@fi.uba.ar")
-    client.post("/admin/event/suspend", params={"event_id": 1}, headers=headers)
+    client.post("/admin/event/suspend", params={"event_id": event_id}, headers=headers)
     response = client.post("/user/event/reservation", json=query, headers=other_headers)
     config.clear()
     assert response.status_code == 403
 
 def test06_ifTheEventIsSuspendedThenWhenTheAdminEnablesTheEventTheStatusCodeIs200():
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
-    query = {"event_id": 1, "tickets": 2}
+    config.addOrganizer("gmovia@fi.uba.ar")
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
+    query = {"event_id": event_id, "tickets": 2}
     headers = config.addAdmin()
     other_headers = config.addUser("rlareu@fi.uba.ar")
     client.post("/admin/event/suspend", params={"event_id": 1}, headers=headers)
