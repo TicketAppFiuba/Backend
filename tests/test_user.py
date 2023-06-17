@@ -7,6 +7,8 @@ client = TestClient(app)
 
 def test01_ifTheUserConsultByBasketTitleTheAmountOfResultsIs0():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "soccer", "sport", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "movies", "cinema", 100, 100, 10, 10, "published")
     query = {"title": "basket"}
@@ -16,6 +18,8 @@ def test01_ifTheUserConsultByBasketTitleTheAmountOfResultsIs0():
 
 def test02_ifTheUserConsultBySoccerTitleTheAmountOfResultsIs1():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "soccer", "sport", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "movies", "cinema", 100, 100, 10, 10, "published")
     query = {"title": "soccer"}
@@ -25,6 +29,8 @@ def test02_ifTheUserConsultBySoccerTitleTheAmountOfResultsIs1():
 
 def test03_ifTheUserConsultBySocTitleTheAmountOfResultsIs1():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "soccer", "sport", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "movies", "cinema", 100, 100, 10, 10, "published")
     query = {"title": "soc"}
@@ -34,6 +40,8 @@ def test03_ifTheUserConsultBySocTitleTheAmountOfResultsIs1():
 
 def test04_ifTheUserConsultByMusicCategoryTheAmountOfResultsIs0():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "sport", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "cinema", 100, 100, 10, 10, "published")
     query = {"category": "music"}
@@ -43,6 +51,8 @@ def test04_ifTheUserConsultByMusicCategoryTheAmountOfResultsIs0():
 
 def test05_ifTheUserConsultBySportCategoryTheAmountOfResultsIs1():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "sport", 100, 100, 10, 10, "published")
     query = {"category": "sport"}
     response = client.get("/user/events", params=query, headers=headers)
@@ -51,6 +61,8 @@ def test05_ifTheUserConsultBySportCategoryTheAmountOfResultsIs1():
 
 def test06_ifTheUserConsultBySporCategoryTheAmountOfResultsIs0():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "sport", 100, 100, 10, 10, "published")
     query = {"category": "spor"}
     response = client.get("/user/events", params=query, headers=headers)
@@ -59,6 +71,8 @@ def test06_ifTheUserConsultBySporCategoryTheAmountOfResultsIs0():
 
 def test07_calculateDistance():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125, 10, 10, "published")
     query = {"latitude": 30}
@@ -69,6 +83,8 @@ def test07_calculateDistance():
 
 def test08_calculateDistance():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+    
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125, 10, 10, "published")
     query = {"latitude": 120}
@@ -79,6 +95,8 @@ def test08_calculateDistance():
 
 def test09_calculateDistance():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125, 10, 10, "published")
     query = {"latitude": 200}
@@ -89,6 +107,8 @@ def test09_calculateDistance():
 
 def test10_calculateDistance():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125, 10, 10, "published")
     query = {"longitude": 100}
@@ -99,6 +119,8 @@ def test10_calculateDistance():
 
 def test11_calculateDistance():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125, 10, 10, "published")
     query = {"longitude": 50}
@@ -109,6 +131,8 @@ def test11_calculateDistance():
 
 def test12_calculateDistance():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125, 10, 10, "published")
     query = {"latitude": 0, "longitude": 300}
@@ -119,6 +143,8 @@ def test12_calculateDistance():
 
 def test13_calculateDistance():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125, 10, 10, "published")
     query = {"latitude": 50, "longitude": 300}
@@ -129,6 +155,8 @@ def test13_calculateDistance():
 
 def test14_calculateDistance():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125, 10, 10, "published")
     query = {"latitude": 75, "longitude": 90}
@@ -139,6 +167,8 @@ def test14_calculateDistance():
 
 def test15_calculateDistance():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125, 10, 10, "published")
     query = {"latitude": 600, "longitude": 380}
@@ -149,6 +179,9 @@ def test15_calculateDistance():
 
 def test16_calculateDistance():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+    config.addOrganizer("rlareu@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125, 10, 10, "published")
     config.addEvent("rlareu@fi.uba.ar", "t", "c", 69, 23, 10, 10, "published")
@@ -161,6 +194,9 @@ def test16_calculateDistance():
 
 def test17_calculateDistance():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
+    config.addOrganizer("rlareu@fi.uba.ar")
+
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125, 10, 10, "published")
     config.addEvent("rlareu@fi.uba.ar", "t", "c", 69, 23, 10, 10, "published")
@@ -172,14 +208,16 @@ def test17_calculateDistance():
     assert response.json()[2]["Event"]["longitude"] == 125
 
 def test18_ifTheUserDoesntHaveAReservationForTheEventThenWhenHeReservesAnEventThenTheStatusCodeWillBe200():
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
+    config.addOrganizer("gmovia@fi.uba.ar")
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     headers = config.addUser("rlareu@fi.uba.ar")
-    query = {"event_id": 1, "tickets": 2}
+    query = {"event_id": event_id, "tickets": 2}
     response = client.post("/user/event/reservation", json=query, headers=headers)
     config.clear()
     assert response.status_code == 200
 
 def test19_ifTheEventDoesntExistThenWhenHeReservesAnEventThenTheStatusCodeWillBe404():
+    config.addOrganizer("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     headers = config.addUser("rlareu@fi.uba.ar")
     query = {"event_id": 5, "tickets": 3}
@@ -188,62 +226,70 @@ def test19_ifTheEventDoesntExistThenWhenHeReservesAnEventThenTheStatusCodeWillBe
     assert response.status_code == 404 
 
 def test20_ifTheUserHaveAReservationForTheEventThenWhenHeReservesAnEventThenTheStatusCodeWillBe403():
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
+    config.addOrganizer("gmovia@fi.uba.ar")
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     headers = config.addUser("rlareu@fi.uba.ar")
-    query = {"event_id": 1, "tickets": 1}
+    query = {"event_id": event_id, "tickets": 1}
     client.post("/user/event/reservation", json=query, headers=headers)
     response = client.post("/user/event/reservation", json=query, headers=headers)
     config.clear()
     assert response.status_code == 403
 
 def test21_ifTheUserDoesntHaveAReservationForTheEventThenWhenHeReservesFiveEventTicketsThenTheStatusCodeWillBe403():
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
+    config.addOrganizer("gmovia@fi.uba.ar")
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     headers = config.addUser("rlareu@fi.uba.ar")
-    query = {"event_id": 1, "tickets": 5}
+    query = {"event_id": event_id, "tickets": 5}
     response = client.post("/user/event/reservation", json=query, headers=headers)
     config.clear()
     assert response.status_code == 403
 
 def test22_ifTheNumberOfVacanciesIs2ForTheEventThenWhenHeReservesThreeEventTicketsThenTheStatusCodeWillBe403():
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 2, "published")
+    config.addOrganizer("gmovia@fi.uba.ar")
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 2, "published")
     headers = config.addUser("rlareu@fi.uba.ar")
-    query = {"event_id": 1, "tickets": 3}
+    query = {"event_id": event_id, "tickets": 3}
     response = client.post("/user/event/reservation", json=query, headers=headers)
     config.clear()
     assert response.status_code == 403
 
 def test23_ifTheUserDoesntHaveAReservationForTheEventThenWhenHeReservesThreeEventTicketsThenTheVacanciesWillBe7():
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
+    config.addOrganizer("gmovia@fi.uba.ar")
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     headers = config.addUser("rlareu@fi.uba.ar")
-    query = {"event_id": 1, "tickets": 3}
+    query = {"event_id": event_id, "tickets": 3}
     client.post("/user/event/reservation", json=query, headers=headers)
-    response = client.get("/user/event", params={"event_id": 1}, headers=headers)
+    response = client.get("/user/event", params={"event_id": event_id}, headers=headers)
     config.clear()
     assert response.json()["Event"]["vacancies"] == 7
 
 def test24_fTheEventHasOnlyTwoAvailableVacanciesAndTheUserReservesThreeEventTicketTheVacanciesWillBeTwo():
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 2, "published")
+    config.addOrganizer("gmovia@fi.uba.ar")
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 2, "published")
     headers = config.addUser("rlareu@fi.uba.ar")
     query = {"event_id": 1, "tickets": 3}
     client.post("/user/event/reservation", json=query, headers=headers)
-    response = client.get("/user/event", params={"event_id": 1}, headers=headers)
+    response = client.get("/user/event", params={"event_id": event_id}, headers=headers)
     config.clear()
     assert response.json()["Event"]["vacancies"] == 2
 
-def test25_ifTheEventHasOnlyTwoAvailableVacanciesAndTHeUserReservesZeroEventTicketTheStatusCodeWillBe403():
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 2, "published")
+def test25_ifTheEventHasOnlyTwoAvailableVacanciesAndTheUserReservesZeroEventTicketTheStatusCodeWillBe403():
+    config.addOrganizer("gmovia@fi.uba.ar")
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 2, "published")
     headers = config.addUser("rlareu@fi.uba.ar")
-    query = {"event_id": 1, "tickets": 0}
+    query = {"event_id": event_id, "tickets": 0}
     response = client.post("/user/event/reservation", json=query, headers=headers)
     config.clear()
     assert response.status_code == 403
 
 def test26_ifTheUserReservesTwoEventsThenTheNumberOfReservesIsTwo():
-    config.addEvent("cbravor@fi.uba.ar", "t", "c", 100, 100, 10, 6, "published")
-    config.addEvent("tarrachea@fi.uba.ar", "t", "c", 100, 100, 10, 5, "published")
+    config.addOrganizer("cbravor@fi.uba.ar")
+    config.addOrganizer("tarrachea@fi.uba.ar")
+    event_id_1 = config.addEvent("cbravor@fi.uba.ar", "t", "c", 100, 100, 10, 6, "published")
+    event_id_2 = config.addEvent("tarrachea@fi.uba.ar", "t", "c", 100, 100, 10, 5, "published")
     headers = config.addUser("rlareu@fi.uba.ar")
-    query = {"event_id": 1, "tickets": 3}
-    otherQuery = {"event_id": 2, "tickets": 2}
+    query = {"event_id": event_id_1, "tickets": 3}
+    otherQuery = {"event_id": event_id_2, "tickets": 2}
     client.post("/user/event/reservation", json=query, headers=headers)
     client.post("/user/event/reservation", json=otherQuery, headers=headers)
     response = client.get("/user/reservations", headers=headers)
@@ -252,6 +298,7 @@ def test26_ifTheUserReservesTwoEventsThenTheNumberOfReservesIsTwo():
 
 def test27_viewOnlyPublishedEvents():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "soccer", "sport", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "soccer", "cinema", 100, 100, 10, 10, "draft")
     config.addEvent("gmovia@fi.uba.ar", "soccer", "cinema", 100, 100, 10, 10, "draft")
@@ -263,6 +310,7 @@ def test27_viewOnlyPublishedEvents():
 
 def test28_viewOnlyPublishedEvents():
     headers = config.addUser("gmovia@fi.uba.ar")
+    config.addOrganizer("gmovia@fi.uba.ar")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 150, 125, 10, 10, "published")
     config.addEvent("gmovia@fi.uba.ar", "t", "c", 75, 80, 10, 10, "draft")
@@ -273,9 +321,10 @@ def test28_viewOnlyPublishedEvents():
     assert response.json()[1]["Event"]["longitude"] == 125
 
 def test29_ifTheEventIsntPublishedThenWhenTheUserReserveItTheStatusCodeWillBe403():
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "draft")
+    config.addOrganizer("gmovia@fi.uba.ar")
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "draft")
     headers = config.addUser("rlareu@fi.uba.ar")
-    query = {"event_id": 1, "tickets": 2}
+    query = {"event_id": event_id, "tickets": 2}
     response = client.post("/user/event/reservation", json=query, headers=headers)
     config.clear()
     assert response.status_code == 403

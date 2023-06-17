@@ -7,8 +7,8 @@ client = TestClient(app)
 
 def test01_ifTheQuestionIsAddedSuccessfullyThenStatusCodeIs200():
     headers = config.addOrganizer("gmovia@fi.uba.ar")
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")  
-    question = {"event_id": 1, "question": "a", "response": "b"}
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")  
+    question = {"event_id": event_id, "question": "a", "response": "b"}
     response = client.post("/organizer/event/faq", json=question, headers=headers)
     config.clear()
     assert response.status_code == 200
@@ -23,10 +23,10 @@ def test02_ifTheQuestionIsNotAddedNSuccessfullyBecauseEventNotExistThenTheStatus
 
 def test03_ifTheQuestionIsDeletedSuccessfullyThenStatusCodeIs200():
     headers = config.addOrganizer("gmovia@fi.uba.ar")
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")  
-    question = {"event_id": 1, "question": "a", "response": "b"}
-    client.post("/organizer/event/faq", json=question, headers=headers)
-    question = {"id": 1, "event_id": 1}
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")  
+    question = {"event_id": event_id, "question": "a", "response": "b"}
+    faq = client.post("/organizer/event/faq", json=question, headers=headers)
+    question = {"id": faq.json()["id"], "event_id": event_id}
     response = client.delete("/organizer/event/faq", json=question, headers=headers)
     config.clear()
     assert response.status_code == 200
@@ -49,8 +49,8 @@ def test05_ifTheQuestionIsNotDeletedSuccessfullyBecauseQuestionNotExistThenStatu
 
 def test06_ifTheQuestionIsNotDeletedSuccessfullyBecauseRLareuDoesntHavePermission():
     headers = config.addOrganizer("gmovia@fi.uba.ar")
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")  
-    question = {"event_id": 1, "question": "a", "response": "b"}
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")  
+    question = {"event_id": event_id, "question": "a", "response": "b"}
     client.post("/organizer/event/faq", json=question, headers=headers)
     headers = config.addOrganizer("rlareu@fi.uba.ar")
     question = {"id": 1}
@@ -60,10 +60,10 @@ def test06_ifTheQuestionIsNotDeletedSuccessfullyBecauseRLareuDoesntHavePermissio
 
 def test07_ifTheQuestionIsUpdatedSuccessfullyThenStatusCodeIs200():
     headers = config.addOrganizer("gmovia@fi.uba.ar")
-    config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")  
-    question = {"event_id": 1, "question": "a", "response": "b"}
-    client.post("/organizer/event/faq", json=question, headers=headers)
-    question = {"id": 1, "question": "c", "response": "d"}
+    event_id = config.addEvent("gmovia@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")  
+    question = {"event_id": event_id, "question": "a", "response": "b"}
+    faq = client.post("/organizer/event/faq", json=question, headers=headers)
+    question = {"id": faq.json()["id"], "question": "c", "response": "d"}
     response = client.put("/organizer/event/faq", json=question, headers=headers)
     config.clear()
     assert response.status_code == 200
@@ -86,8 +86,8 @@ def test09_ifTheQuestionIsNotUpdatedSuccessfullyBecauseQuestionNotExistThenStatu
 
 def test10_ifTheQuestionIsNotUpdatedSuccessfullyBecauseRLareuDoesntHavePermission():
     headers = config.addOrganizer("ldefeo@fi.uba.ar")
-    config.addEvent("ldefeo@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")      
-    question = {"event_id": 1, "question": "a", "response": "b"}
+    event_id = config.addEvent("ldefeo@fi.uba.ar", "t", "c", 100, 100, 10, 10, "published")      
+    question = {"event_id": event_id, "question": "a", "response": "b"}
     client.post("/organizer/event/faq", json=question, headers=headers)
     headers = config.addOrganizer("rlareu@fi.uba.ar")
     question = {"id": 1, "question": "c", "response": "d"}

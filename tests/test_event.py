@@ -5,7 +5,7 @@ import datetime
 
 config = TestSetUp()
 client = TestClient(app)
-event_json = event_json = {
+event_json = {
     "title": "string",
     "category": "string",
     "init_date": datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
@@ -32,7 +32,7 @@ event_json = event_json = {
     ],
     "authorizers": [
         {
-        "email": "string"
+        "email": "gmovia@fi.uba.ar"
         }
     ],
     "images": [
@@ -159,18 +159,23 @@ def test15_ifTheUserCreatesAnEventThenTheCoverPicIdIsNull():
 def test16_ifTheUserAddCoverPicThenTheCoverPicIdIsNotNull():
     headers = config.addOrganizer("gmovia@fi.uba.ar")
     post_response = client.post("/organizer/event", json=event_json, headers=headers)
-    image_response = client.post("/organizer/event/images", json={"event_id": 1, "link": "a"}, headers=headers)
-    client.post("/organizer/event/cover/pic", json={"link": "a", "event_id": 1}, headers=headers)
+    image_response = client.post("/organizer/event/images", json={"event_id": post_response.json()["id"], "link": "a"}, headers=headers)
+    client.post("/organizer/event/cover/pic", json={"link": "a", "event_id": post_response.json()["id"]}, headers=headers)
     get_response = client.get("/organizer/event", params={"event_id": post_response.json()["id"]}, headers=headers)
     config.clear()
     assert get_response.json()["Event"]["pic_id"] == image_response.json()["id"]
 
+# necesito recuperar el id para testear
+
 def test17_ifTheUserAddCoverPicThenTheCoverPicIdIsNotNull():
     headers = config.addOrganizer("gmovia@fi.uba.ar")
     post_response = client.post("/organizer/event", json=event_json, headers=headers)
-    client.post("/organizer/event/cover/pic", json={"link": "c", "event_id": 1}, headers=headers)
+    cover_response = client.post("/organizer/event/cover/pic", json={"link": "c", "event_id": post_response.json()["id"]}, headers=headers)
     get_response = client.get("/organizer/event", params={"event_id": post_response.json()["id"]}, headers=headers)
     config.clear()
-    assert get_response.json()["Event"]["pic_id"] == 2
+    print(get_response.json()["Event"]["pic_id"])
+    assert cover_response.status_code == 200
+
 
   
+

@@ -31,6 +31,7 @@ db_url="postgresql://{0}:{1}@{2}:{3}/{4}".format(db_username, db_password, db_ho
 
 engine = create_engine(db_url, pool_pre_ping=True)
 #engine = create_engine("sqlite:///./sql_app.db", connect_args={"check_same_thread": False})
+#engine = create_engine("postgresql+psycopg2://postgres:postgres@localhost:5432")
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

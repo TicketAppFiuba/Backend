@@ -4,6 +4,8 @@ from src.models.event import Event
 from src.schemas.query import QuerySchema
 from src.models.faq import FAQ
 from src.config.relations import *
+from src.schemas.user import UserSchema
+from src.config import authorizer
 from sqlalchemy.sql import func
 from sqlalchemy import func
 from datetime import datetime
@@ -16,6 +18,14 @@ def create(event: EventSchema, email: str, db: Session):
                      longitude=event.ubication.longitude,
                      create_date=datetime.now().date(), 
                      organizer_email=email)
+    
+    for auth in event.authorizers:            
+        if authorizer.get(auth.email, db) is None:
+            authorizer.create(UserSchema(email=auth.email, name=auth.email), db)
+    
+    if authorizer.get(email, db) is None:
+        authorizer.create(UserSchema(email=email, name=email), db)
+
     addRelationsToEvent(event_db, event, email)        
     db.add(event_db)
     db.commit()
