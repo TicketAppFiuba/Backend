@@ -142,17 +142,20 @@ def top_organizers_by_attendances(query: QueryDistributionSchema, db: Session):
     return q.all()
 
 def top_users_by_complaints(db: Session):
-    return db.query(User.id, User.email, User.name, User.suspended, func.count(Complaint.id).label("denounce"))\
+    q = db.query(User.email, func.count(Complaint.id).label("denounce"))\
              .filter(User.id == Complaint.user_id)\
              .group_by(User.id)\
              .order_by(func.count(Complaint.id).desc())\
-             .limit(10)\
-             .all()
+             .limit(10)
+             
+    return dict(q.all())         
 
 def top_events_by_complaints(db: Session):
-    return db.query(Event.id, Event.title, func.count(Complaint.id).label("denounce"))\
+    q = db.query(Event.id, func.count(Complaint.id).label("denounce"))\
              .filter(Complaint.event_id == Event.id)\
              .group_by(Event.id)\
              .order_by(func.count(Complaint.id).desc())\
-             .limit(10)\
-             .all()
+             .limit(10)
+             
+    return dict(q.all())
+
