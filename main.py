@@ -42,6 +42,9 @@ origins1 = ["http://localhost",
            "https://mail.google.com",
            "https://accounts.google.com",
            "https://web-organizacion.vercel.app",
+           "https://web-organization-ticketappfiuba.vercel.app",
+           "https://back-office-investor.vercel.app"
+           "https://back-office-investor-ticketappfiuba.vercel.app",
            "http://localhost:19006"]
            
 origins2 = ['*']
