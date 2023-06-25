@@ -24,10 +24,10 @@ def get_reservations_from_user(user_db: User, db: Session):
     return reservation_list
 
 def get_reservation(res, user: User, db: Session):
-    reservation_schema = ReservationOutSchema.from_orm(res["Event"])
-    cover_image = image.getCoverImage(res["Event"].pic_id, db)
+    reservation_schema = ReservationOutSchema.from_orm(res[1])
+    cover_image = image.getCoverImage(res[1].pic_id, db)
     if cover_image is not None:
         reservation_schema.link = cover_image.link
-    reservation_schema.favorite = (favorite.getByUserAndEvent(user.id, res["Event"].id, db) != None)
-    reservation_schema.code = res["Reservation"].code
+    reservation_schema.favorite = (favorite.getByUserAndEvent(user.id, res[1].id, db) != None)
+    reservation_schema.code = res[0].code
     return reservation_schema
