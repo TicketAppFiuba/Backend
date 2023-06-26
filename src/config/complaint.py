@@ -13,12 +13,13 @@ def create(complaint: ComplaintSchema, db: Session):
     return complaint_db
 
 def getAll(query: ComplaintQuerySchema,db: Session):
-    complaints = db.query(Complaint, User, Event).join(User, Event)
+    complaints = db.query(Complaint.id, Event).join(Event, Event.id == Complaint.event_id)\
+                 .join(User, User.id == Complaint.user_id)
     if query.category is not None:
         complaints = complaints.filter(Complaint.category == query.category)
     if (query.date_init is not None) and (query.date_end is not None):
         complaints = complaints.filter(query.date_init <= Complaint.date).filter(Complaint.date <= query.date_end)
-    return complaints.all()
+    return dict(complaints.all())
 
 def getAllFromUser(user_id: int, db: Session):
     return db.query(Complaint, Event.title).join(Event).filter(Complaint.user_id == user_id).all()
