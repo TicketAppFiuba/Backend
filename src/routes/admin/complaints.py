@@ -18,6 +18,15 @@ def complaints(category: Union[str, None] = None,
                db: Session = Depends(get_db)):
     query = ComplaintQuerySchema(category=category, date_init=date_init, date_end=date_end)
     return complaint.get_complaints(query, db)
+    
+@adm_complaint.get("/admin/complaintsUsers", status_code=200)
+def complaints(category: Union[str, None] = None,
+               date_init: Union[date, None] = None,
+               date_end: Union[date, None] = None,
+               admin: str = Depends(verify), 
+               db: Session = Depends(get_db)):
+    query = ComplaintQuerySchema(category=category, date_init=date_init, date_end=date_end)
+    return complaint.get_complaints_users(query, db)    
 
 @adm_complaint.get("/admin/event/complaints", status_code=200)
 def complaints_by_event(event_id: int, admin: str = Depends(verify), db: Session = Depends(get_db)):
