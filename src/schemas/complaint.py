@@ -11,6 +11,12 @@ class ComplaintSchema(BaseModel):
     class Config:
         orm_mode = True
 
+class ComplaintPerUserSchema(BaseModel):
+    Complaint: ComplaintSchema
+    title: str
+    class Config:
+        orm_mode = True
+
 class ComplaintCreateSchema(BaseModel):
     event_id: int
     category: str
