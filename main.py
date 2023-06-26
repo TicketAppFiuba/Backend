@@ -43,7 +43,7 @@ origins1 = ["http://localhost",
            "https://accounts.google.com",
            "https://web-organizacion.vercel.app",
            "https://web-organization-ticketappfiuba.vercel.app",
-           "https://back-office-investor.vercel.app"
+           "https://back-office-investor.vercel.app",
            "https://back-office-investor-ticketappfiuba.vercel.app",
            "http://localhost:19006"]
            
@@ -51,7 +51,7 @@ origins2 = ['*']
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins1,
+    allow_origins=origins2,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
