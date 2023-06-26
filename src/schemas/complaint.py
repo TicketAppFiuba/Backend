@@ -17,6 +17,17 @@ class ComplaintPerUserSchema(BaseModel):
     class Config:
         orm_mode = True
 
+class ComplaintUsersSchema(BaseModel):
+    email: str
+    firebase_token: str
+    id: int
+    login: bool
+    name: str
+    supended: bool
+
+    class Config:
+        orm_mode = True
+
 class ComplaintCreateSchema(BaseModel):
     event_id: int
     category: str
