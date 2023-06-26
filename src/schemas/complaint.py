@@ -19,7 +19,7 @@ class ComplaintPerUserSchema(BaseModel):
 
 class ComplaintUsersSchema(BaseModel):
     email: str
-    firebase_token: str
+    firebase_token: Optional[str]
     id: int
     login: bool
     name: str
