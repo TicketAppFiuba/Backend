@@ -19,7 +19,7 @@ def check_scan_reservation(qr: QRSchema, authorizer_db: Authorizer, db: Session)
         raise HTTPException(status_code=403, detail="La reserva no coincide con el evento.")
     if reservation_db.scanned == True:
         raise HTTPException(status_code=403, detail="El codigo ya fue escaneado.")
-    if event_db.init_date.date() != datetime.datetime.now().date() and not 0 < ((datetime.datetime.now()-event_db.init_date).seconds/3600) < 3:
+    if datetime.datetime.now() < event_db.end_date:
         raise HTTPException(status_code=403, detail="El proceso de autorizacion todavia no ha comenzado.")
     return reservation_db
 
