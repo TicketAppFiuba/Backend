@@ -9,6 +9,6 @@ from src.controllers.admin import event
 
 adm_event = APIRouter(tags=["Admin | Event"])
 
-@adm_event.get("/admin/event", response_model = EventUserSchemaOut, status_code=200)
+@adm_event.get("/admin/event", response_model = EventAdminSchemaOut, status_code=200)
 def get_event(event_id: int, admin: str = Depends(verify), db: Session = Depends(get_db)):
     return event.get_event(event_id, db)

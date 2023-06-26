@@ -104,6 +104,15 @@ class EventOrganizerSchemaOut(BaseModel): # Para organizadores
     class Config:
         orm_mode = True
 
+class EventAdminSchemaOut(BaseModel): # Para organizadores
+    Event: EventSchemaOut
+    Images: List[ImageSchemaOut]
+    FAQ: List[FaqSchemaOut]
+    Diary: List[SectionSchema]
+    
+    class Config:
+        orm_mode = True
+
 class EventWithDistanceSchemaOut(BaseModel): # Para usuarios
     Event: EventSchemaOut
     Images: List[ImageSchemaOut]
