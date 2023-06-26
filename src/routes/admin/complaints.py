@@ -19,7 +19,7 @@ def complaints(category: Union[str, None] = None,
     query = ComplaintQuerySchema(category=category, date_init=date_init, date_end=date_end)
     return complaint.get_complaints(query, db)
     
-@adm_complaint.get("/admin/complaintsUsers", status_code=200, response_model=List[ComplaintUsersSchema])
+@adm_complaint.get("/admin/complaintsUsers", status_code=200)
 def complaints(category: Union[str, None] = None,
                date_init: Union[date, None] = None,
                date_end: Union[date, None] = None,
